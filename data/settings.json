@@ -24,10 +24,10 @@
     "photo": ""
   },
   "stats": {
-    "students": 200,
-    "teachers": 15,
+    "students": 75,
+    "teachers": 8,
     "rooms": 8,
-    "awards": 50
+    "awards": 0
   },
   "news": [
     {
