@@ -343,8 +343,19 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
 
       <!-- FOOTER -->
       <div class="spage" id="sec-footer">
+        <!-- ข้อมูลติดต่อ -->
         <div class="card">
-          <div class="card-hdr"><h3><i class="fas fa-shoe-prints"></i> ส่วน Footer</h3></div>
+          <div class="card-hdr"><h3><i class="fas fa-address-card"></i> ข้อมูลติดต่อใน Footer</h3></div>
+          <div class="card-body">
+            <div class="frow"><div class="fg"><label><i class="fas fa-phone" style="color:var(--secondary)"></i> เบอร์โทรศัพท์</label><input id="ft_phone"/></div><div class="fg"><label><i class="fas fa-envelope" style="color:var(--secondary)"></i> อีเมล</label><input id="ft_email" type="email"/></div></div>
+            <div class="frow full"><div class="fg"><label><i class="fas fa-map-marker-alt" style="color:var(--secondary)"></i> ที่อยู่</label><input id="ft_addr"/></div></div>
+            <div class="frow"><div class="fg"><label><i class="fas fa-clock" style="color:var(--secondary)"></i> เวลาทำการ</label><input id="ft_hours" placeholder="วันจันทร์–ศุกร์ ๐๘:๐๐–๑๖:๓๐ น."/></div><div class="fg"><label><i class="fas fa-globe" style="color:var(--secondary)"></i> เว็บไซต์</label><input id="ft_web" placeholder="nonchaisri.ac.th"/></div></div>
+          </div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('footer_contact')"><i class="fas fa-save"></i> บันทึก</button></div>
+        </div>
+        <!-- รายละเอียด footer -->
+        <div class="card">
+          <div class="card-hdr"><h3><i class="fas fa-shoe-prints"></i> เนื้อหา Footer</h3></div>
           <div class="card-body">
             <div class="frow full"><div class="fg"><label>คำอธิบายโรงเรียน (ใต้โลโก้)</label><textarea id="ft_desc" style="min-height:70px"></textarea></div></div>
             <div class="frow full"><div class="fg"><label>ข้อความลิขสิทธิ์ (Copyright)</label><input id="ft_copy"/></div></div>
@@ -597,10 +608,22 @@ function collectGallery() {
     cfg.gallery.push({ caption: r.querySelector('.gc').value, url: r.querySelector('.gu').value });
   });
 }
+function collectFooterContact() {
+  if (!cfg.school) cfg.school = {};
+  cfg.school.phone   = v('ft_phone');
+  cfg.school.email   = v('ft_email');
+  cfg.school.address = v('ft_addr');
+  cfg.school.hours   = v('ft_hours');
+  cfg.school.website = v('ft_web');
+  // sync กลับไปที่ school form ด้วย
+  setV('s_phone', cfg.school.phone);
+  setV('s_email', cfg.school.email);
+  setV('s_addr',  cfg.school.address);
+}
 function collectFooter() {
   cfg.footer = {
     description: v('ft_desc'),
-    copyright: v('ft_copy'),
+    copyright:   v('ft_copy'),
     links_related: [],
   };
   document.querySelectorAll('.fl-row').forEach(r => {
@@ -619,6 +642,7 @@ async function saveSection(sec) {
   else if (sec === 'director') collectDirector();
   else if (sec === 'stats') collectStats();
   else if (sec === 'gallery') collectGallery();
+  else if (sec === 'footer_contact') collectFooterContact();
   else if (sec === 'footer') collectFooter();
   else if (sec === 'appearance') collectAppearance();
   const ok = await saveToGitHub(msgs[sec] || 'Update ' + sec);
@@ -651,6 +675,12 @@ function populateForms() {
 
   const ft = cfg.footer || {};
   setV('ft_desc', ft.description); setV('ft_copy', ft.copyright);
+
+  // footer contact — sync จาก school
+  const sc2 = cfg.school || {};
+  setV('ft_phone', sc2.phone); setV('ft_email', sc2.email);
+  setV('ft_addr',  sc2.address); setV('ft_hours', sc2.hours);
+  setV('ft_web',   sc2.website || 'nonchaisri.ac.th');
 }
 
 const v   = id => document.getElementById(id)?.value?.trim() || '';

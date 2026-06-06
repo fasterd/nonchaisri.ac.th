@@ -531,23 +531,23 @@ ul{list-style:none}
       <div class="contact-cards">
         <div class="contact-card fade-up">
           <div class="c-icon"><i class="fas fa-map-marker-alt"></i></div>
-          <div><strong>ที่อยู่</strong><p>โรงเรียนบ้านโนนไชยศรี<br>ตำบล... อำเภอพนมไพร<br>จังหวัดร้อยเอ็ด</p></div>
+          <div><strong>ที่อยู่</strong><p id="ct-addr">โรงเรียนบ้านโนนไชยศรี<br>ตำบล... อำเภอพนมไพร<br>จังหวัดร้อยเอ็ด</p></div>
         </div>
         <div class="contact-card fade-up">
           <div class="c-icon"><i class="fas fa-phone-alt"></i></div>
-          <div><strong>โทรศัพท์</strong><p>043-XXX-XXX</p></div>
+          <div><strong>โทรศัพท์</strong><p id="ct-phone">043-XXX-XXX</p></div>
         </div>
         <div class="contact-card fade-up">
           <div class="c-icon"><i class="fas fa-envelope"></i></div>
-          <div><strong>อีเมล</strong><p>info@nonchaisri.ac.th</p></div>
+          <div><strong>อีเมล</strong><p id="ct-email">info@nonchaisri.ac.th</p></div>
         </div>
         <div class="contact-card fade-up">
           <div class="c-icon"><i class="fas fa-clock"></i></div>
-          <div><strong>เวลาทำการ</strong><p>วันจันทร์–ศุกร์ ๐๘:๐๐–๑๖:๓๐ น.</p></div>
+          <div><strong>เวลาทำการ</strong><p id="ct-hours">วันจันทร์–ศุกร์ ๐๘:๐๐–๑๖:๓๐ น.</p></div>
         </div>
         <div class="social-row">
-          <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="soc-btn fb"><i class="fab fa-facebook-f"></i> Facebook</a>
-          <a href="#" class="soc-btn ln"><i class="fab fa-line"></i> LINE</a>
+          <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="soc-btn fb" id="ct-fb"><i class="fab fa-facebook-f"></i> Facebook</a>
+          <a href="#" class="soc-btn ln" id="ct-line"><i class="fab fa-line"></i> LINE</a>
         </div>
       </div>
       <!-- แทนที่ src ด้วย URL ของ Google Form ที่สร้างสำหรับโรงเรียน -->
@@ -611,7 +611,7 @@ ul{list-style:none}
         <p id="ft-addr"><i class="fas fa-map-marker-alt"></i> อำเภอพนมไพร จังหวัดร้อยเอ็ด</p>
         <p id="ft-phone"><i class="fas fa-phone"></i> 043-XXX-XXX</p>
         <p id="ft-email"><i class="fas fa-envelope"></i> info@nonchaisri.ac.th</p>
-        <p><i class="fas fa-globe"></i> nonchaisri.ac.th</p>
+        <p id="ft-web"><i class="fas fa-globe"></i> nonchaisri.ac.th</p>
       </div>
     </div>
   </div>
@@ -852,9 +852,19 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     const fb = document.querySelector('.footer-social a:first-child'); if(fb && s.facebook) fb.href = s.facebook;
     const yt = document.getElementById('ft-yt'); if(yt && s.youtube) yt.href = s.youtube; else if(yt && !s.youtube) yt.style.display='none';
     const ln = document.getElementById('ft-line'); if(ln && s.line) ln.href = s.line; else if(ln && !s.line) ln.style.display='none';
-    const faddr = document.getElementById('ft-addr'); if(faddr && s.address) faddr.innerHTML=`<i class="fas fa-map-marker-alt"></i> ${s.address}`;
-    const fph = document.getElementById('ft-phone'); if(fph && s.phone) fph.innerHTML=`<i class="fas fa-phone"></i> ${s.phone}`;
-    const fem = document.getElementById('ft-email'); if(fem && s.email) fem.innerHTML=`<i class="fas fa-envelope"></i> ${s.email}`;
+    // footer contact col
+    const faddr = document.getElementById('ft-addr');  if(faddr && s.address) faddr.innerHTML=`<i class="fas fa-map-marker-alt"></i> ${s.address}`;
+    const fph   = document.getElementById('ft-phone'); if(fph   && s.phone)   fph.innerHTML=`<i class="fas fa-phone"></i> ${s.phone}`;
+    const fem   = document.getElementById('ft-email'); if(fem   && s.email)   fem.innerHTML=`<i class="fas fa-envelope"></i> ${s.email}`;
+    const fweb  = document.getElementById('ft-web');   if(fweb  && s.website) fweb.innerHTML=`<i class="fas fa-globe"></i> ${s.website}`;
+    // contact section cards
+    const cAddr  = document.getElementById('ct-addr');  if(cAddr  && s.address) cAddr.innerHTML=`โรงเรียนบ้านโนนไชยศรี<br>${s.address}`;
+    const cPhone = document.getElementById('ct-phone'); if(cPhone && s.phone)   cPhone.textContent = s.phone;
+    const cEmail = document.getElementById('ct-email'); if(cEmail && s.email)   cEmail.textContent = s.email;
+    const cHours = document.getElementById('ct-hours'); if(cHours && s.hours)   cHours.textContent = s.hours;
+    // social buttons in contact section
+    const ctFb   = document.getElementById('ct-fb');   if(ctFb   && s.facebook) ctFb.href  = s.facebook;
+    const ctLine = document.getElementById('ct-line'); if(ctLine && s.line)     { ctLine.href = s.line; } else if(ctLine && !s.line) ctLine.style.display='none';
   }
 
 })();
