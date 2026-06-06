@@ -664,6 +664,174 @@ document.querySelectorAll('.fade-up').forEach(el=>fo.observe(el));
 // Ticker duplicate for infinite
 const tk=document.getElementById('ticker');
 if(tk)tk.innerHTML+=tk.innerHTML;
+
+// ============================================================
+// APPLY SETTINGS FROM ADMIN (localStorage)
+// ============================================================
+(function applySettings(){
+  const raw = localStorage.getItem('ncs_settings');
+  if(!raw) return;
+  const cfg = JSON.parse(raw);
+
+  // ── helpers ──────────────────────────────────────────────
+  const set = (sel,val,attr='textContent') => {
+    document.querySelectorAll(sel).forEach(el => {
+      if(attr==='textContent') el.textContent = val;
+      else if(attr==='innerHTML') el.innerHTML = val;
+      else el[attr] = val;
+    });
+  };
+  const setHref = (sel,val) => document.querySelectorAll(sel).forEach(el => el.href = val);
+
+  // ── สีธีม ─────────────────────────────────────────────────
+  if(cfg.appearance){
+    const r = document.documentElement.style;
+    if(cfg.appearance.primary){
+      r.setProperty('--primary', cfg.appearance.primary);
+      // darken ~15%
+      const hex = cfg.appearance.primary;
+      const n = parseInt(hex.slice(1),16);
+      const darker = '#'+[16,8,0].map(s=>Math.max(0,((n>>s)&0xff)-30).toString(16).padStart(2,'0')).join('');
+      r.setProperty('--primary-dark', darker);
+    }
+    if(cfg.appearance.secondary) r.setProperty('--secondary', cfg.appearance.secondary);
+    if(cfg.appearance.hero_bg){
+      const hero = document.querySelector('.hero');
+      if(hero) hero.style.backgroundImage = `url('${cfg.appearance.hero_bg}')`;
+    }
+  }
+
+  // ── ข้อมูลโรงเรียน ────────────────────────────────────────
+  if(cfg.school){
+    const s = cfg.school;
+    set('.school-name-th', s.name_th);
+    set('.school-name-en', s.name_en);
+    set('.school-sub', s.dept);
+    set('.footer-school-name', s.name_th);
+    set('.footer-school-en', s.name_en);
+    // hero
+    const h1 = document.querySelector('.hero-content h1');
+    if(h1) h1.textContent = s.name_th;
+    const motto = document.querySelector('.hero-motto');
+    if(motto) motto.textContent = '“' + s.motto + '”';
+    // about
+    const histPs = document.querySelectorAll('.about-content p');
+    if(histPs[0]) histPs[0].textContent = s.history1;
+    if(histPs[1]) histPs[1].textContent = s.history2;
+    // values
+    const valPs = document.querySelectorAll('.value-item p');
+    if(valPs[0]) valPs[0].textContent = s.vision;
+    if(valPs[1]) valPs[1].textContent = s.mission;
+    if(valPs[2]) valPs[2].textContent = s.identity;
+    // year badge
+    const byear = document.querySelector('.badge-year');
+    if(byear) byear.textContent = 'พ.ศ. '+s.year;
+    // contact
+    document.querySelectorAll('.contact-card').forEach(card => {
+      const strong = card.querySelector('strong');
+      if(!strong) return;
+      const p = card.querySelector('p');
+      if(strong.textContent.includes('ที่อยู่') && p) p.innerHTML = s.name_th+'<br>'+s.address;
+      if(strong.textContent.includes('โทรศัพท์') && p) p.textContent = s.phone;
+      if(strong.textContent.includes('อีเมล') && p) p.textContent = s.email;
+    });
+    // topbar phone/email
+    const topSpans = document.querySelectorAll('.topbar-left span');
+    if(topSpans[0]) topSpans[0].innerHTML = '<i class="fas fa-phone"></i> '+s.phone;
+    if(topSpans[1]) topSpans[1].innerHTML = '<i class="fas fa-envelope"></i> '+s.email;
+    // footer contact col
+    const fcp = document.querySelectorAll('.footer-contact-col p');
+    if(fcp[1]) fcp[1].innerHTML = '<i class="fas fa-phone"></i> '+s.phone;
+    if(fcp[2]) fcp[2].innerHTML = '<i class="fas fa-envelope"></i> '+s.email;
+    // facebook links
+    if(s.facebook) setHref('a[href*="facebook.com"]', s.facebook);
+  }
+
+  // ── ผู้บริหาร ─────────────────────────────────────────────
+  if(cfg.director){
+    const d = cfg.director;
+    const role = document.querySelector('.mgmt-role');
+    const name = document.querySelector('.mgmt-name');
+    const quote = document.querySelector('.mgmt-quote');
+    const photo = document.querySelector('.mgmt-photo');
+    if(role) role.textContent = d.role;
+    if(name) name.textContent = d.name;
+    if(quote) quote.textContent = '“'+d.quote+'”';
+    if(photo && d.photo){
+      photo.innerHTML = `<img src="${d.photo}" alt="${d.name}" style="width:100%;height:100%;object-fit:cover"/>`;
+    }
+  }
+
+  // ── สถิติ ─────────────────────────────────────────────────
+  if(cfg.stats){
+    const nums = document.querySelectorAll('.stat-number');
+    const vals = [cfg.stats.students, cfg.stats.teachers, cfg.stats.rooms, cfg.stats.awards];
+    nums.forEach((el,i) => { if(vals[i]!==undefined) el.dataset.target = vals[i]; });
+  }
+
+  // ── ข่าวสาร ───────────────────────────────────────────────
+  if(cfg.news && cfg.news.length){
+    const catColor = {'กิจกรรม':'background:#1a5276','ประชาสัมพันธ์':'background:#27ae60','วิชาการ':'background:#e67e22','รางวัล':'background:#8e44ad','อื่นๆ':'background:#7f8c8d'};
+    const fb = cfg.school?.facebook || 'https://www.facebook.com/Bannonchaisri';
+    const newsGrid = document.querySelector('.news-grid');
+    if(newsGrid){
+      const featured = cfg.news[0];
+      const rest = cfg.news.slice(1,5);
+      newsGrid.innerHTML = `
+        <article class="news-card fade-up">
+          <div class="news-img-ph" style="background:linear-gradient(135deg,#1a5276,#2980b9)">
+            <i class="fas fa-newspaper" style="color:#fff;opacity:.6"></i>
+            <div class="news-cat" style="${catColor[featured.cat]||catColor['อื่นๆ']}">${featured.cat}</div>
+          </div>
+          <div class="news-body">
+            <div class="news-meta"><i class="far fa-calendar-alt"></i> ${featured.date}</div>
+            <h3>${featured.title}</h3>
+            ${featured.body ? `<p>${featured.body}</p>` : ''}
+            <a href="${featured.link||fb}" target="_blank" rel="noopener" class="read-more">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <div class="news-list">
+          ${rest.map(n=>`
+            <article class="news-row fade-up">
+              <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
+              <div class="news-row-body">
+                <div class="news-meta"><i class="far fa-calendar-alt"></i> ${n.date}</div>
+                <h4>${n.title}</h4>
+                <a href="${n.link||fb}" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </article>`).join('')}
+        </div>`;
+      // re-observe fade-up
+      const fo2=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');fo2.unobserve(x.target)}}),{threshold:.1});
+      newsGrid.querySelectorAll('.fade-up').forEach(el=>fo2.observe(el));
+    }
+  }
+
+  // ── แถบประกาศ ─────────────────────────────────────────────
+  if(cfg.ticker && cfg.ticker.length){
+    const tkel = document.getElementById('ticker');
+    if(tkel){
+      const items = cfg.ticker.map(t=>`<span>${t}</span><span class="sep">|</span>`).join('');
+      tkel.innerHTML = items + items; // duplicate for infinite scroll
+    }
+  }
+
+  // ── ภาพกิจกรรม ────────────────────────────────────────────
+  if(cfg.gallery && cfg.gallery.length){
+    const colors = ['linear-gradient(135deg,#1a5276,#2980b9)','linear-gradient(135deg,#e67e22,#f39c12)','linear-gradient(135deg,#27ae60,#1abc9c)','linear-gradient(135deg,#8e44ad,#9b59b6)','linear-gradient(135deg,#c0392b,#e74c3c)'];
+    const galGrid = document.querySelector('.gal-grid');
+    if(galGrid){
+      galGrid.innerHTML = cfg.gallery.map((g,i)=>`
+        <div class="gal-item ${i===0?'large':''} fade-up" style="background:${colors[i%colors.length]};opacity:1">
+          ${g.url ? `<img src="${g.url}" alt="${g.caption}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>` : `<i class="fas fa-images" style="color:#fff;opacity:.4;font-size:${i===0?54:34}px"></i>`}
+          <div class="gal-overlay"><span>${g.caption}</span></div>
+        </div>`).join('');
+      const fo3=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');fo3.unobserve(x.target)}}),{threshold:.1});
+      galGrid.querySelectorAll('.fade-up').forEach(el=>fo3.observe(el));
+    }
+  }
+
+})();
 </script>
 </body>
 </html>

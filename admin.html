@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — โรงเรียนบ้านโนนไชยศรี</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a5276;--primary-dark:#154360;--secondary:#f39c12;
+  --green:#27ae60;--red:#e74c3c;--bg:#f0f4f8;--white:#fff;
+  --text:#2c3e50;--muted:#7f8c8d;--border:#dce1e7;
+  --sidebar:260px;--radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);
+}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
+input,textarea,select{font-family:'Sarabun',sans-serif}
+
+/* ===== LOGIN ===== */
+#loginScreen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:linear-gradient(135deg,var(--primary-dark),#2980b9);
+}
+.login-box{
+  background:var(--white);border-radius:16px;padding:40px;
+  width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center;
+}
+.login-logo{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;color:#fff;margin:0 auto 20px;
+  border:3px solid var(--secondary);
+}
+.login-box h2{font-size:1.3rem;color:var(--primary);margin-bottom:6px}
+.login-box p{font-size:13px;color:var(--muted);margin-bottom:28px}
+.form-field{text-align:left;margin-bottom:16px}
+.form-field label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-field input{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:14px;outline:none;transition:border .2s;
+}
+.form-field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,82,118,.1)}
+.btn-login{
+  width:100%;padding:12px;background:var(--primary);color:#fff;
+  border:none;border-radius:8px;font-family:'Sarabun',sans-serif;
+  font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.btn-login:hover{background:var(--primary-dark)}
+.login-error{
+  background:#fdecea;color:var(--red);padding:10px 14px;
+  border-radius:8px;font-size:13px;margin-top:14px;display:none;
+}
+
+/* ===== APP LAYOUT ===== */
+#app{display:none;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;top:0;left:0;width:var(--sidebar);height:100vh;
+  background:var(--primary-dark);color:#fff;overflow-y:auto;z-index:100;
+  transition:transform .3s;
+}
+.sidebar-header{padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar-logo{display:flex;align-items:center;gap:10px}
+.sidebar-logo-icon{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#2980b9);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;border:2px solid var(--secondary)}
+.sidebar-school{font-size:13px;font-weight:700;line-height:1.3}
+.sidebar-school span{display:block;font-size:11px;opacity:.6;font-weight:400}
+.sidebar-nav{padding:12px 0}
+.nav-section{padding:6px 16px;font-size:10px;font-weight:700;letter-spacing:1px;opacity:.45;text-transform:uppercase;margin-top:8px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 20px;font-size:14px;color:rgba(255,255,255,.8);
+  cursor:pointer;transition:all .2s;border-left:3px solid transparent;
+}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.12);color:#fff;border-left-color:var(--secondary)}
+.nav-item i{width:18px;text-align:center;font-size:14px;opacity:.8}
+.sidebar-footer{
+  padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);
+  font-size:12px;opacity:.5;
+}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);min-height:100vh}
+.topbar{
+  background:var(--white);padding:0 28px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);position:sticky;top:0;z-index:50;
+}
+.topbar-title{font-size:16px;font-weight:700;color:var(--primary)}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.btn-preview{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 18px;
+  background:rgba(26,82,118,.1);color:var(--primary);border:none;
+  border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.btn-preview:hover{background:var(--primary);color:#fff}
+.btn-logout{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+  background:#fdecea;color:var(--red);border:none;border-radius:8px;
+  font-family:'Sarabun',sans-serif;font-size:13px;font-weight:600;cursor:pointer;
+}
+.btn-logout:hover{background:var(--red);color:#fff}
+
+.content{padding:28px}
+
+/* SECTIONS */
+.section-page{display:none}
+.section-page.active{display:block}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:24px}
+.card-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-header h3{font-size:15px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:8px}
+.card-body{padding:24px}
+
+/* FORM ELEMENTS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-row.full{grid-template-columns:1fr}
+.form-group{margin-bottom:0}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:10px 13px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:14px;outline:none;transition:border .2s;
+  background:var(--white);color:var(--text);
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,82,118,.08)}
+.form-group textarea{resize:vertical;min-height:90px}
+.form-hint{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
+.btn-success{background:var(--green);color:#fff}.btn-success:hover{background:#219a52}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{background:#c0392b}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{background:var(--border)}
+.btn-sm{padding:6px 14px;font-size:13px}
+
+/* SAVE BAR */
+.save-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;background:var(--bg);border-top:1px solid var(--border);
+  border-radius:0 0 var(--radius) var(--radius);
+}
+.save-hint{font-size:12px;color:var(--muted)}
+
+/* STATS GRID */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--primary)}
+.stat-card .lbl{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* NEWS TABLE */
+.news-table{width:100%;border-collapse:collapse}
+.news-table th{background:var(--bg);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.news-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle}
+.news-table tr:last-child td{border-bottom:none}
+.news-table tr:hover td{background:#fafbfc}
+.badge{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:700}
+.badge-blue{background:rgba(26,82,118,.12);color:var(--primary)}
+.badge-green{background:rgba(39,174,96,.12);color:var(--green)}
+.badge-orange{background:rgba(243,156,18,.15);color:#e67e22}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:#2c3e50;color:#fff;padding:12px 20px;
+  border-radius:10px;font-size:14px;font-weight:500;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+  transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999;
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:16px;width:100%;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:16px;font-weight:700;color:var(--primary)}
+.modal-close{background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:4px}
+.modal-body{padding:24px}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* COLOR PICKER */
+.color-row{display:flex;align-items:center;gap:12px}
+.color-row input[type=color]{width:48px;height:38px;padding:2px;border-radius:6px;border:1.5px solid var(--border);cursor:pointer}
+
+/* TICKER TAGS */
+.ticker-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ticker-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(26,82,118,.1);color:var(--primary);
+  padding:5px 12px;border-radius:50px;font-size:13px;
+}
+.ticker-tag button{background:none;border:none;color:var(--red);cursor:pointer;font-size:12px;padding:0;line-height:1}
+
+/* PASSWORD SECTION */
+.pw-strength{height:4px;border-radius:4px;margin-top:6px;transition:all .3s;background:var(--border)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo"><i class="fas fa-school"></i></div>
+    <h2>โรงเรียนบ้านโนนไชยศรี</h2>
+    <p>ระบบจัดการเว็บไซต์ — Admin Panel</p>
+    <form onsubmit="doLogin(event)">
+      <div class="form-field">
+        <label>ชื่อผู้ใช้</label>
+        <input id="loginUser" type="text" placeholder="admin" autocomplete="username" required/>
+      </div>
+      <div class="form-field">
+        <label>รหัสผ่าน</label>
+        <input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password" required/>
+      </div>
+      <button class="btn-login" type="submit"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
+      <div class="login-error" id="loginError">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><i class="fas fa-school"></i></div>
+        <div class="sidebar-school">Admin Panel<span>โรงเรียนบ้านโนนไชยศรี</span></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">หลัก</div>
+      <div class="nav-item active" onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+      <div class="nav-section">เนื้อหา</div>
+      <div class="nav-item" onclick="showSection('school')"><i class="fas fa-info-circle"></i> ข้อมูลโรงเรียน</div>
+      <div class="nav-item" onclick="showSection('director')"><i class="fas fa-user-tie"></i> ผู้บริหาร</div>
+      <div class="nav-item" onclick="showSection('stats')"><i class="fas fa-chart-bar"></i> สถิติ</div>
+      <div class="nav-item" onclick="showSection('news')"><i class="fas fa-newspaper"></i> ข่าวสาร</div>
+      <div class="nav-item" onclick="showSection('ticker')"><i class="fas fa-bullhorn"></i> แถบประกาศ</div>
+      <div class="nav-item" onclick="showSection('gallery')"><i class="fas fa-images"></i> ภาพกิจกรรม</div>
+      <div class="nav-section">ระบบ</div>
+      <div class="nav-item" onclick="showSection('appearance')"><i class="fas fa-palette"></i> ธีมสี</div>
+      <div class="nav-item" onclick="showSection('password')"><i class="fas fa-lock"></i> เปลี่ยนรหัสผ่าน</div>
+    </nav>
+    <div class="sidebar-footer">v1.0 | nonchaisri.ac.th</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn-preview" onclick="toggleSidebar()" style="display:none" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-preview" onclick="openSite()"><i class="fas fa-external-link-alt"></i> ดูเว็บไซต์</button>
+        <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="section-page active" id="sec-dashboard">
+        <div class="stats-row" id="dashStats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-clock"></i> แก้ไขล่าสุด</h3></div>
+            <div class="card-body" id="recentChanges" style="font-size:14px;color:var(--muted)">ยังไม่มีการแก้ไข</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-rocket"></i> ลิงก์ด่วน</h3></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-secondary" onclick="showSection('news')"><i class="fas fa-plus"></i> เพิ่มข่าวใหม่</button>
+              <button class="btn btn-secondary" onclick="showSection('ticker')"><i class="fas fa-edit"></i> แก้แถบประกาศ</button>
+              <button class="btn btn-secondary" onclick="showSection('stats')"><i class="fas fa-edit"></i> แก้ตัวเลขสถิติ</button>
+              <button class="btn btn-secondary" onclick="openSite()"><i class="fas fa-eye"></i> ดูเว็บไซต์จริง</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHOOL INFO -->
+      <div class="section-page" id="sec-school">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-school"></i> ข้อมูลโรงเรียน</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label>ชื่อโรงเรียน (ภาษาไทย)</label><input id="s_name_th" type="text"/></div>
+              <div class="form-group"><label>ชื่อโรงเรียน (ภาษาอังกฤษ)</label><input id="s_name_en" type="text"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>คำขวัญ / Motto</label><input id="s_motto" type="text"/></div>
+              <div class="form-group"><label>สังกัด</label><input id="s_dept" type="text"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>เบอร์โทรศัพท์</label><input id="s_phone" type="text"/></div>
+              <div class="form-group"><label>อีเมล</label><input id="s_email" type="email"/></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group"><label>ที่อยู่</label><input id="s_address" type="text"/></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group"><label>ประวัติโรงเรียน (ย่อหน้าที่ 1)</label><textarea id="s_history1"></textarea></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group"><label>ประวัติโรงเรียน (ย่อหน้าที่ 2)</label><textarea id="s_history2"></textarea></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>วิสัยทัศน์</label><textarea id="s_vision" style="min-height:70px"></textarea></div>
+              <div class="form-group"><label>พันธกิจ</label><textarea id="s_mission" style="min-height:70px"></textarea></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group"><label>อัตลักษณ์</label><input id="s_identity" type="text"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>ปีก่อตั้ง (พ.ศ.)</label><input id="s_year" type="text" placeholder="เช่น ๒๕๐๐"/></div>
+              <div class="form-group"><label>ลิงก์ Facebook</label><input id="s_facebook" type="url"/></div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <span class="save-hint"><i class="fas fa-info-circle"></i> การเปลี่ยนแปลงจะมีผลทันทีบนเว็บไซต์</span>
+            <button class="btn btn-success" onclick="saveSection('school')"><i class="fas fa-save"></i> บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIRECTOR -->
+      <div class="section-page" id="sec-director">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-user-tie"></i> ข้อมูลผู้บริหาร</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label>ตำแหน่ง</label><input id="d_role" type="text" placeholder="ผู้อำนวยการโรงเรียน"/></div>
+              <div class="form-group"><label>ชื่อ-นามสกุล</label><input id="d_name" type="text"/></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group"><label>คำกล่าว / Quote</label><textarea id="d_quote" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label>URL รูปภาพผู้บริหาร</label>
+                <input id="d_photo" type="url" placeholder="https://..."/>
+                <div class="form-hint">วางลิงก์รูปภาพ (Google Drive, Imgur, หรือ URL รูปโดยตรง)</div>
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <span class="save-hint"><i class="fas fa-info-circle"></i> การเปลี่ยนแปลงจะมีผลทันทีบนเว็บไซต์</span>
+            <button class="btn btn-success" onclick="saveSection('director')"><i class="fas fa-save"></i> บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="section-page" id="sec-stats">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-chart-bar"></i> สถิติโรงเรียน</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label><i class="fas fa-user-graduate" style="color:var(--primary)"></i> จำนวนนักเรียน</label><input id="st_students" type="number" min="0"/></div>
+              <div class="form-group"><label><i class="fas fa-chalkboard-teacher" style="color:var(--primary)"></i> ครูและบุคลากร</label><input id="st_teachers" type="number" min="0"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label><i class="fas fa-door-open" style="color:var(--primary)"></i> ห้องเรียน</label><input id="st_rooms" type="number" min="0"/></div>
+              <div class="form-group"><label><i class="fas fa-trophy" style="color:var(--primary)"></i> รางวัลที่ได้รับ</label><input id="st_awards" type="number" min="0"/></div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <span class="save-hint"><i class="fas fa-info-circle"></i> ตัวเลขจะ animate เมื่อโหลดหน้าเว็บ</span>
+            <button class="btn btn-success" onclick="saveSection('stats')"><i class="fas fa-save"></i> บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWS -->
+      <div class="section-page" id="sec-news">
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-header">
+            <h3><i class="fas fa-newspaper"></i> จัดการข่าวสาร</h3>
+            <button class="btn btn-primary btn-sm" onclick="openNewsModal()"><i class="fas fa-plus"></i> เพิ่มข่าวใหม่</button>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="news-table">
+              <thead>
+                <tr>
+                  <th>หัวข้อข่าว</th>
+                  <th>หมวด</th>
+                  <th>วันที่</th>
+                  <th>จัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="newsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TICKER -->
+      <div class="section-page" id="sec-ticker">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-bullhorn"></i> แถบประกาศวิ่ง</h3></div>
+          <div class="card-body">
+            <div class="form-group" style="margin-bottom:16px">
+              <label>เพิ่มข้อความประกาศใหม่</label>
+              <div style="display:flex;gap:8px">
+                <input id="tickerInput" type="text" placeholder="พิมพ์ข้อความประกาศ..." style="flex:1"/>
+                <button class="btn btn-primary" onclick="addTickerItem()"><i class="fas fa-plus"></i> เพิ่ม</button>
+              </div>
+            </div>
+            <label style="font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:8px">รายการประกาศปัจจุบัน</label>
+            <div class="ticker-tags" id="tickerTags"></div>
+          </div>
+          <div class="save-bar">
+            <span class="save-hint"><i class="fas fa-info-circle"></i> ลากเพื่อเรียงลำดับ | กด × เพื่อลบ</span>
+            <button class="btn btn-success" onclick="saveSection('ticker')"><i class="fas fa-save"></i> บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GALLERY -->
+      <div class="section-page" id="sec-gallery">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-images"></i> ภาพกิจกรรม</h3></div>
+          <div class="card-body" id="galleryItems"></div>
+          <div class="save-bar">
+            <span class="save-hint"><i class="fas fa-info-circle"></i> ใส่ URL รูปภาพโดยตรง (Google Drive ต้อง share เป็น public)</span>
+            <button class="btn btn-success" onclick="saveSection('gallery')"><i class="fas fa-save"></i> บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPEARANCE -->
+      <div class="section-page" id="sec-appearance">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-palette"></i> ธีมสีเว็บไซต์</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>สีหลัก (Primary)</label>
+                <div class="color-row">
+                  <input type="color" id="c_primary" value="#1a5276"/>
+                  <input type="text" id="c_primary_hex" placeholder="#1a5276" style="flex:1"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>สีรอง (Secondary / Accent)</label>
+                <div class="color-row">
+                  <input type="color" id="c_secondary" value="#f39c12"/>
+                  <input type="text" id="c_secondary_hex" placeholder="#f39c12" style="flex:1"/>
+                </div>
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label>URL รูป Hero Background (ถ้ามี)</label>
+                <input id="c_hero_bg" type="url" placeholder="https://..."/>
+                <div class="form-hint">ถ้าไม่มีรูป จะใช้ gradient สีหลักแทน</div>
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <span class="save-hint"><i class="fas fa-info-circle"></i> สีจะเปลี่ยนทันทีบนเว็บไซต์</span>
+            <button class="btn btn-success" onclick="saveSection('appearance')"><i class="fas fa-save"></i> บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="section-page" id="sec-password">
+        <div class="card" style="max-width:480px">
+          <div class="card-header"><h3><i class="fas fa-lock"></i> เปลี่ยนรหัสผ่าน</h3></div>
+          <div class="card-body">
+            <div class="form-group" style="margin-bottom:16px">
+              <label>รหัสผ่านปัจจุบัน</label>
+              <input id="pw_old" type="password"/>
+            </div>
+            <div class="form-group" style="margin-bottom:16px">
+              <label>รหัสผ่านใหม่</label>
+              <input id="pw_new" type="password" oninput="checkPwStrength()"/>
+              <div class="pw-strength" id="pwStrength"></div>
+            </div>
+            <div class="form-group">
+              <label>ยืนยันรหัสผ่านใหม่</label>
+              <input id="pw_confirm" type="password"/>
+            </div>
+          </div>
+          <div class="save-bar">
+            <span class="save-hint">รหัสผ่านเริ่มต้น: <strong>admin123</strong></span>
+            <button class="btn btn-success" onclick="changePassword()"><i class="fas fa-save"></i> เปลี่ยนรหัสผ่าน</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- NEWS MODAL -->
+<div class="modal-overlay" id="newsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="newsModalTitle">เพิ่มข่าวใหม่</h3>
+      <button class="modal-close" onclick="closeNewsModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="news_edit_idx" value="-1"/>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>หัวข้อข่าว</label>
+        <input id="news_title" type="text" placeholder="หัวข้อข่าวประชาสัมพันธ์"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="form-group">
+          <label>หมวดหมู่</label>
+          <select id="news_cat">
+            <option>กิจกรรม</option><option>ประชาสัมพันธ์</option>
+            <option>วิชาการ</option><option>รางวัล</option><option>อื่นๆ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>วันที่ (เช่น มิถุนายน ๒๕๖๗)</label>
+          <input id="news_date" type="text"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>เนื้อหาย่อ</label>
+        <textarea id="news_body" style="min-height:80px" placeholder="เนื้อหาย่อของข่าว..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>ลิงก์อ่านต่อ (ถ้ามี)</label>
+        <input id="news_link" type="url" placeholder="https://..."/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeNewsModal()">ยกเลิก</button>
+      <button class="btn btn-success" onclick="saveNews()"><i class="fas fa-save"></i> บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// STORAGE KEY
+// ============================================================
+const KEY = 'ncs_settings';
+const AUTH_KEY = 'ncs_auth';
+const PASS_KEY = 'ncs_pass';
+
+// Default settings
+const DEFAULTS = {
+  school: {
+    name_th: 'โรงเรียนบ้านโนนไชยศรี', name_en: 'Ban Non Chai Si School',
+    motto: 'มุ่งมั่นพัฒนา ใฝ่หาความรู้ คู่คุณธรรม',
+    dept: 'สพป.ร้อยเอ็ด เขต ๓', phone: '043-xxx-xxx',
+    email: 'info@nonchaisri.ac.th',
+    address: 'ตำบล... อำเภอพนมไพร จังหวัดร้อยเอ็ด',
+    history1: 'โรงเรียนบ้านโนนไชยศรี ตั้งอยู่ที่ อำเภอพนมไพร จังหวัดร้อยเอ็ด สังกัดสำนักงานเขตพื้นที่การศึกษาประถมศึกษาร้อยเอ็ด เขต ๓ จัดการศึกษาตั้งแต่ระดับชั้นอนุบาลถึงชั้นประถมศึกษาปีที่ ๖',
+    history2: 'มุ่งมั่นพัฒนาคุณภาพการศึกษา สร้างนักเรียนให้มีความรู้ ความสามารถ คุณธรรม จริยธรรม และทักษะชีวิตที่ดี',
+    vision: 'โรงเรียนชั้นนำ นักเรียนมีคุณภาพ ชุมชนมีส่วนร่วม',
+    mission: 'พัฒนาคุณภาพการศึกษา ส่งเสริมคุณธรรม สร้างสรรค์สังคม',
+    identity: 'รักษ์ความดี มีวินัย ใฝ่เรียนรู้',
+    year: '๒๕xx', facebook: 'https://www.facebook.com/Bannonchaisri',
+  },
+  director: {
+    role: 'ผู้อำนวยการโรงเรียน',
+    name: 'นาย/นาง/นางสาว ชื่อ นามสกุล',
+    quote: 'มุ่งมั่นพัฒนาคุณภาพการศึกษา เพื่ออนาคตที่ดีของนักเรียนทุกคน',
+    photo: '',
+  },
+  stats: { students: 200, teachers: 15, rooms: 8, awards: 50 },
+  news: [
+    { title:'ประชาสัมพันธ์เปิดภาคเรียนที่ ๑ ปีการศึกษา ๒๕๖๗', cat:'กิจกรรม', date:'มิถุนายน ๒๕๖๗', body:'โรงเรียนบ้านโนนไชยศรีเปิดภาคเรียนที่ ๑ ปีการศึกษา ๒๕๖๗ ขอต้อนรับนักเรียนทุกคน...', link:'' },
+    { title:'กิจกรรมวันสำคัญทางพระพุทธศาสนา', cat:'กิจกรรม', date:'พฤษภาคม ๒๕๖๗', body:'', link:'' },
+    { title:'กิจกรรมวันสงกรานต์และรดน้ำขอพรผู้ใหญ่', cat:'กิจกรรม', date:'เมษายน ๒๕๖๗', body:'', link:'' },
+    { title:'พิธีมอบวุฒิบัตรและปัจฉิมนิเทศนักเรียนชั้น ป.๖', cat:'ประชาสัมพันธ์', date:'มีนาคม ๒๕๖๗', body:'', link:'' },
+    { title:'การแข่งขันทักษะทางวิชาการระดับเขตพื้นที่', cat:'วิชาการ', date:'กุมภาพันธ์ ๒๕๖๗', body:'', link:'' },
+  ],
+  ticker: [
+    'ประกาศรับสมัครนักเรียนใหม่ ปีการศึกษา ๒๕๖๗',
+    'เปิดภาคเรียน ๑/๒๕๖๗ วันที่ ๑๕ พฤษภาคม ๒๕๖๗',
+    'ติดต่อสอบถามได้ที่โรงเรียนบ้านโนนไชยศรี หรือ Facebook: Bannonchaisri',
+  ],
+  gallery: [
+    { caption:'กิจกรรมวันครู', url:'' },
+    { caption:'กีฬาสี', url:'' },
+    { caption:'วันสงกรานต์', url:'' },
+    { caption:'ทัศนศึกษา', url:'' },
+    { caption:'วันวิทยาศาสตร์', url:'' },
+  ],
+  appearance: { primary:'#1a5276', secondary:'#f39c12', hero_bg:'' },
+};
+
+// ============================================================
+// INIT
+// ============================================================
+let settings = {};
+let currentSection = 'dashboard';
+
+function loadSettings() {
+  const raw = localStorage.getItem(KEY);
+  settings = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULTS));
+  // merge missing keys
+  for (const k in DEFAULTS) {
+    if (!settings[k]) settings[k] = JSON.parse(JSON.stringify(DEFAULTS[k]));
+  }
+}
+
+function saveSettings() {
+  settings._lastSaved = new Date().toISOString();
+  localStorage.setItem(KEY, JSON.stringify(settings));
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function getPass() { return localStorage.getItem(PASS_KEY) || 'admin123'; }
+
+function doLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPass').value;
+  if (u === 'admin' && p === getPass()) {
+    sessionStorage.setItem(AUTH_KEY, '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+function checkAuth() {
+  if (sessionStorage.getItem(AUTH_KEY)) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  }
+}
+
+// ============================================================
+// APP INIT
+// ============================================================
+function initApp() {
+  loadSettings();
+  populateForms();
+  renderDashboard();
+  renderNewsList();
+  renderTickerTags();
+  renderGalleryItems();
+  // mobile
+  if (window.innerWidth <= 900) document.getElementById('menuBtn').style.display = 'flex';
+}
+
+function openSite() { window.open('index.html', '_blank'); }
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+// ============================================================
+// SECTION NAV
+// ============================================================
+const sectionTitles = {
+  dashboard:'Dashboard', school:'ข้อมูลโรงเรียน', director:'ผู้บริหาร',
+  stats:'สถิติโรงเรียน', news:'จัดการข่าวสาร', ticker:'แถบประกาศ',
+  gallery:'ภาพกิจกรรม', appearance:'ธีมสี', password:'เปลี่ยนรหัสผ่าน',
+};
+
+function showSection(name) {
+  document.querySelectorAll('.section-page').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.textContent.trim().toLowerCase().includes(sectionTitles[name]?.slice(0,4).toLowerCase())) n.classList.add('active');
+  });
+  document.getElementById('topbarTitle').textContent = sectionTitles[name] || name;
+  currentSection = name;
+  if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
+}
+
+// ============================================================
+// POPULATE FORMS
+// ============================================================
+function populateForms() {
+  const s = settings.school;
+  document.getElementById('s_name_th').value = s.name_th || '';
+  document.getElementById('s_name_en').value = s.name_en || '';
+  document.getElementById('s_motto').value = s.motto || '';
+  document.getElementById('s_dept').value = s.dept || '';
+  document.getElementById('s_phone').value = s.phone || '';
+  document.getElementById('s_email').value = s.email || '';
+  document.getElementById('s_address').value = s.address || '';
+  document.getElementById('s_history1').value = s.history1 || '';
+  document.getElementById('s_history2').value = s.history2 || '';
+  document.getElementById('s_vision').value = s.vision || '';
+  document.getElementById('s_mission').value = s.mission || '';
+  document.getElementById('s_identity').value = s.identity || '';
+  document.getElementById('s_year').value = s.year || '';
+  document.getElementById('s_facebook').value = s.facebook || '';
+
+  const d = settings.director;
+  document.getElementById('d_role').value = d.role || '';
+  document.getElementById('d_name').value = d.name || '';
+  document.getElementById('d_quote').value = d.quote || '';
+  document.getElementById('d_photo').value = d.photo || '';
+
+  const st = settings.stats;
+  document.getElementById('st_students').value = st.students || 0;
+  document.getElementById('st_teachers').value = st.teachers || 0;
+  document.getElementById('st_rooms').value = st.rooms || 0;
+  document.getElementById('st_awards').value = st.awards || 0;
+
+  const ap = settings.appearance;
+  document.getElementById('c_primary').value = ap.primary || '#1a5276';
+  document.getElementById('c_primary_hex').value = ap.primary || '#1a5276';
+  document.getElementById('c_secondary').value = ap.secondary || '#f39c12';
+  document.getElementById('c_secondary_hex').value = ap.secondary || '#f39c12';
+  document.getElementById('c_hero_bg').value = ap.hero_bg || '';
+
+  // sync color pickers
+  ['primary','secondary'].forEach(k => {
+    document.getElementById('c_'+k).oninput = function() {
+      document.getElementById('c_'+k+'_hex').value = this.value;
+    };
+    document.getElementById('c_'+k+'_hex').oninput = function() {
+      if (/^#[0-9a-f]{6}$/i.test(this.value)) document.getElementById('c_'+k).value = this.value;
+    };
+  });
+}
+
+// ============================================================
+// SAVE SECTIONS
+// ============================================================
+function saveSection(sec) {
+  if (sec === 'school') {
+    settings.school = {
+      name_th: v('s_name_th'), name_en: v('s_name_en'), motto: v('s_motto'),
+      dept: v('s_dept'), phone: v('s_phone'), email: v('s_email'),
+      address: v('s_address'), history1: v('s_history1'), history2: v('s_history2'),
+      vision: v('s_vision'), mission: v('s_mission'), identity: v('s_identity'),
+      year: v('s_year'), facebook: v('s_facebook'),
+    };
+  } else if (sec === 'director') {
+    settings.director = { role: v('d_role'), name: v('d_name'), quote: v('d_quote'), photo: v('d_photo') };
+  } else if (sec === 'stats') {
+    settings.stats = {
+      students: +v('st_students'), teachers: +v('st_teachers'),
+      rooms: +v('st_rooms'), awards: +v('st_awards'),
+    };
+  } else if (sec === 'ticker') {
+    // saved by tag system already
+  } else if (sec === 'gallery') {
+    const items = [];
+    document.querySelectorAll('.gal-input-row').forEach(row => {
+      items.push({ caption: row.querySelector('.gal-cap').value, url: row.querySelector('.gal-url').value });
+    });
+    settings.gallery = items;
+  } else if (sec === 'appearance') {
+    settings.appearance = {
+      primary: v('c_primary_hex') || v('c_primary'),
+      secondary: v('c_secondary_hex') || v('c_secondary'),
+      hero_bg: v('c_hero_bg'),
+    };
+  }
+  saveSettings();
+  logChange(sec);
+  renderDashboard();
+  showToast('บันทึกเรียบร้อย!', 'success');
+}
+
+function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const st = settings.stats;
+  document.getElementById('dashStats').innerHTML = `
+    <div class="stat-card"><div class="num">${st.students}</div><div class="lbl">นักเรียน</div></div>
+    <div class="stat-card"><div class="num">${st.teachers}</div><div class="lbl">ครูและบุคลากร</div></div>
+    <div class="stat-card"><div class="num">${st.news?.length||0}</div><div class="lbl">ข่าวสาร</div></div>
+    <div class="stat-card"><div class="num">${st.awards}</div><div class="lbl">รางวัล</div></div>
+  `;
+  const changes = JSON.parse(localStorage.getItem('ncs_changes') || '[]');
+  const el = document.getElementById('recentChanges');
+  if (changes.length) {
+    el.innerHTML = changes.slice(-5).reverse().map(c =>
+      `<div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+        <span>${c.section}</span><span style="color:var(--muted);font-size:12px">${c.time}</span>
+      </div>`
+    ).join('');
+  }
+}
+
+function logChange(section) {
+  const map = { school:'ข้อมูลโรงเรียน', director:'ผู้บริหาร', stats:'สถิติ', news:'ข่าวสาร', ticker:'แถบประกาศ', gallery:'ภาพกิจกรรม', appearance:'ธีมสี' };
+  const changes = JSON.parse(localStorage.getItem('ncs_changes') || '[]');
+  changes.push({ section: map[section] || section, time: new Date().toLocaleString('th-TH') });
+  localStorage.setItem('ncs_changes', JSON.stringify(changes.slice(-20)));
+}
+
+// ============================================================
+// NEWS
+// ============================================================
+function renderNewsList() {
+  const tbody = document.getElementById('newsTbody');
+  const catColor = { กิจกรรม:'badge-blue', ประชาสัมพันธ์:'badge-green', วิชาการ:'badge-orange', รางวัล:'badge-green', อื่นๆ:'badge-blue' };
+  tbody.innerHTML = (settings.news || []).map((n, i) => `
+    <tr>
+      <td style="max-width:280px"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.title}</div></td>
+      <td><span class="badge ${catColor[n.cat]||'badge-blue'}">${n.cat}</span></td>
+      <td style="white-space:nowrap;color:var(--muted);font-size:13px">${n.date}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-secondary btn-sm" onclick="editNews(${i})" style="margin-right:6px"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deleteNews(${i})"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px">ยังไม่มีข่าว</td></tr>';
+}
+
+function openNewsModal(idx = -1) {
+  document.getElementById('newsModalTitle').textContent = idx >= 0 ? 'แก้ไขข่าว' : 'เพิ่มข่าวใหม่';
+  document.getElementById('news_edit_idx').value = idx;
+  if (idx >= 0) {
+    const n = settings.news[idx];
+    document.getElementById('news_title').value = n.title;
+    document.getElementById('news_cat').value = n.cat;
+    document.getElementById('news_date').value = n.date;
+    document.getElementById('news_body').value = n.body;
+    document.getElementById('news_link').value = n.link || '';
+  } else {
+    ['news_title','news_body','news_link'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('news_date').value = new Date().toLocaleDateString('th-TH',{month:'long',year:'numeric'}).replace(/\d+/g, d => String.fromCharCode(...[...d.toString()].map(c => c.charCodeAt(0) + 0x0FF0 - 0x0030)));
+  }
+  document.getElementById('newsModal').classList.add('open');
+}
+
+function closeNewsModal() { document.getElementById('newsModal').classList.remove('open'); }
+
+function editNews(i) { openNewsModal(i); }
+
+function saveNews() {
+  const idx = +document.getElementById('news_edit_idx').value;
+  const item = {
+    title: document.getElementById('news_title').value.trim(),
+    cat: document.getElementById('news_cat').value,
+    date: document.getElementById('news_date').value.trim(),
+    body: document.getElementById('news_body').value.trim(),
+    link: document.getElementById('news_link').value.trim(),
+  };
+  if (!item.title) { showToast('กรุณาใส่หัวข้อข่าว', 'error'); return; }
+  if (!settings.news) settings.news = [];
+  if (idx >= 0) settings.news[idx] = item; else settings.news.unshift(item);
+  saveSettings();
+  logChange('news');
+  renderNewsList();
+  renderDashboard();
+  closeNewsModal();
+  showToast(idx >= 0 ? 'แก้ไขข่าวแล้ว' : 'เพิ่มข่าวแล้ว', 'success');
+}
+
+function deleteNews(i) {
+  if (!confirm('ลบข่าวนี้?')) return;
+  settings.news.splice(i, 1);
+  saveSettings();
+  renderNewsList();
+  renderDashboard();
+  showToast('ลบข่าวแล้ว');
+}
+
+// ============================================================
+// TICKER
+// ============================================================
+function renderTickerTags() {
+  const wrap = document.getElementById('tickerTags');
+  wrap.innerHTML = (settings.ticker || []).map((t, i) => `
+    <div class="ticker-tag">
+      <span>${t}</span>
+      <button onclick="removeTicker(${i})" title="ลบ">×</button>
+    </div>
+  `).join('') || '<span style="font-size:13px;color:var(--muted)">ยังไม่มีประกาศ</span>';
+}
+
+function addTickerItem() {
+  const input = document.getElementById('tickerInput');
+  const txt = input.value.trim();
+  if (!txt) return;
+  if (!settings.ticker) settings.ticker = [];
+  settings.ticker.push(txt);
+  input.value = '';
+  saveSettings();
+  renderTickerTags();
+  showToast('เพิ่มประกาศแล้ว', 'success');
+}
+
+function removeTicker(i) {
+  settings.ticker.splice(i, 1);
+  saveSettings();
+  renderTickerTags();
+}
+
+// ============================================================
+// GALLERY
+// ============================================================
+function renderGalleryItems() {
+  document.getElementById('galleryItems').innerHTML = (settings.gallery || []).map((g, i) => `
+    <div class="gal-input-row" style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;align-items:center;margin-bottom:12px">
+      <input class="gal-cap" type="text" value="${g.caption || ''}" placeholder="คำอธิบายรูป"
+        style="padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif"/>
+      <input class="gal-url" type="url" value="${g.url || ''}" placeholder="https://... (URL รูปภาพ)"
+        style="padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif"/>
+      <button class="btn btn-danger btn-sm" onclick="removeGalleryItem(${i})"><i class="fas fa-trash"></i></button>
+    </div>
+  `).join('') + `
+    <button class="btn btn-secondary" onclick="addGalleryItem()" style="margin-top:4px">
+      <i class="fas fa-plus"></i> เพิ่มรูปภาพ
+    </button>`;
+}
+
+function addGalleryItem() {
+  settings.gallery.push({ caption: '', url: '' });
+  renderGalleryItems();
+}
+
+function removeGalleryItem(i) {
+  settings.gallery.splice(i, 1);
+  renderGalleryItems();
+}
+
+// ============================================================
+// PASSWORD
+// ============================================================
+function checkPwStrength() {
+  const pw = document.getElementById('pw_new').value;
+  const bar = document.getElementById('pwStrength');
+  const score = [pw.length >= 8, /[A-Z]/.test(pw), /[0-9]/.test(pw), /[^A-Za-z0-9]/.test(pw)].filter(Boolean).length;
+  const colors = ['#e74c3c','#e67e22','#f39c12','#27ae60'];
+  bar.style.background = pw ? colors[score-1] || '#e74c3c' : 'var(--border)';
+  bar.style.width = pw ? (score * 25) + '%' : '100%';
+}
+
+function changePassword() {
+  const old = document.getElementById('pw_old').value;
+  const nw = document.getElementById('pw_new').value;
+  const cf = document.getElementById('pw_confirm').value;
+  if (old !== getPass()) { showToast('รหัสผ่านปัจจุบันไม่ถูกต้อง', 'error'); return; }
+  if (nw.length < 6) { showToast('รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร', 'error'); return; }
+  if (nw !== cf) { showToast('รหัสผ่านใหม่ไม่ตรงกัน', 'error'); return; }
+  localStorage.setItem(PASS_KEY, nw);
+  ['pw_old','pw_new','pw_confirm'].forEach(id => document.getElementById(id).value = '');
+  showToast('เปลี่ยนรหัสผ่านเรียบร้อย', 'success');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  t.innerHTML = (type === 'success' ? '<i class="fas fa-check-circle"></i> ' : type === 'error' ? '<i class="fas fa-exclamation-circle"></i> ' : '') + msg;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ============================================================
+// BOOT
+// ============================================================
+checkAuth();
+</script>
+</body>
+</html>
