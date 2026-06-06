@@ -474,9 +474,10 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
               <label>Personal Access Token (PAT)</label>
               <div class="token-row">
                 <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
-                <button class="btn btn-primary" onclick="saveToken()"><i class="fas fa-key"></i> บันทึก Token</button>
+                <button class="btn btn-primary" onclick="saveToken()"><i class="fas fa-key"></i> บันทึก</button>
+                <button class="btn btn-danger" onclick="clearToken()" title="ลบ Token"><i class="fas fa-trash"></i></button>
               </div>
-              <div class="fhint">Token จะถูกเก็บใน sessionStorage (ล้างเมื่อปิด browser)</div>
+              <div class="fhint"><i class="fas fa-shield-alt" style="color:var(--green)"></i> Token จะถูกจำไว้ถาวรในเบราว์เซอร์นี้ — ไม่ต้องใส่ใหม่ทุกครั้ง</div>
             </div>
             <div style="background:var(--bg);border-radius:8px;padding:16px;font-size:13px;line-height:2">
               <strong>วิธีสร้าง Token:</strong><br>
@@ -548,7 +549,7 @@ let fileSha = '';
 // ============================================================
 // AUTH
 const getPass  = () => localStorage.getItem(PASS_K) || 'admin123';
-const getToken = () => sessionStorage.getItem(TOKEN_K) || '';
+const getToken = () => localStorage.getItem(TOKEN_K) || '';
 
 function doLogin(e) {
   e.preventDefault();
@@ -561,7 +562,7 @@ function doLogin(e) {
     document.getElementById('lerr').style.display = 'block';
   }
 }
-function doLogout() { sessionStorage.clear(); location.reload(); }
+function doLogout() { sessionStorage.removeItem('ncs_auth'); location.reload(); }
 
 // ============================================================
 // INIT
@@ -609,17 +610,38 @@ async function saveToGitHub(commitMsg) {
   }
   showSaving('กำลังบันทึกลง GitHub...');
   try {
+    const headers = {
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+    };
+
+    // ── ดึง SHA ล่าสุดจาก GitHub ก่อนเสมอ (ป้องกัน stale SHA) ──
+    const metaR = await fetch(API_URL, { headers });
+    if (metaR.ok) {
+      const meta = await metaR.json();
+      fileSha = meta.sha;
+    } else if (metaR.status === 404) {
+      fileSha = ''; // ไฟล์ยังไม่มี จะสร้างใหม่
+    } else {
+      const errBody = await metaR.json().catch(()=>({}));
+      throw new Error(`ดึงข้อมูลไม่ได้: ${metaR.status} ${errBody.message||''}`);
+    }
+
+    // ── บันทึกไฟล์ ────────────────────────────────────────────
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(cfg, null, 2))));
-    const body = { message: commitMsg, content, sha: fileSha };
-    const r = await fetch(API_URL, {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!r.ok) { const err = await r.json(); throw new Error(err.message); }
+    const body = { message: commitMsg, content };
+    if (fileSha) body.sha = fileSha; // ถ้ามี SHA แนบไปด้วย (update), ถ้าไม่มีคือ create
+
+    const r = await fetch(API_URL, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!r.ok) {
+      const err = await r.json().catch(()=>({}));
+      throw new Error(err.message || `HTTP ${r.status}`);
+    }
     const data = await r.json();
-    fileSha = data.content.sha;
-    showSavingDone('บันทึกสำเร็จ ✓');
+    fileSha = data.content.sha; // อัปเดต SHA ใหม่
+
+    showSavingDone('บันทึกสำเร็จ ✓ เว็บไซต์จะอัปเดตใน ~1 นาที');
     logChange(commitMsg);
     return true;
   } catch(e) {
@@ -794,7 +816,7 @@ async function saveSection(sec) {
   else if (sec === 'footer_contact') collectFooterContact();
   else if (sec === 'footer') collectFooter();
   else if (sec === 'appearance') collectAppearance();
-  const ok = await saveToGitHub(msgs[sec] || 'Update ' + sec);
+  const ok = await saveToGitHub(msgs[sec] || 'อัปเดต ' + (secTitles[sec]||sec));
   if (ok) renderDashboard();
 }
 
@@ -960,17 +982,17 @@ function removeFL(i) { cfg.footer.links_related.splice(i, 1); renderFooterLinks(
 function saveToken() {
   const t = document.getElementById('ghToken').value.trim();
   if (!t) { showToast('กรุณาใส่ Token', 'error'); return; }
-  sessionStorage.setItem(TOKEN_K, t);
+  localStorage.setItem(TOKEN_K, t);
   checkTokenStatus();
-  showToast('บันทึก Token แล้ว', 'success');
+  showToast('บันทึก Token แล้ว — จะจำไว้ถาวร', 'success');
 }
 function checkTokenStatus() {
   const el = document.getElementById('ghStatus');
   if (!el) return;
   const t = getToken();
   el.innerHTML = t
-    ? `<div class="gh-status ok"><div class="gh-dot"></div> Token พร้อมใช้งาน — ข้อมูลจะบันทึกลง GitHub ทันที</div>`
-    : `<div class="gh-status warn"><div class="gh-dot"></div> ยังไม่ได้ตั้งค่า Token — ต้องตั้งค่าก่อนถึงจะบันทึกได้</div>`;
+    ? `<div class="gh-status ok"><div class="gh-dot"></div> <div><strong>Token พร้อมใช้งาน</strong> — บันทึกไว้ในเบราว์เซอร์นี้แล้ว ไม่ต้องใส่ใหม่<br><small style="opacity:.7">Token: ${t.slice(0,8)}••••••••••••••••••••••••••••••••${t.slice(-4)}</small></div></div>`
+    : `<div class="gh-status warn"><div class="gh-dot"></div> <strong>ยังไม่ได้ตั้งค่า Token</strong> — กรุณาใส่ Token ด้านล่างก่อนบันทึกข้อมูล</div>`;
 }
 
 // ============================================================
@@ -1017,10 +1039,25 @@ function getDefaults() {
 }
 
 // BOOT
-(function(){ const s = sessionStorage.getItem('ncs_auth'); if(s==='1'){ document.getElementById('loginScreen').style.display='none'; document.getElementById('app').style.display='block'; initApp(); } })();
+(function(){
+  // ถ้า login อยู่แล้วในหน้านี้ (sessionStorage) → ข้าม login
+  if(sessionStorage.getItem('ncs_auth')==='1'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    initApp();
+  }
+})();
 document.getElementById('lp').addEventListener('keydown', e => { if(e.key==='Enter') document.querySelector('.btn-login').click(); });
-// save session on login success
 document.querySelector('.btn-login').addEventListener('click', () => sessionStorage.setItem('ncs_auth','1'));
+
+// ลบ Token (กรณีต้องการเปลี่ยน)
+function clearToken() {
+  if(!confirm('ลบ Token ออกจากเบราว์เซอร์นี้?')) return;
+  localStorage.removeItem(TOKEN_K);
+  setV('ghToken','');
+  checkTokenStatus();
+  showToast('ลบ Token แล้ว','success');
+}
 </script>
 </body>
 </html>
