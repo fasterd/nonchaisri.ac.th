@@ -194,13 +194,19 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
     <nav class="snav">
       <div class="nsec">หลัก</div>
       <div class="nitem active" onclick="showSec('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+      <div class="nsec">โครงสร้าง</div>
+      <div class="nitem" onclick="showSec('hero')"><i class="fas fa-image"></i> หน้าแรก (Hero)</div>
+      <div class="nitem" onclick="showSec('nav')"><i class="fas fa-bars"></i> เมนูนำทาง</div>
       <div class="nsec">เนื้อหา</div>
       <div class="nitem" onclick="showSec('school')"><i class="fas fa-info-circle"></i> ข้อมูลโรงเรียน</div>
       <div class="nitem" onclick="showSec('director')"><i class="fas fa-user-tie"></i> ผู้บริหาร</div>
       <div class="nitem" onclick="showSec('stats')"><i class="fas fa-chart-bar"></i> สถิติ</div>
       <div class="nitem" onclick="showSec('news')"><i class="fas fa-newspaper"></i> ข่าวสาร</div>
       <div class="nitem" onclick="showSec('ticker')"><i class="fas fa-bullhorn"></i> แถบประกาศ</div>
+      <div class="nitem" onclick="showSec('academic')"><i class="fas fa-book"></i> การจัดการศึกษา</div>
       <div class="nitem" onclick="showSec('gallery')"><i class="fas fa-images"></i> ภาพกิจกรรม</div>
+      <div class="nsec">ติดต่อ & Footer</div>
+      <div class="nitem" onclick="showSec('contact-cfg')"><i class="fas fa-envelope-open-text"></i> ฟอร์ม & แผนที่</div>
       <div class="nitem" onclick="showSec('footer')"><i class="fas fa-shoe-prints"></i> Footer</div>
       <div class="nsec">ระบบ</div>
       <div class="nitem" onclick="showSec('appearance')"><i class="fas fa-palette"></i> ธีมสี</div>
@@ -369,6 +375,80 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
         </div>
       </div>
 
+      <!-- HERO -->
+      <div class="spage" id="sec-hero">
+        <div class="card">
+          <div class="card-hdr"><h3><i class="fas fa-image"></i> หน้าแรก (Hero Section)</h3></div>
+          <div class="card-body">
+            <div class="frow full"><div class="fg"><label>ข้อความแถบบนสุด (Badge)</label><input id="h_badge" placeholder="ยินดีต้อนรับสู่"/></div></div>
+            <div class="frow full"><div class="fg"><label>หัวข้อหลัก (H1)</label><input id="h_title"/></div></div>
+            <div class="frow full"><div class="fg"><label>คำขวัญ / Motto</label><input id="h_motto"/></div></div>
+            <div class="frow">
+              <div class="fg"><label>ปุ่มที่ 1 — ข้อความ</label><input id="h_b1t" placeholder="เรียนรู้เพิ่มเติม"/></div>
+              <div class="fg"><label>ปุ่มที่ 1 — ลิงก์</label><input id="h_b1h" placeholder="#about"/></div>
+            </div>
+            <div class="frow">
+              <div class="fg"><label>ปุ่มที่ 2 — ข้อความ</label><input id="h_b2t" placeholder="ข่าวสารล่าสุด"/></div>
+              <div class="fg"><label>ปุ่มที่ 2 — ลิงก์</label><input id="h_b2h" placeholder="#news"/></div>
+            </div>
+          </div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('hero')"><i class="fas fa-save"></i> บันทึก</button></div>
+        </div>
+      </div>
+
+      <!-- NAV -->
+      <div class="spage" id="sec-nav">
+        <div class="card">
+          <div class="card-hdr">
+            <h3><i class="fas fa-bars"></i> เมนูนำทาง</h3>
+            <button class="btn btn-primary btn-sm" onclick="addNavItem()"><i class="fas fa-plus"></i> เพิ่มเมนู</button>
+          </div>
+          <div class="card-body">
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:14px">
+              <i class="fas fa-info-circle"></i> ลิงก์ใช้ <code>#section-id</code> เพื่อเลื่อนหน้า หรือ URL เต็มสำหรับลิงก์ภายนอก
+            </div>
+            <div id="navItems"></div>
+          </div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('nav')"><i class="fas fa-save"></i> บันทึก</button></div>
+        </div>
+      </div>
+
+      <!-- ACADEMIC -->
+      <div class="spage" id="sec-academic">
+        <div class="card">
+          <div class="card-hdr">
+            <h3><i class="fas fa-book"></i> การจัดการศึกษา</h3>
+            <button class="btn btn-primary btn-sm" onclick="addAcCard()"><i class="fas fa-plus"></i> เพิ่มการ์ด</button>
+          </div>
+          <div class="card-body" id="acCards"></div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('academic')"><i class="fas fa-save"></i> บันทึก</button></div>
+        </div>
+      </div>
+
+      <!-- CONTACT SETTINGS -->
+      <div class="spage" id="sec-contact-cfg">
+        <div class="card">
+          <div class="card-hdr"><h3><i class="fas fa-envelope-open-text"></i> ฟอร์มติดต่อและแผนที่</h3></div>
+          <div class="card-body">
+            <div class="frow full">
+              <div class="fg">
+                <label>Google Form URL (สำหรับฝังในเว็บ)</label>
+                <input id="cfg_form" type="url" placeholder="https://docs.google.com/forms/d/e/xxx/viewform?embedded=true"/>
+                <div class="fhint">เปิด Google Form → กด "ส่ง" → <i class="fas fa-link"></i> → เลือก "ฝัง" → คัดลอก URL ใน src=""</div>
+              </div>
+            </div>
+            <div class="frow full" style="margin-top:16px">
+              <div class="fg">
+                <label>Google Maps — ชื่อสถานที่ (สำหรับค้นหา)</label>
+                <input id="cfg_map" placeholder="โรงเรียนบ้านโนนไชยศรี+อำเภอพนมไพร+จังหวัดร้อยเอ็ด"/>
+                <div class="fhint">ใช้ + แทนช่องว่าง เช่น <code>โรงเรียนบ้านโนนไชยศรี+อำเภอพนมไพร</code></div>
+              </div>
+            </div>
+          </div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('contact_cfg')"><i class="fas fa-save"></i> บันทึก</button></div>
+        </div>
+      </div>
+
       <!-- APPEARANCE -->
       <div class="spage" id="sec-appearance">
         <div class="card">
@@ -490,6 +570,8 @@ async function initApp() {
   await loadFromGitHub();
   populateForms();
   renderDashboard();
+  renderNavItems();
+  renderAcCards();
   renderNews();
   renderTicker();
   renderGallery();
@@ -572,8 +654,10 @@ function showSavingErr(msg) {
 // ============================================================
 // SECTION NAV
 const secTitles = {
-  dashboard:'Dashboard', school:'ข้อมูลโรงเรียน', director:'ผู้บริหาร',
-  stats:'สถิติ', news:'ข่าวสาร', ticker:'แถบประกาศ', gallery:'ภาพกิจกรรม',
+  dashboard:'Dashboard', hero:'หน้าแรก (Hero)', nav:'เมนูนำทาง',
+  school:'ข้อมูลโรงเรียน', director:'ผู้บริหาร', stats:'สถิติ',
+  news:'ข่าวสาร', ticker:'แถบประกาศ', academic:'การจัดการศึกษา',
+  gallery:'ภาพกิจกรรม', 'contact-cfg':'ฟอร์ม & แผนที่',
   footer:'ส่วน Footer', appearance:'ธีมสี', github:'GitHub Token', password:'รหัสผ่าน',
 };
 function showSec(name) {
@@ -608,6 +692,67 @@ function collectGallery() {
     cfg.gallery.push({ caption: r.querySelector('.gc').value, url: r.querySelector('.gu').value });
   });
 }
+// ── Hero ──────────────────────────────────────────────────
+function collectHero() {
+  cfg.hero = { badge:v('h_badge'), title:v('h_title'), motto:v('h_motto'), btn1_text:v('h_b1t'), btn1_href:v('h_b1h'), btn2_text:v('h_b2t'), btn2_href:v('h_b2h') };
+}
+// ── Nav ───────────────────────────────────────────────────
+function collectNav() {
+  cfg.nav = [];
+  document.querySelectorAll('.nav-edit-row').forEach(r => {
+    const lbl = r.querySelector('.nl').value.trim();
+    const href = r.querySelector('.nh').value.trim();
+    if (lbl) cfg.nav.push({ label: lbl, href });
+  });
+}
+function renderNavItems() {
+  document.getElementById('navItems').innerHTML = (cfg.nav || []).map((n, i) => `
+    <div class="nav-edit-row" style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:center;margin-bottom:10px">
+      <input class="nl" value="${n.label||''}" placeholder="ชื่อเมนู" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none"/>
+      <input class="nh" value="${n.href||''}" placeholder="#section หรือ URL" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none"/>
+      <button class="btn btn-danger btn-sm" onclick="removeNav(${i})"><i class="fas fa-trash"></i></button>
+    </div>`).join('') + `<div style="font-size:12px;color:var(--muted);margin-top:4px">ลาก เพื่อเรียงลำดับ (drag & drop) ยังไม่รองรับ — กรุณาลบแล้วเพิ่มใหม่เพื่อเรียงลำดับ</div>`;
+}
+function addNavItem() { if(!cfg.nav) cfg.nav=[]; cfg.nav.push({label:'เมนูใหม่',href:'#'}); renderNavItems(); }
+function removeNav(i) { cfg.nav.splice(i,1); renderNavItems(); }
+
+// ── Academic cards ─────────────────────────────────────────
+const ICONS = ['fas fa-baby','fas fa-book-open','fas fa-flask','fas fa-laptop-code','fas fa-music','fas fa-running','fas fa-paint-brush','fas fa-calculator','fas fa-globe','fas fa-microscope','fas fa-volleyball-ball','fas fa-graduation-cap'];
+const COLORS = ['c1','c2','c3','c4'];
+function collectAcademic() {
+  cfg.academic = [];
+  document.querySelectorAll('.ac-edit-row').forEach(r => {
+    cfg.academic.push({ icon: r.querySelector('.ac-icon-sel').value, title: r.querySelector('.ac-title').value, desc: r.querySelector('.ac-desc').value, color: r.querySelector('.ac-color').value });
+  });
+}
+function renderAcCards() {
+  document.getElementById('acCards').innerHTML = (cfg.academic || []).map((a, i) => `
+    <div class="ac-edit-row" style="background:var(--bg);border-radius:10px;padding:16px;margin-bottom:12px;display:grid;grid-template-columns:auto 1fr 1fr auto;gap:12px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+        <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;background:var(--primary)"><i class="${a.icon||'fas fa-book'}"></i></div>
+        <select class="ac-color" style="width:64px;padding:4px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+          ${COLORS.map(c=>`<option value="${c}" ${a.color===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <input class="ac-title" value="${a.title||''}" placeholder="หัวข้อ" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none"/>
+        <select class="ac-icon-sel" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Sarabun',sans-serif;outline:none">
+          ${ICONS.map(ic=>`<option value="${ic}" ${a.icon===ic?'selected':''}>${ic.replace('fas fa-','')}</option>`).join('')}
+        </select>
+      </div>
+      <textarea class="ac-desc" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;resize:vertical;min-height:80px">${a.desc||''}</textarea>
+      <button class="btn btn-danger btn-sm" onclick="removeAc(${i})"><i class="fas fa-trash"></i></button>
+    </div>`).join('') + `<button class="btn btn-secondary btn-sm" onclick="addAcCard()"><i class="fas fa-plus"></i> เพิ่มการ์ด</button>`;
+}
+function addAcCard() { if(!cfg.academic) cfg.academic=[]; cfg.academic.push({icon:'fas fa-book',title:'หัวข้อใหม่',desc:'คำอธิบาย',color:'c1'}); renderAcCards(); }
+function removeAc(i) { cfg.academic.splice(i,1); renderAcCards(); }
+
+// ── Contact config ─────────────────────────────────────────
+function collectContactCfg() {
+  cfg.contact_form_url = v('cfg_form');
+  cfg.map_query = v('cfg_map');
+}
+
 function collectFooterContact() {
   if (!cfg.school) cfg.school = {};
   cfg.school.phone   = v('ft_phone');
@@ -638,10 +783,14 @@ function collectAppearance() {
 // SAVE SECTIONS
 async function saveSection(sec) {
   const msgs = { school:'อัปเดตข้อมูลโรงเรียน', director:'อัปเดตผู้บริหาร', stats:'อัปเดตสถิติ', news:'อัปเดตข่าวสาร', ticker:'อัปเดตแถบประกาศ', gallery:'อัปเดตภาพกิจกรรม', footer:'อัปเดต Footer', appearance:'อัปเดตธีมสี' };
-  if (sec === 'school') collectSchool();
+  if (sec === 'hero') collectHero();
+  else if (sec === 'nav') collectNav();
+  else if (sec === 'school') collectSchool();
   else if (sec === 'director') collectDirector();
   else if (sec === 'stats') collectStats();
+  else if (sec === 'academic') collectAcademic();
   else if (sec === 'gallery') collectGallery();
+  else if (sec === 'contact_cfg') collectContactCfg();
   else if (sec === 'footer_contact') collectFooterContact();
   else if (sec === 'footer') collectFooter();
   else if (sec === 'appearance') collectAppearance();
@@ -674,6 +823,15 @@ function populateForms() {
   document.getElementById('cs_hex').oninput = function(){ if(/^#[0-9a-f]{6}$/i.test(this.value)) setV('cs', this.value); };
 
   const ft = cfg.footer || {};
+  // hero
+  const h = cfg.hero || {};
+  setV('h_badge', h.badge); setV('h_title', h.title); setV('h_motto', h.motto);
+  setV('h_b1t', h.btn1_text); setV('h_b1h', h.btn1_href);
+  setV('h_b2t', h.btn2_text); setV('h_b2h', h.btn2_href);
+  // contact config
+  setV('cfg_form', cfg.contact_form_url || '');
+  setV('cfg_map',  cfg.map_query || '');
+
   setV('ft_desc', ft.description); setV('ft_copy', ft.copyright);
 
   // footer contact — sync จาก school

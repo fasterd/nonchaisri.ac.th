@@ -705,6 +705,27 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     }
   }
 
+  // ── Hero Section ──────────────────────────────────────────
+  if(cfg.hero){
+    const h = cfg.hero;
+    const badge = document.querySelector('.hero-badge'); if(badge && h.badge) badge.textContent = h.badge;
+    const h1 = document.querySelector('.hero-content h1'); if(h1 && h.title) h1.textContent = h.title;
+    const motto = document.querySelector('.hero-motto'); if(motto && h.motto) motto.textContent = '"'+h.motto+'"';
+    const btns = document.querySelectorAll('.hero-actions .btn');
+    if(btns[0]){ if(h.btn1_text) btns[0].textContent = h.btn1_text; if(h.btn1_href) btns[0].href = h.btn1_href; }
+    if(btns[1]){ if(h.btn2_text) btns[1].textContent = h.btn2_text; if(h.btn2_href) btns[1].href = h.btn2_href; }
+  }
+
+  // ── เมนูนำทาง ─────────────────────────────────────────────
+  if(cfg.nav && cfg.nav.length){
+    const ul = document.querySelector('.nav ul');
+    if(ul) ul.innerHTML = cfg.nav.map(n =>
+      `<li><a href="${n.href}" class="nav-link">${n.label}</a></li>`
+    ).join('');
+    // re-bind smooth scroll
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', ()=>document.getElementById('nav')?.classList.remove('open')));
+  }
+
   // ── ข้อมูลโรงเรียน ────────────────────────────────────────
   if(cfg.school){
     const s = cfg.school;
@@ -818,6 +839,33 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
       const items = cfg.ticker.map(t=>`<span>${t}</span><span class="sep">|</span>`).join('');
       tkel.innerHTML = items + items; // duplicate for infinite scroll
     }
+  }
+
+  // ── การจัดการศึกษา (Academic Cards) ─────────────────────
+  if(cfg.academic && cfg.academic.length){
+    const acGrid = document.querySelector('.ac-grid');
+    if(acGrid){
+      acGrid.innerHTML = cfg.academic.map(a => `
+        <div class="ac-card fade-up">
+          <div class="ac-icon ${a.color||'c1'}"><i class="${a.icon||'fas fa-book'}"></i></div>
+          <h3>${a.title}</h3>
+          <p>${a.desc}</p>
+        </div>`).join('');
+      const fo4=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');fo4.unobserve(x.target)}}),{threshold:.1});
+      acGrid.querySelectorAll('.fade-up').forEach(el=>fo4.observe(el));
+    }
+  }
+
+  // ── Google Form ───────────────────────────────────────────
+  if(cfg.contact_form_url){
+    const iframe = document.querySelector('.gform-wrap iframe');
+    if(iframe) iframe.src = cfg.contact_form_url;
+  }
+
+  // ── Google Maps ───────────────────────────────────────────
+  if(cfg.map_query){
+    const map = document.querySelector('.contact-map iframe');
+    if(map) map.src = `https://maps.google.com/maps?q=${encodeURIComponent(cfg.map_query)}&output=embed`;
   }
 
   // ── ภาพกิจกรรม ────────────────────────────────────────────
