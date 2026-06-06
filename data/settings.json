@@ -19,15 +19,15 @@
   },
   "director": {
     "role": "ผู้อำนวยการโรงเรียน",
-    "name": "นาย/นาง/นางสาว ชื่อ นามสกุล",
+    "name": "นายอภิรักษ์ สืบชมภู",
     "quote": "มุ่งมั่นพัฒนาคุณภาพการศึกษา เพื่ออนาคตที่ดีของนักเรียนทุกคน",
-    "photo": ""
+    "photo": "https://i.ibb.co/HQZTg3G/808a1fd7-0a79-410f-b1bb-8b82ce0fc0fa.jpg"
   },
   "stats": {
-    "students": 75,
-    "teachers": 8,
+    "students": 200,
+    "teachers": 15,
     "rooms": 8,
-    "awards": 0
+    "awards": 50
   },
   "news": [
     {
