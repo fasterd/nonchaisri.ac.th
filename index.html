@@ -580,11 +580,11 @@ ul{list-style:none}
           <div class="footer-logo-circle"><i class="fas fa-school"></i></div>
           <div><div class="footer-school-name">โรงเรียนบ้านโนนไชยศรี</div><div class="footer-school-en">Ban Non Chai Si School</div></div>
         </div>
-        <p>มุ่งมั่นพัฒนาคุณภาพการศึกษา สร้างนักเรียนที่มีความรู้ คุณธรรม และทักษะชีวิตที่ดี</p>
-        <div class="footer-social">
+        <p id="ft-desc">มุ่งมั่นพัฒนาคุณภาพการศึกษา สร้างนักเรียนที่มีความรู้ คุณธรรม และทักษะชีวิตที่ดี</p>
+        <div class="footer-social" id="ft-social">
           <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-line"></i></a>
+          <a href="#" id="ft-yt"><i class="fab fa-youtube"></i></a>
+          <a href="#" id="ft-line"><i class="fab fa-line"></i></a>
         </div>
       </div>
       <div class="footer-links">
@@ -600,7 +600,7 @@ ul{list-style:none}
       </div>
       <div class="footer-links">
         <h4>ลิงก์ที่เกี่ยวข้อง</h4>
-        <ul>
+        <ul id="ft-related">
           <li><a href="https://www.moe.go.th" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> กระทรวงศึกษาธิการ</a></li>
           <li><a href="https://www.obec.go.th" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> สพฐ.</a></li>
           <li><a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i> Facebook โรงเรียน</a></li>
@@ -608,15 +608,15 @@ ul{list-style:none}
       </div>
       <div class="footer-contact-col">
         <h4>ติดต่อโรงเรียน</h4>
-        <p><i class="fas fa-map-marker-alt"></i> อำเภอพนมไพร จังหวัดร้อยเอ็ด</p>
-        <p><i class="fas fa-phone"></i> 043-XXX-XXX</p>
-        <p><i class="fas fa-envelope"></i> info@nonchaisri.ac.th</p>
+        <p id="ft-addr"><i class="fas fa-map-marker-alt"></i> อำเภอพนมไพร จังหวัดร้อยเอ็ด</p>
+        <p id="ft-phone"><i class="fas fa-phone"></i> 043-XXX-XXX</p>
+        <p id="ft-email"><i class="fas fa-envelope"></i> info@nonchaisri.ac.th</p>
         <p><i class="fas fa-globe"></i> nonchaisri.ac.th</p>
       </div>
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="container"><p>© ๒๕๖๗ โรงเรียนบ้านโนนไชยศรี | nonchaisri.ac.th</p></div>
+    <div class="container"><p id="ft-copy">© ๒๕๖๗ โรงเรียนบ้านโนนไชยศรี | nonchaisri.ac.th</p></div>
   </div>
 </footer>
 
@@ -666,12 +666,16 @@ const tk=document.getElementById('ticker');
 if(tk)tk.innerHTML+=tk.innerHTML;
 
 // ============================================================
-// APPLY SETTINGS FROM ADMIN (localStorage)
+// APPLY SETTINGS FROM GitHub settings.json
 // ============================================================
-(function applySettings(){
-  const raw = localStorage.getItem('ncs_settings');
-  if(!raw) return;
-  const cfg = JSON.parse(raw);
+const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/data/settings.json';
+(async function applySettings(){
+  let cfg;
+  try {
+    const r = await fetch(RAW + '?t=' + Date.now());
+    if (!r.ok) return;
+    cfg = await r.json();
+  } catch(e) { return; }
 
   // ── helpers ──────────────────────────────────────────────
   const set = (sel,val,attr='textContent') => {
@@ -829,6 +833,28 @@ if(tk)tk.innerHTML+=tk.innerHTML;
       const fo3=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');fo3.unobserve(x.target)}}),{threshold:.1});
       galGrid.querySelectorAll('.fade-up').forEach(el=>fo3.observe(el));
     }
+  }
+
+  // ── Footer ────────────────────────────────────────────────
+  if(cfg.footer){
+    const ft = cfg.footer;
+    const fd = document.getElementById('ft-desc'); if(fd && ft.description) fd.textContent = ft.description;
+    const fc = document.getElementById('ft-copy'); if(fc && ft.copyright) fc.textContent = ft.copyright;
+    if(ft.links_related && ft.links_related.length){
+      const ul = document.getElementById('ft-related');
+      if(ul) ul.innerHTML = ft.links_related.map(l=>`<li><a href="${l.url}" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> ${l.label}</a></li>`).join('');
+    }
+  }
+
+  // ── Social links ──────────────────────────────────────────
+  if(cfg.school){
+    const s = cfg.school;
+    const fb = document.querySelector('.footer-social a:first-child'); if(fb && s.facebook) fb.href = s.facebook;
+    const yt = document.getElementById('ft-yt'); if(yt && s.youtube) yt.href = s.youtube; else if(yt && !s.youtube) yt.style.display='none';
+    const ln = document.getElementById('ft-line'); if(ln && s.line) ln.href = s.line; else if(ln && !s.line) ln.style.display='none';
+    const faddr = document.getElementById('ft-addr'); if(faddr && s.address) faddr.innerHTML=`<i class="fas fa-map-marker-alt"></i> ${s.address}`;
+    const fph = document.getElementById('ft-phone'); if(fph && s.phone) fph.innerHTML=`<i class="fas fa-phone"></i> ${s.phone}`;
+    const fem = document.getElementById('ft-email'); if(fem && s.email) fem.innerHTML=`<i class="fas fa-envelope"></i> ${s.email}`;
   }
 
 })();
