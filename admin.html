@@ -479,13 +479,17 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
               </div>
               <div class="fhint"><i class="fas fa-shield-alt" style="color:var(--green)"></i> Token จะถูกจำไว้ถาวรในเบราว์เซอร์นี้ — ไม่ต้องใส่ใหม่ทุกครั้ง</div>
             </div>
-            <div style="background:var(--bg);border-radius:8px;padding:16px;font-size:13px;line-height:2">
-              <strong>วิธีสร้าง Token:</strong><br>
-              1. ไปที่ <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--primary)">github.com/settings/tokens/new</a><br>
-              2. Note: <code>nonchaisri-admin</code><br>
-              3. Expiration: <code>No expiration</code> (หรือตามต้องการ)<br>
-              4. Scopes: เลือก <code>✅ repo</code><br>
-              5. กด <strong>Generate token</strong> แล้วคัดลอกมาวางด้านบน
+            <div style="margin-bottom:16px">
+              <button id="testTokenBtn" class="btn btn-primary" onclick="testToken()" style="background:#2980b9"><i class="fas fa-plug"></i> ทดสอบ Token</button>
+              <span style="font-size:12px;color:var(--muted);margin-left:10px">ตรวจสอบว่า Token ยังใช้งานได้และมีสิทธิ์เขียน</span>
+            </div>
+            <div style="background:#fef9e7;border:1.5px solid #f39c12;border-radius:8px;padding:16px;font-size:13px;line-height:2">
+              <strong><i class="fas fa-exclamation-triangle" style="color:#e67e22"></i> ต้องใช้ Classic Token เท่านั้น (ไม่ใช่ Fine-grained)</strong><br>
+              1. ไปที่ <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--primary);font-weight:600">github.com/settings/tokens/new</a> <small>(Tokens classic)</small><br>
+              2. Note: <code>nonchaisri-admin</code> | Expiration: <code>No expiration</code><br>
+              3. Scopes: ติ๊ก <strong style="color:#27ae60">✅ repo</strong> (ทั้งหมด)<br>
+              4. กด <strong>Generate token</strong> → คัดลอก token (ขึ้นต้นด้วย <code>ghp_</code>)<br>
+              5. วางในช่องด้านบน แล้วกด <strong>บันทึก</strong>
             </div>
           </div>
         </div>
@@ -621,6 +625,8 @@ async function saveToGitHub(commitMsg) {
     if (metaR.ok) {
       const meta = await metaR.json();
       fileSha = meta.sha;
+    } else if (metaR.status === 401) {
+      throw new Error('Token ไม่ถูกต้องหรือหมดอายุ — กรุณาสร้าง Token ใหม่ใน GitHub');
     } else if (metaR.status === 404) {
       fileSha = ''; // ไฟล์ยังไม่มี จะสร้างใหม่
     } else {
@@ -631,15 +637,20 @@ async function saveToGitHub(commitMsg) {
     // ── บันทึกไฟล์ ────────────────────────────────────────────
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(cfg, null, 2))));
     const body = { message: commitMsg, content };
-    if (fileSha) body.sha = fileSha; // ถ้ามี SHA แนบไปด้วย (update), ถ้าไม่มีคือ create
+    if (fileSha) body.sha = fileSha;
 
     const r = await fetch(API_URL, { method: 'PUT', headers, body: JSON.stringify(body) });
     if (!r.ok) {
       const err = await r.json().catch(()=>({}));
-      throw new Error(err.message || `HTTP ${r.status}`);
+      let msg = err.message || `HTTP ${r.status}`;
+      if (r.status === 401) msg = 'Token ไม่ถูกต้องหรือหมดอายุ — กรุณาสร้าง Token ใหม่';
+      if (r.status === 403) msg = 'Token ไม่มีสิทธิ์เขียน — ต้องใช้ Classic Token ที่มี repo scope';
+      if (r.status === 404) msg = 'ไม่พบ Repository หรือ Token ไม่มีสิทธิ์เขียน — ใช้ Classic Token + repo scope';
+      if (r.status === 422) msg = 'SHA ไม่ตรง กรุณาลองบันทึกอีกครั้ง';
+      throw new Error(msg);
     }
     const data = await r.json();
-    fileSha = data.content.sha; // อัปเดต SHA ใหม่
+    fileSha = data.content.sha;
 
     showSavingDone('บันทึกสำเร็จ ✓ เว็บไซต์จะอัปเดตใน ~1 นาที');
     logChange(commitMsg);
@@ -648,6 +659,40 @@ async function saveToGitHub(commitMsg) {
     showSavingErr('บันทึกไม่สำเร็จ: ' + e.message);
     return false;
   }
+}
+
+async function testToken() {
+  const token = getToken();
+  if (!token) { showToast('ยังไม่มี Token — กรุณาใส่ Token ก่อน', 'error'); return; }
+  const btn = document.getElementById('testTokenBtn');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังทดสอบ...';
+  try {
+    // ทดสอบ 1: ตรวจสอบ token ผ่าน user API
+    const uR = await fetch('https://api.github.com/user', {
+      headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!uR.ok) {
+      const e = await uR.json().catch(()=>({}));
+      throw new Error(`Token ไม่ถูกต้อง (${uR.status}: ${e.message||''})`);
+    }
+    const user = await uR.json();
+
+    // ทดสอบ 2: ตรวจสอบสิทธิ์เขียน repo
+    const rR = await fetch(`https://api.github.com/repos/${REPO}`, {
+      headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github+json' }
+    });
+    const repo = rR.ok ? await rR.json() : null;
+    const canPush = repo && repo.permissions && repo.permissions.push;
+
+    if (!canPush) {
+      showToast(`⚠ Token ของ ${user.login} ใช้งานได้ แต่ไม่มีสิทธิ์เขียน repo — ต้องใช้ Classic Token + repo scope`, 'error');
+    } else {
+      showToast(`✓ Token ของ ${user.login} ใช้งานได้ มีสิทธิ์เขียน repo ✓`, 'success');
+    }
+  } catch(e) {
+    showToast('ทดสอบไม่ผ่าน: ' + e.message, 'error');
+  }
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-plug"></i> ทดสอบ Token';
 }
 
 // ============================================================
