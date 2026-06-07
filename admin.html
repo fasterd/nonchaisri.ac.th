@@ -441,6 +441,13 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
           </div>
           <div class="card-body">
             <p style="color:var(--muted);font-size:13px;margin-bottom:16px"><i class="fas fa-info-circle"></i> ขนาดภาพแนะนำ 981×420 px — สไลด์จะแสดงบนหน้าเว็บตามลำดับที่ตั้งไว้</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px">
+              <i class="fas fa-clock" style="color:var(--primary);font-size:16px"></i>
+              <label style="font-weight:600;font-size:14px;margin:0;white-space:nowrap">เวลาเลื่อนสไลด์อัตโนมัติ</label>
+              <input id="banner_speed" type="number" min="1000" max="30000" step="500" placeholder="5000"
+                style="width:110px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none"/>
+              <span style="font-size:13px;color:var(--muted)">มิลลิวินาที (1000 = 1 วินาที)</span>
+            </div>
             <div id="bannerList" style="display:flex;flex-direction:column;gap:16px"></div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('banner')"><i class="fas fa-save"></i> บันทึก</button></div>
@@ -670,6 +677,8 @@ async function initApp() {
   await loadFromGitHub();
   populateForms();
   renderBannerList();
+  const bsEl = document.getElementById('banner_speed');
+  if (bsEl) bsEl.value = cfg.bannerSpeed || 5000;
   renderStats();
   renderStaffList();
   renderDashboard();
@@ -1177,6 +1186,8 @@ async function uploadBannerImg(input, i) {
   lbl.innerHTML = '<i class="fas fa-upload"></i> อัพโหลดภาพ (981×420)<input type="file" accept="image/*" style="display:none" onchange="uploadBannerImg(this,'+i+')"/>';
 }
 function collectBanner() {
+  const spd = parseInt(document.getElementById('banner_speed')?.value) || 5000;
+  cfg.bannerSpeed = spd;
   cfg.banner = [];
   document.querySelectorAll('#bannerList .banner-admin-row').forEach((row, i) => {
     cfg.banner.push({

@@ -803,7 +803,6 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
           <div class="banner-slide-content">
             ${b.title ? `<div class="slide-title">${b.title}</div>` : ''}
             ${b.subtitle ? `<div class="slide-subtitle">${b.subtitle}</div>` : ''}
-            ${b.link ? `<a href="${b.link}" class="slide-btn" target="_blank" rel="noopener">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>` : ''}
           </div>
         </div>`;
     }).join('');
@@ -1058,9 +1057,10 @@ function initBannerSlick() {
   if ($('#bannerSlick').hasClass('slick-initialized')) {
     $('#bannerSlick').slick('unslick');
   }
+  const bannerSpeed = (typeof cfg !== 'undefined' && cfg.bannerSpeed) ? Number(cfg.bannerSpeed) : 5000;
   $('#bannerSlick').slick({
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: bannerSpeed,
     speed: 800,
     fade: true,
     cssEase: 'ease-in-out',
