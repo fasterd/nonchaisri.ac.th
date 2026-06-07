@@ -819,6 +819,13 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     // year badge
     const byear = document.querySelector('.badge-year');
     if(byear && s.year) byear.textContent = 'พ.ศ. '+s.year;
+    // logo
+    if(s.logo){
+      const lc = document.querySelector('.logo-circle');
+      if(lc) lc.innerHTML = `<img src="${s.logo}" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+      const flc = document.querySelector('.footer-logo-circle');
+      if(flc) flc.innerHTML = `<img src="${s.logo}" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+    }
     // history image
     if(s.history_image){
       const abox = document.getElementById('about-img-box');
@@ -862,9 +869,26 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
 
   // ── สถิติ ─────────────────────────────────────────────────
   if(cfg.stats){
-    const nums = document.querySelectorAll('.stat-number');
-    const vals = [cfg.stats.students, cfg.stats.teachers, cfg.stats.rooms, cfg.stats.awards];
-    nums.forEach((el,i) => { if(vals[i]!==undefined) el.dataset.target = vals[i]; });
+    const statsArr = Array.isArray(cfg.stats) ? cfg.stats
+      : [ // backward compat กับ format เก่า
+          {icon:'fas fa-user-graduate', label:'นักเรียนทั้งหมด', value: cfg.stats.students},
+          {icon:'fas fa-chalkboard-teacher', label:'ครูและบุคลากร', value: cfg.stats.teachers},
+          {icon:'fas fa-door-open', label:'ห้องเรียน', value: cfg.stats.rooms},
+          {icon:'fas fa-trophy', label:'รางวัลที่ได้รับ', value: cfg.stats.awards}
+        ];
+    const grid = document.querySelector('.stats-grid');
+    if(grid){
+      grid.style.gridTemplateColumns = `repeat(${statsArr.length},1fr)`;
+      grid.innerHTML = statsArr.map(s=>`
+        <div class="stat-item">
+          <div class="stat-icon"><i class="${s.icon||'fas fa-star'}"></i></div>
+          <div class="stat-number" data-target="${s.value||0}">0</div>
+          <div class="stat-label">${s.label||''}</div>
+        </div>`).join('');
+      // re-run counter
+      counted = false;
+      new IntersectionObserver(e=>{if(e[0].isIntersecting&&!counted){counted=true;runCount()}},{threshold:.3}).observe(document.querySelector('.stats'));
+    }
   }
 
   // ── ข่าวสาร ───────────────────────────────────────────────

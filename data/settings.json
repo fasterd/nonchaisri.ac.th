@@ -14,6 +14,7 @@
     "mission": "พัฒนาคุณภาพการศึกษา ส่งเสริมคุณธรรม สร้างสรรค์สังคม",
     "identity": "รักษ์ความดี มีวินัย ใฝ่เรียนรู้",
     "year": "",
+    "logo": "",
     "facebook": "https://www.facebook.com/Bannonchaisri",
     "youtube": "",
     "line": ""
@@ -100,12 +101,12 @@
     "quote": "มุ่งมั่นพัฒนาคุณภาพการศึกษา เพื่ออนาคตที่ดีของนักเรียนทุกคน",
     "photo": "https://i.ibb.co/HQZTg3G/808a1fd7-0a79-410f-b1bb-8b82ce0fc0fa.jpg"
   },
-  "stats": {
-    "students": 75,
-    "teachers": 8,
-    "rooms": 8,
-    "awards": 0
-  },
+  "stats": [
+    { "icon": "fas fa-user-graduate",       "label": "นักเรียนทั้งหมด",  "value": 75 },
+    { "icon": "fas fa-chalkboard-teacher",  "label": "ครูและบุคลากร",   "value": 8  },
+    { "icon": "fas fa-door-open",           "label": "ห้องเรียน",        "value": 8  },
+    { "icon": "fas fa-trophy",              "label": "รางวัลที่ได้รับ",  "value": 0  }
+  ],
   "news": [
     {
       "title": "โครงการรักษ์ภาษาไทย เนื่องในสัปดาห์วันภาษาไทยแห่งชาติปี ๒๕๖๙",
