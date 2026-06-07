@@ -51,34 +51,14 @@
     "bg_image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/hero/1780809096780_657315463_1777750940119450_6725357135787680014_n.jpg"
   },
   "nav": [
-    {
-      "label": "หน้าแรก",
-      "href": "#home"
-    },
-    {
-      "label": "เกี่ยวกับโรงเรียน",
-      "href": "#about"
-    },
-    {
-      "label": "วิชาการ",
-      "href": "#academic"
-    },
-    {
-      "label": "ข่าวสาร",
-      "href": "#news"
-    },
-    {
-      "label": "บุคลากร",
-      "href": "staff.html"
-    },
-    {
-      "label": "ภาพกิจกรรม",
-      "href": "#gallery"
-    },
-    {
-      "label": "ติดต่อ",
-      "href": "#contact"
-    }
+    { "label": "หน้าแรก", "href": "#home" },
+    { "label": "เกี่ยวกับโรงเรียน", "href": "#about" },
+    { "label": "บุคลากร", "href": "staff.html" },
+    { "label": "วิชาการ", "href": "#academic" },
+    { "label": "ข่าวสาร", "href": "#news" },
+    { "label": "กิจกรรม", "href": "#gallery" },
+    { "label": "จดหมายข่าว", "href": "activities.html" },
+    { "label": "ติดต่อ", "href": "#contact" }
   ],
   "academic": [
     {

@@ -792,6 +792,20 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
   };
   const setHref = (sel,val) => document.querySelectorAll(sel).forEach(el => el.href = val);
 
+  // ── Navbar จาก cfg.nav ───────────────────────────────────
+  if(cfg.nav && cfg.nav.length){
+    const navUl = document.querySelector('#nav ul');
+    if(navUl){
+      navUl.innerHTML = cfg.nav.map(item => {
+        // สำหรับ index.html ลิงก์ภายในหน้า (#xxx) ใช้ตรงๆ
+        // ลิงก์ไฟล์อื่น (staff.html ฯลฯ) ใช้ตรงๆ เช่นกัน
+        return `<li><a href="${item.href}" class="nav-link">${item.label}</a></li>`;
+      }).join('');
+      // re-attach hamburger close
+      navUl.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => document.getElementById('nav').classList.remove('open')));
+    }
+  }
+
   // ── สีธีม ─────────────────────────────────────────────────
   if(cfg.appearance){
     const r = document.documentElement.style;

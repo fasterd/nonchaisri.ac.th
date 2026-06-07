@@ -566,6 +566,20 @@ async function loadActivities() {
     const cfg = await res.json();
     const s = cfg.school || {};
 
+    // Navbar จาก cfg.nav
+    if (cfg.nav && cfg.nav.length) {
+      const navUl = document.querySelector('#nav ul');
+      if (navUl) {
+        const thisPage = 'activities.html';
+        navUl.innerHTML = cfg.nav.map(item => {
+          const href = item.href.startsWith('#') ? 'index.html' + item.href : item.href;
+          const isActive = item.href === thisPage;
+          return `<li><a href="${href}" class="nav-link${isActive?' active':''}">${item.label}</a></li>`;
+        }).join('');
+        navUl.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => document.getElementById('nav').classList.remove('open')));
+      }
+    }
+
     // header/footer
     if (s.name_th) { document.getElementById('hdr-name').textContent = s.name_th; document.getElementById('ft-name').textContent = s.name_th; }
     if (s.name_en) document.getElementById('hdr-en').textContent = s.name_en;
