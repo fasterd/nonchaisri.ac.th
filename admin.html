@@ -463,29 +463,6 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
               <div class="fg"><label>ปุ่มที่ 2 — ข้อความ</label><input id="h_b2t" placeholder="ข่าวสารล่าสุด"/></div>
               <div class="fg"><label>ปุ่มที่ 2 — ลิงก์</label><input id="h_b2h" placeholder="#news"/></div>
             </div>
-            <hr style="margin:18px 0;border:none;border-top:1px solid var(--border)"/>
-            <div class="fg">
-              <label><i class="fas fa-mountain" style="color:var(--primary)"></i> ภาพพื้นหลัง Hero (Background Image)</label>
-              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-                <input id="h_bg_image" type="url" placeholder="URL รูปภาพ หรืออัพโหลดจากเครื่อง →" style="flex:1;min-width:200px"/>
-                <label class="btn btn-secondary btn-sm" style="cursor:pointer;white-space:nowrap">
-                  <i class="fas fa-upload"></i> อัพโหลด
-                  <input type="file" accept="image/*" style="display:none" onchange="uploadHeroBg(this)"/>
-                </label>
-                <button class="btn btn-danger btn-sm" onclick="setV('h_bg_image','');document.getElementById('h_bg_preview').style.display='none'"><i class="fas fa-times"></i></button>
-              </div>
-              <div id="h_bg_preview" style="margin-top:12px;display:none">
-                <div style="font-size:11px;color:var(--muted);margin-bottom:5px"><i class="fas fa-eye"></i> ตัวอย่างขนาดจริง — Hero Section (16:9)</div>
-                <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)">
-                  <img id="h_bg_thumb" src="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
-                  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(20,60,100,.65),rgba(20,60,100,.45));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;text-align:center;padding:20px">
-                    <div style="background:rgba(255,255,255,.2);border-radius:50px;padding:3px 14px;font-size:11px;color:#fff;border:1px solid rgba(255,255,255,.4)">ยินดีต้อนรับสู่</div>
-                    <div style="font-size:1.2rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3)">โรงเรียนบ้านโนนไชยศรี</div>
-                  </div>
-                </div>
-              </div>
-              <div class="fhint">แนะนำรูปแนวนอน ความละเอียดสูง (1920×1080px ขึ้นไป)</div>
-            </div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('hero')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
