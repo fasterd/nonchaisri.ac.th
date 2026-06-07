@@ -286,6 +286,26 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
               <div class="fg"><label><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube URL</label><input id="s_yt" type="url"/></div>
               <div class="fg"><label><i class="fab fa-line" style="color:#06c755"></i> LINE URL</label><input id="s_line" type="url"/></div>
             </div>
+            <hr style="margin:18px 0;border:none;border-top:1px solid var(--border)"/>
+            <div class="fg">
+              <label><i class="fas fa-image" style="color:var(--primary)"></i> Logo โรงเรียน (แสดงใน Header และ Footer)</label>
+              <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+                <div id="logo-preview-circle" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:3px solid var(--secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:24px;color:#fff">
+                  <i class="fas fa-school"></i>
+                </div>
+                <div style="flex:1;min-width:200px">
+                  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+                    <input id="s_logo" type="url" placeholder="URL รูป logo หรืออัพโหลดจากเครื่อง →" style="flex:1;min-width:180px"/>
+                    <label class="btn btn-secondary btn-sm" style="cursor:pointer;white-space:nowrap">
+                      <i class="fas fa-upload"></i> อัพโหลด
+                      <input type="file" accept="image/*" style="display:none" onchange="uploadLogo(this)"/>
+                    </label>
+                    <button class="btn btn-danger btn-sm" onclick="clearLogo()"><i class="fas fa-times"></i></button>
+                  </div>
+                  <div class="fhint">แนะนำรูปสี่เหลี่ยมหรือวงกลม ขนาดอย่างน้อย 200×200px (PNG พื้นใส จะสวยที่สุด)</div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง — มีผลทันทีบนเว็บ</span><button class="btn btn-success" onclick="saveSection('school')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
@@ -307,16 +327,16 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       <!-- STATS -->
       <div class="spage" id="sec-stats">
         <div class="card">
-          <div class="card-hdr"><h3><i class="fas fa-chart-bar"></i> สถิติโรงเรียน</h3></div>
+          <div class="card-hdr">
+            <h3><i class="fas fa-chart-bar"></i> สถิติโรงเรียน</h3>
+            <button class="btn btn-primary btn-sm" onclick="addStat()"><i class="fas fa-plus"></i> เพิ่มหัวข้อ</button>
+          </div>
           <div class="card-body">
-            <div class="frow">
-              <div class="fg"><label><i class="fas fa-user-graduate" style="color:var(--primary)"></i> นักเรียน</label><input id="st_s" type="number" min="0"/></div>
-              <div class="fg"><label><i class="fas fa-chalkboard-teacher" style="color:var(--primary)"></i> ครูและบุคลากร</label><input id="st_t" type="number" min="0"/></div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:16px">
+              <i class="fas fa-info-circle"></i> ไอคอน: ใช้ชื่อ Font Awesome เช่น <code>fas fa-user-graduate</code>, <code>fas fa-star</code>, <code>fas fa-book</code>
+              — <a href="https://fontawesome.com/icons" target="_blank" style="color:var(--primary)">ค้นหาไอคอน</a>
             </div>
-            <div class="frow">
-              <div class="fg"><label><i class="fas fa-door-open" style="color:var(--primary)"></i> ห้องเรียน</label><input id="st_r" type="number" min="0"/></div>
-              <div class="fg"><label><i class="fas fa-trophy" style="color:var(--primary)"></i> รางวัล</label><input id="st_a" type="number" min="0"/></div>
-            </div>
+            <div id="statItems"></div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('stats')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
@@ -640,6 +660,7 @@ async function initApp() {
   if (window.innerWidth <= 900) document.getElementById('menuBtn').style.display = 'flex';
   await loadFromGitHub();
   populateForms();
+  renderStats();
   renderDashboard();
   renderNavItems();
   renderAcCards();
@@ -884,14 +905,78 @@ function collectSchool() {
     phone: v('s_phone'), email: v('s_email'), address: v('s_addr'),
     history1: v('s_h1'), history2: v('s_h2'), history_image: v('s_hist_img'),
     vision: v('s_vis'), mission: v('s_mis'), identity: v('s_idn'),
-    year: v('s_yr'), facebook: v('s_fb'), youtube: v('s_yt'), line: v('s_line'),
+    year: v('s_yr'), logo: v('s_logo'),
+    facebook: v('s_fb'), youtube: v('s_yt'), line: v('s_line'),
   };
+}
+async function uploadLogo(input) {
+  if (!input.files[0]) return;
+  const btn = input.closest('label');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังอัพโหลด...';
+  try {
+    const url = await uploadToGitHub(input.files[0], 'images/logo');
+    document.getElementById('s_logo').value = url;
+    const pc = document.getElementById('logo-preview-circle');
+    pc.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+    showToast('อัพโหลด logo สำเร็จ ✓', 'success');
+  } catch(e) { showToast('อัพโหลดล้มเหลว: ' + e.message, 'error'); }
+  btn.innerHTML = '<i class="fas fa-upload"></i> อัพโหลด<input type="file" accept="image/*" onchange="uploadLogo(this)" style="display:none"/>';
+}
+function clearLogo() {
+  document.getElementById('s_logo').value = '';
+  const pc = document.getElementById('logo-preview-circle');
+  pc.innerHTML = '<i class="fas fa-school" style="font-size:20px;color:#fff"></i>';
 }
 function collectDirector() {
   cfg.director = { role: v('d_role'), name: v('d_name'), quote: v('d_quote'), photo: v('d_photo') };
 }
+function renderStats() {
+  const is = `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;width:100%`;
+  const statsArr = Array.isArray(cfg.stats) ? cfg.stats : [
+    {icon:'fas fa-user-graduate', label:'นักเรียนทั้งหมด', value: cfg.stats?.students||0},
+    {icon:'fas fa-chalkboard-teacher', label:'ครูและบุคลากร', value: cfg.stats?.teachers||0},
+    {icon:'fas fa-door-open', label:'ห้องเรียน', value: cfg.stats?.rooms||0},
+    {icon:'fas fa-trophy', label:'รางวัลที่ได้รับ', value: cfg.stats?.awards||0}
+  ];
+  document.getElementById('statItems').innerHTML = statsArr.map((s,i)=>`
+    <div class="stat-row" style="display:grid;grid-template-columns:48px 1fr 1fr 36px;gap:8px;align-items:center;margin-bottom:10px">
+      <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--primary),#2980b9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">
+        <i class="si-icon ${s.icon||'fas fa-star'}"></i>
+      </div>
+      <div class="fg" style="margin:0">
+        <input class="si" placeholder="หัวข้อ เช่น นักเรียนทั้งหมด" value="${s.label||''}" style="${is}" oninput="updateStatIcon(${i},null,this.value)"/>
+        <input class="sic" placeholder="icon class เช่น fas fa-star" value="${s.icon||''}" style="${is};margin-top:4px;font-size:12px;color:var(--muted)" oninput="updateStatIcon(${i},this.value,null)"/>
+      </div>
+      <input class="sv" type="number" min="0" value="${s.value||0}" placeholder="ตัวเลข" style="${is}"/>
+      <button class="btn btn-danger btn-sm" onclick="removeStat(${i})" style="width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center"><i class="fas fa-trash"></i></button>
+    </div>`).join('') || '<p style="color:var(--muted);text-align:center;padding:16px">ยังไม่มีสถิติ</p>';
+}
+function updateStatIcon(i, iconClass, label) {
+  const rows = document.querySelectorAll('#statItems .stat-row');
+  if (!rows[i]) return;
+  if (iconClass !== null) {
+    const iconEl = rows[i].querySelector('.si-icon');
+    if (iconEl) { iconEl.className = 'si-icon ' + iconClass; }
+  }
+}
+function addStat() {
+  if (!Array.isArray(cfg.stats)) cfg.stats = [];
+  cfg.stats.push({ icon: 'fas fa-star', label: 'หัวข้อใหม่', value: 0 });
+  renderStats();
+}
+function removeStat(i) {
+  if (Array.isArray(cfg.stats)) cfg.stats.splice(i,1);
+  renderStats();
+}
 function collectStats() {
-  cfg.stats = { students: +v('st_s'), teachers: +v('st_t'), rooms: +v('st_r'), awards: +v('st_a') };
+  cfg.stats = [];
+  document.querySelectorAll('#statItems .stat-row').forEach(row => {
+    cfg.stats.push({
+      icon: row.querySelector('.sic')?.value.trim() || 'fas fa-star',
+      label: row.querySelector('.si')?.value.trim() || '',
+      value: +(row.querySelector('.sv')?.value || 0)
+    });
+  });
 }
 // ── Hero ──────────────────────────────────────────────────
 function collectHero() {
@@ -1040,8 +1125,14 @@ function populateForms() {
   const d = cfg.director || {};
   setV('d_role', d.role); setV('d_name', d.name); setV('d_quote', d.quote); setV('d_photo', d.photo);
 
-  const st = cfg.stats || {};
-  setV('st_s', st.students); setV('st_t', st.teachers); setV('st_r', st.rooms); setV('st_a', st.awards);
+  // logo
+  setV('s_logo', s.logo || '');
+  if (s.logo) {
+    const pc = document.getElementById('logo-preview-circle');
+    if (pc) pc.innerHTML = `<img src="${s.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+  }
+  // stats (array)
+  renderStats();
 
   const ap = cfg.appearance || {};
   const p = ap.primary || '#1a5276', sc = ap.secondary || '#f39c12';
@@ -1078,12 +1169,14 @@ const setV = (id, val) => { const el = document.getElementById(id); if(el) el.va
 // ============================================================
 // DASHBOARD
 function renderDashboard() {
-  const st = cfg.stats || {};
-  document.getElementById('dashCards').innerHTML = `
-    <div class="dcard"><div class="num">${st.students||0}</div><div class="lbl">นักเรียน</div></div>
-    <div class="dcard"><div class="num">${st.teachers||0}</div><div class="lbl">ครูและบุคลากร</div></div>
-    <div class="dcard"><div class="num">${(cfg.news||[]).length}</div><div class="lbl">ข่าวสาร</div></div>
-    <div class="dcard"><div class="num">${st.awards||0}</div><div class="lbl">รางวัล</div></div>`;
+  const statsArr = Array.isArray(cfg.stats) ? cfg.stats : [
+    {label:'นักเรียน', value: cfg.stats?.students||0},
+    {label:'ครูและบุคลากร', value: cfg.stats?.teachers||0},
+    {label:'รางวัล', value: cfg.stats?.awards||0}
+  ];
+  const newsCard = `<div class="dcard"><div class="num">${(cfg.news||[]).length}</div><div class="lbl">ข่าวสาร</div></div>`;
+  document.getElementById('dashCards').innerHTML =
+    statsArr.map(s=>`<div class="dcard"><div class="num">${s.value||0}</div><div class="lbl">${s.label||''}</div></div>`).join('') + newsCard;
   const logs = JSON.parse(localStorage.getItem('ncs_log') || '[]');
   const el = document.getElementById('recentLog');
   el.innerHTML = logs.length
