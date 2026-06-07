@@ -333,7 +333,7 @@ ul{list-style:none}
           </ul>
         </li>
         <li><a href="#news" class="nav-link">ข่าวสาร</a></li>
-        <li><a href="#staff" class="nav-link">บุคลากร</a></li>
+        <li><a href="staff.html" class="nav-link">บุคลากร</a></li>
         <li><a href="#gallery" class="nav-link">ภาพกิจกรรม</a></li>
         <li><a href="#contact" class="nav-link">ติดต่อ</a></li>
       </ul>
@@ -435,22 +435,6 @@ ul{list-style:none}
           <div class="mgmt-name">นาย/นาง/นางสาว ชื่อ นามสกุล</div>
           <div class="mgmt-quote">"มุ่งมั่นพัฒนาคุณภาพการศึกษา เพื่ออนาคตที่ดีของนักเรียนทุกคน"</div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STAFF -->
-<section class="section" id="staff">
-  <div class="container staff-section">
-    <div class="section-header">
-      <div class="section-tag">บุคลากร</div>
-      <h2 class="section-title">คณะครูและบุคลากร</h2>
-      <div class="section-divider"></div>
-    </div>
-    <div id="staffGroups">
-      <div class="staff-group">
-        <div class="staff-group-title"><i class="fas fa-users"></i> กำลังโหลด...</div>
       </div>
     </div>
   </div>
@@ -1023,39 +1007,6 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
         </div>`;
       }).join('');
       galGrid.querySelectorAll('.fade-up').forEach(el=>foOut.observe(el));
-    }
-  }
-
-  // ── บุคลากร ──────────────────────────────────────────────
-  if(cfg.staff && cfg.staff.length){
-    const sg = document.getElementById('staffGroups');
-    if(sg){
-      // จัดกลุ่มตาม group
-      const groups = {};
-      cfg.staff.forEach(p => {
-        const g = p.group || 'ทั่วไป';
-        if(!groups[g]) groups[g] = [];
-        groups[g].push(p);
-      });
-      const icons = {
-        'ผู้บริหาร':'fas fa-user-tie','ภาษาไทย':'fas fa-book','คณิตศาสตร์':'fas fa-calculator',
-        'วิทยาศาสตร์':'fas fa-flask','สังคมศึกษา':'fas fa-globe-asia','ภาษาต่างประเทศ':'fas fa-language',
-        'ศิลปะ':'fas fa-palette','สุขศึกษา':'fas fa-running','การงานอาชีพ':'fas fa-tools',
-        'ปฐมวัย':'fas fa-baby','สนับสนุน':'fas fa-hands-helping','ทั่วไป':'fas fa-users'
-      };
-      sg.innerHTML = Object.entries(groups).map(([grp, members]) => `
-        <div class="staff-group">
-          <div class="staff-group-title"><i class="${icons[grp]||'fas fa-users'}"></i> ${grp}</div>
-          <div class="staff-grid">
-            ${members.map(p=>`
-              <div class="staff-card">
-                <div class="staff-photo">${p.photo?`<img src="${p.photo}" alt="${p.name||''}">`:`<i class="fas fa-user-circle" style="font-size:42px;color:#85c1e9;opacity:.8"></i>`}</div>
-                <div class="staff-name">${p.name||'—'}</div>
-                ${p.role?`<div class="staff-role">${p.role}</div>`:''}
-                ${p.advisor?`<div class="staff-advisor"><i class="fas fa-chalkboard-teacher fa-xs"></i> ครูที่ปรึกษา ${p.advisor}</div>`:''}
-              </div>`).join('')}
-          </div>
-        </div>`).join('');
     }
   }
 
