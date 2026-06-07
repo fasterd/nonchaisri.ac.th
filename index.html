@@ -799,14 +799,8 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
   }
 
   // ── เมนูนำทาง ─────────────────────────────────────────────
-  if(cfg.nav && cfg.nav.length){
-    const ul = document.querySelector('.nav ul');
-    if(ul) ul.innerHTML = cfg.nav.map(n =>
-      `<li><a href="${n.href}" class="nav-link">${n.label}</a></li>`
-    ).join('');
-    // re-bind smooth scroll
-    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', ()=>document.getElementById('nav')?.classList.remove('open')));
-  }
+  // ใช้ static nav HTML เสมอ — JS แค่ sync ชื่อจาก settings แต่ไม่เขียนทับโครงสร้าง
+  document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', ()=>document.getElementById('nav')?.classList.remove('open')));
 
   // ── ข้อมูลโรงเรียน ────────────────────────────────────────
   if(cfg.school){
