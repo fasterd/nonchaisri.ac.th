@@ -262,6 +262,20 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
             <div class="frow full"><div class="fg"><label>ที่อยู่</label><input id="s_addr"/></div></div>
             <div class="frow full"><div class="fg"><label>ประวัติย่อหน้า 1</label><textarea id="s_h1"></textarea></div></div>
             <div class="frow full"><div class="fg"><label>ประวัติย่อหน้า 2</label><textarea id="s_h2"></textarea></div></div>
+            <div class="frow full"><div class="fg">
+              <label><i class="fas fa-image" style="color:var(--primary)"></i> ภาพประวัติโรงเรียน (ส่วน "เกี่ยวกับเรา")</label>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <input id="s_hist_img" type="url" placeholder="URL รูปภาพ หรืออัพโหลดจากเครื่อง →" style="flex:1;min-width:200px"/>
+                <label class="btn btn-secondary btn-sm" style="cursor:pointer;white-space:nowrap">
+                  <i class="fas fa-upload"></i> อัพโหลด
+                  <input type="file" accept="image/*" style="display:none" onchange="uploadHistoryImg(this)"/>
+                </label>
+                <button class="btn btn-danger btn-sm" onclick="setV('s_hist_img','');document.getElementById('s_hist_preview').style.display='none'"><i class="fas fa-times"></i></button>
+              </div>
+              <div id="s_hist_preview" style="margin-top:10px;display:none;border-radius:10px;overflow:hidden;max-height:160px">
+                <img id="s_hist_thumb" src="" style="width:100%;object-fit:cover;max-height:160px"/>
+              </div>
+            </div></div>
             <div class="frow"><div class="fg"><label>วิสัยทัศน์</label><textarea id="s_vis" style="min-height:65px"></textarea></div><div class="fg"><label>พันธกิจ</label><textarea id="s_mis" style="min-height:65px"></textarea></div></div>
             <div class="frow"><div class="fg"><label>อัตลักษณ์</label><input id="s_idn"/></div><div class="fg"><label>ปีก่อตั้ง (พ.ศ.)</label><input id="s_yr" placeholder="เช่น ๒๕๐๐"/></div></div>
             <div class="frow triple">
@@ -341,9 +355,12 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       <!-- GALLERY -->
       <div class="spage" id="sec-gallery">
         <div class="card">
-          <div class="card-hdr"><h3><i class="fas fa-images"></i> ภาพกิจกรรม</h3></div>
+          <div class="card-hdr">
+            <h3><i class="fas fa-images"></i> ภาพกิจกรรม</h3>
+            <button class="btn btn-primary btn-sm" onclick="addGal()"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</button>
+          </div>
           <div class="card-body" id="galItems"></div>
-          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> ใส่ URL รูปภาพโดยตรง (.jpg/.png)</span><button class="btn btn-success" onclick="saveSection('gallery')"><i class="fas fa-save"></i> บันทึก</button></div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> แต่ละกิจกรรมมีชื่อ เนื้อหา และรูปได้สูงสุด 4 รูป</span><button class="btn btn-success" onclick="saveSection('gallery')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
       </div>
 
@@ -390,6 +407,22 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
             <div class="frow">
               <div class="fg"><label>ปุ่มที่ 2 — ข้อความ</label><input id="h_b2t" placeholder="ข่าวสารล่าสุด"/></div>
               <div class="fg"><label>ปุ่มที่ 2 — ลิงก์</label><input id="h_b2h" placeholder="#news"/></div>
+            </div>
+            <hr style="margin:18px 0;border:none;border-top:1px solid var(--border)"/>
+            <div class="fg">
+              <label><i class="fas fa-mountain" style="color:var(--primary)"></i> ภาพพื้นหลัง Hero (Background Image)</label>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <input id="h_bg_image" type="url" placeholder="URL รูปภาพ หรืออัพโหลดจากเครื่อง →" style="flex:1;min-width:200px"/>
+                <label class="btn btn-secondary btn-sm" style="cursor:pointer;white-space:nowrap">
+                  <i class="fas fa-upload"></i> อัพโหลด
+                  <input type="file" accept="image/*" style="display:none" onchange="uploadHeroBg(this)"/>
+                </label>
+                <button class="btn btn-danger btn-sm" onclick="setV('h_bg_image','');document.getElementById('h_bg_preview').style.display='none'"><i class="fas fa-times"></i></button>
+              </div>
+              <div id="h_bg_preview" style="margin-top:10px;display:none;border-radius:10px;overflow:hidden;max-height:180px">
+                <img id="h_bg_thumb" src="" style="width:100%;object-fit:cover;max-height:180px"/>
+              </div>
+              <div class="fhint">รูปจะทับซ้อนบน gradient สีพื้นหลัง — แนะนำรูปแนวนอน ความละเอียดสูง</div>
             </div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('hero')"><i class="fas fa-save"></i> บันทึก</button></div>
@@ -835,7 +868,7 @@ function collectSchool() {
   cfg.school = {
     name_th: v('s_nth'), name_en: v('s_nen'), motto: v('s_motto'), dept: v('s_dept'),
     phone: v('s_phone'), email: v('s_email'), address: v('s_addr'),
-    history1: v('s_h1'), history2: v('s_h2'),
+    history1: v('s_h1'), history2: v('s_h2'), history_image: v('s_hist_img'),
     vision: v('s_vis'), mission: v('s_mis'), identity: v('s_idn'),
     year: v('s_yr'), facebook: v('s_fb'), youtube: v('s_yt'), line: v('s_line'),
   };
@@ -846,15 +879,35 @@ function collectDirector() {
 function collectStats() {
   cfg.stats = { students: +v('st_s'), teachers: +v('st_t'), rooms: +v('st_r'), awards: +v('st_a') };
 }
-function collectGallery() {
-  cfg.gallery = [];
-  document.querySelectorAll('.gal-row').forEach(r => {
-    cfg.gallery.push({ caption: r.querySelector('.gc').value, url: r.querySelector('.gu').value });
-  });
-}
 // ── Hero ──────────────────────────────────────────────────
 function collectHero() {
-  cfg.hero = { badge:v('h_badge'), title:v('h_title'), motto:v('h_motto'), btn1_text:v('h_b1t'), btn1_href:v('h_b1h'), btn2_text:v('h_b2t'), btn2_href:v('h_b2h') };
+  cfg.hero = { badge:v('h_badge'), title:v('h_title'), motto:v('h_motto'), btn1_text:v('h_b1t'), btn1_href:v('h_b1h'), btn2_text:v('h_b2t'), btn2_href:v('h_b2h'), bg_image:v('h_bg_image') };
+}
+async function uploadHistoryImg(input) {
+  const file = input.files[0]; if (!file) return;
+  const label = input.closest('label'); label.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; label.disabled = true;
+  try {
+    const url = await uploadToGitHub(file, 'images/about');
+    setV('s_hist_img', url);
+    const p=document.getElementById('s_hist_preview'),t=document.getElementById('s_hist_thumb');
+    if(p&&t){t.src=url;p.style.display='block';}
+    showToast('อัพโหลดสำเร็จ ✓', 'success');
+  } catch(e) { showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error'); }
+  label.innerHTML = '<i class="fas fa-upload"></i> อัพโหลด'; label.disabled = false;
+  input.value = '';
+}
+async function uploadHeroBg(input) {
+  const file = input.files[0]; if (!file) return;
+  const label = input.closest('label'); label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังอัพโหลด...'; label.disabled = true;
+  try {
+    const url = await uploadToGitHub(file, 'images/hero');
+    setV('h_bg_image', url);
+    const prev = document.getElementById('h_bg_preview'), thumb = document.getElementById('h_bg_thumb');
+    if (prev && thumb) { thumb.src = url; prev.style.display = 'block'; }
+    showToast('อัพโหลดสำเร็จ ✓', 'success');
+  } catch(e) { showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error'); }
+  label.innerHTML = '<i class="fas fa-upload"></i> อัพโหลด'; label.disabled = false;
+  input.value = '';
 }
 // ── Nav ───────────────────────────────────────────────────
 function collectNav() {
@@ -967,6 +1020,8 @@ function populateForms() {
   setV('s_addr', s.address); setV('s_h1', s.history1); setV('s_h2', s.history2);
   setV('s_vis', s.vision); setV('s_mis', s.mission); setV('s_idn', s.identity);
   setV('s_yr', s.year); setV('s_fb', s.facebook); setV('s_yt', s.youtube); setV('s_line', s.line);
+  setV('s_hist_img', s.history_image || '');
+  if (s.history_image) { const p=document.getElementById('s_hist_preview'),t=document.getElementById('s_hist_thumb'); if(p&&t){t.src=s.history_image;p.style.display='block';} }
 
   const d = cfg.director || {};
   setV('d_role', d.role); setV('d_name', d.name); setV('d_quote', d.quote); setV('d_photo', d.photo);
@@ -988,6 +1043,8 @@ function populateForms() {
   setV('h_badge', h.badge); setV('h_title', h.title); setV('h_motto', h.motto);
   setV('h_b1t', h.btn1_text); setV('h_b1h', h.btn1_href);
   setV('h_b2t', h.btn2_text); setV('h_b2h', h.btn2_href);
+  setV('h_bg_image', h.bg_image || '');
+  if (h.bg_image) { const p=document.getElementById('h_bg_preview'),t=document.getElementById('h_bg_thumb'); if(p&&t){t.src=h.bg_image;p.style.display='block';} }
   // contact config
   setV('cfg_form', cfg.contact_form_url || '');
   setV('cfg_map',  cfg.map_query || '');
@@ -1088,23 +1145,77 @@ function removeTicker(i) { cfg.ticker.splice(i, 1); renderTicker(); }
 // ============================================================
 // GALLERY
 function renderGallery() {
-  const inp = s => `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;${s||''}`;
-  document.getElementById('galItems').innerHTML = (cfg.gallery || []).map((g, i) => `
-    <div class="gal-row" style="display:grid;grid-template-columns:180px 1fr auto;gap:10px;align-items:center;margin-bottom:10px">
-      <input class="gc" value="${g.caption||''}" placeholder="คำอธิบาย" style="${inp()}"/>
-      <input class="gu" type="url" value="${g.url||''}" placeholder="URL รูปภาพ" style="${inp('width:100%')}"/>
-      <div class="gal-btns" style="display:flex;gap:6px;align-items:center">
-        ${g.url ? `<img class="gal-thumb" src="${g.url}" style="height:40px;border-radius:6px" onerror="this.style.display='none'"/>` : ''}
-        <label class="btn btn-secondary btn-sm gal-upload-btn" style="cursor:pointer" title="อัพโหลดรูป">
-          <i class="fas fa-upload"></i>
-          <input type="file" accept="image/*" style="display:none" onchange="uploadGalImage(this,${i})"/>
-        </label>
-        <button class="btn btn-danger btn-sm" onclick="removeGal(${i})"><i class="fas fa-trash"></i></button>
+  const is = `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;width:100%`;
+  document.getElementById('galItems').innerHTML = (cfg.gallery || []).map((g, i) => {
+    const photos = g.photos || ['','','',''];
+    const photoInputs = [0,1,2,3].map(p => {
+      const url = photos[p] || '';
+      const label = p===0 ? '<span style="font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:4px;display:block">🖼 รูปปก (แรก)</span>' : `<span style="font-size:11px;color:var(--muted);margin-bottom:4px;display:block">รูปที่ ${p+1}</span>`;
+      return `<div style="flex:1;min-width:160px">
+        ${label}
+        <div style="display:flex;gap:4px;align-items:center">
+          <input class="gp" data-p="${p}" type="url" value="${url}" placeholder="URL" style="${is}" oninput="updateGalPhotoPreview(this,${i},${p})"/>
+          <label class="btn btn-secondary btn-sm" style="cursor:pointer;flex-shrink:0" title="อัพโหลด">
+            <i class="fas fa-upload"></i>
+            <input type="file" accept="image/*" style="display:none" onchange="uploadGalPhoto(this,${i},${p})"/>
+          </label>
+        </div>
+        ${url ? `<img src="${url}" style="width:100%;height:70px;object-fit:cover;border-radius:6px;margin-top:4px" onerror="this.style.display='none'"/>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="gal-row" style="border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <strong style="color:var(--primary)"><i class="fas fa-images"></i> กิจกรรมที่ ${i+1}</strong>
+        <button class="btn btn-danger btn-sm" onclick="removeGal(${i})"><i class="fas fa-trash"></i> ลบ</button>
       </div>
-    </div>`).join('') + `<button class="btn btn-secondary btn-sm" onclick="addGal()"><i class="fas fa-plus"></i> เพิ่มรูป</button>`;
+      <div class="fg" style="margin-bottom:10px"><label>ชื่อกิจกรรม</label><input class="gt" value="${g.title||''}" placeholder="ชื่อกิจกรรม" style="${is}"/></div>
+      <div class="fg" style="margin-bottom:14px"><label>คำอธิบาย/เนื้อหา</label><textarea class="gd" placeholder="รายละเอียดกิจกรรม..." style="${is};min-height:70px;resize:vertical">${g.desc||''}</textarea></div>
+      <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;display:block">รูปภาพ (สูงสุด 4 รูป — รูปแรกเป็นปก)</label>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">${photoInputs}</div>
+    </div>`;
+  }).join('') || '<div style="text-align:center;color:var(--muted);padding:30px">ยังไม่มีกิจกรรม กด "+ เพิ่มกิจกรรม" ด้านบน</div>';
 }
-function addGal() { cfg.gallery.push({ caption: '', url: '' }); renderGallery(); }
+function addGal() {
+  if (!cfg.gallery) cfg.gallery = [];
+  cfg.gallery.push({ title: '', desc: '', photos: ['','','',''] });
+  renderGallery();
+}
 function removeGal(i) { cfg.gallery.splice(i, 1); renderGallery(); }
+function collectGallery() {
+  cfg.gallery = [];
+  document.querySelectorAll('#galItems .gal-row').forEach(row => {
+    const title = row.querySelector('.gt')?.value || '';
+    const desc = row.querySelector('.gd')?.value || '';
+    const photos = ['','','',''];
+    row.querySelectorAll('.gp').forEach(inp => { photos[+inp.dataset.p] = inp.value.trim(); });
+    cfg.gallery.push({ title, desc, photos });
+  });
+}
+function updateGalPhotoPreview(inp, i, p) {
+  const url = inp.value.trim();
+  const wrap = inp.closest('div[style*="flex:1"]');
+  let img = wrap.querySelector('img');
+  if (url) {
+    if (!img) { img = document.createElement('img'); img.style.cssText='width:100%;height:70px;object-fit:cover;border-radius:6px;margin-top:4px'; wrap.appendChild(img); }
+    img.src = url;
+  } else if (img) img.remove();
+}
+async function uploadGalPhoto(input, galIdx, photoIdx) {
+  const file = input.files[0]; if (!file) return;
+  const btn = input.closest('label');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  btn.disabled = true;
+  try {
+    const url = await uploadToGitHub(file, 'images/gallery');
+    const row = document.querySelectorAll('#galItems .gal-row')[galIdx];
+    const inp = row?.querySelector(`.gp[data-p="${photoIdx}"]`);
+    if (inp) { inp.value = url; updateGalPhotoPreview(inp, galIdx, photoIdx); }
+    showToast('อัพโหลดสำเร็จ ✓', 'success');
+  } catch(e) { showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error'); }
+  btn.innerHTML = '<i class="fas fa-upload"></i>';
+  btn.disabled = false;
+  input.value = '';
+}
 
 // ============================================================
 // FOOTER LINKS
