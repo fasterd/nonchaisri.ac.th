@@ -39,16 +39,16 @@
       "href": "#about"
     },
     {
-      "label": "บุคลากร",
-      "href": "staff.html"
-    },
-    {
       "label": "วิชาการ",
       "href": "#academic"
     },
     {
       "label": "ข่าวสาร",
       "href": "#news"
+    },
+    {
+      "label": "บุคลากร",
+      "href": "staff.html"
     },
     {
       "label": "ภาพกิจกรรม",
