@@ -19,9 +19,6 @@
     "youtube": "",
     "line": ""
   },
-  "banner": [
-    { "image": "", "title": "", "subtitle": "", "link": "" }
-  ],
   "hero": {
     "badge": "ยินดีต้อนรับสู่",
     "title": "โรงเรียนบ้านโนนไชยศรี",
@@ -289,5 +286,13 @@
     "primary": "#1a5276",
     "secondary": "#f39c12",
     "hero_bg": ""
-  }
+  },
+  "banner": [
+    {
+      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780816432910_404270ae-a29c-4be2-bd98-9a01c6208f4b.png",
+      "title": "",
+      "subtitle": "",
+      "link": "admin"
+    }
+  ]
 }
