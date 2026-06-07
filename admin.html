@@ -483,9 +483,13 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
               <button id="testTokenBtn" class="btn btn-primary" onclick="testToken()" style="background:#2980b9"><i class="fas fa-plug"></i> ทดสอบ Token</button>
               <span style="font-size:12px;color:var(--muted);margin-left:10px">ตรวจสอบว่า Token ยังใช้งานได้และมีสิทธิ์เขียน</span>
             </div>
+            <div style="background:#fdedec;border:1.5px solid #e74c3c;border-radius:8px;padding:14px 16px;font-size:13px;margin-bottom:12px">
+              <strong><i class="fas fa-exclamation-circle" style="color:#e74c3c"></i> ต้อง Login GitHub ด้วย account <code style="background:#fff;padding:2px 6px;border-radius:4px;color:#c0392b">fasterd</code> เท่านั้น</strong><br>
+              <span style="color:#7f8c8d">repo nonchaisri.ac.th อยู่ใต้ account fasterd — Token จาก account อื่นไม่มีสิทธิ์เขียน</span>
+            </div>
             <div style="background:#fef9e7;border:1.5px solid #f39c12;border-radius:8px;padding:16px;font-size:13px;line-height:2">
               <strong><i class="fas fa-exclamation-triangle" style="color:#e67e22"></i> ต้องใช้ Classic Token เท่านั้น (ไม่ใช่ Fine-grained)</strong><br>
-              1. ไปที่ <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--primary);font-weight:600">github.com/settings/tokens/new</a> <small>(Tokens classic)</small><br>
+              1. Login GitHub ด้วย account <strong>fasterd</strong> แล้วไปที่ <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--primary);font-weight:600">github.com/settings/tokens/new</a><br>
               2. Note: <code>nonchaisri-admin</code> | Expiration: <code>No expiration</code><br>
               3. Scopes: ติ๊ก <strong style="color:#27ae60">✅ repo</strong> (ทั้งหมด)<br>
               4. กด <strong>Generate token</strong> → คัดลอก token (ขึ้นต้นด้วย <code>ghp_</code>)<br>
