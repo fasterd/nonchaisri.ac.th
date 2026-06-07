@@ -201,6 +201,7 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       <div class="nitem" onclick="showSec('school')"><i class="fas fa-info-circle"></i> ข้อมูลโรงเรียน</div>
       <div class="nitem" onclick="showSec('director')"><i class="fas fa-user-tie"></i> ผู้บริหาร</div>
       <div class="nitem" onclick="showSec('stats')"><i class="fas fa-chart-bar"></i> สถิติ</div>
+      <div class="nitem" onclick="showSec('staff')"><i class="fas fa-users"></i> บุคลากร</div>
       <div class="nitem" onclick="showSec('news')"><i class="fas fa-newspaper"></i> ข่าวสาร</div>
       <div class="nitem" onclick="showSec('ticker')"><i class="fas fa-bullhorn"></i> แถบประกาศ</div>
       <div class="nitem" onclick="showSec('academic')"><i class="fas fa-book"></i> การจัดการศึกษา</div>
@@ -339,6 +340,21 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
             <div id="statItems"></div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('stats')"><i class="fas fa-save"></i> บันทึก</button></div>
+        </div>
+      </div>
+
+      <!-- STAFF -->
+      <div class="spage" id="sec-staff">
+        <div class="card">
+          <div class="card-hdr">
+            <h3><i class="fas fa-users"></i> บุคลากรโรงเรียน</h3>
+            <button class="btn btn-primary btn-sm" onclick="addStaffMember()"><i class="fas fa-plus"></i> เพิ่มบุคลากร</button>
+          </div>
+          <div class="card-body">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:16px"><i class="fas fa-info-circle"></i> แต่ละคนสามารถเลือกกลุ่มสาระการเรียนรู้ ใส่ชื่อ ตำแหน่ง ครูที่ปรึกษา และอัพโหลดรูปได้</p>
+            <div id="staffList" style="display:flex;flex-direction:column;gap:16px"></div>
+          </div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('staff')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
       </div>
 
@@ -661,6 +677,7 @@ async function initApp() {
   await loadFromGitHub();
   populateForms();
   renderStats();
+  renderStaffList();
   renderDashboard();
   renderNavItems();
   renderAcCards();
@@ -1092,15 +1109,110 @@ function collectAppearance() {
 }
 
 // ============================================================
+// STAFF
+const STAFF_GROUPS = ['ผู้บริหาร','ปฐมวัย','ภาษาไทย','คณิตศาสตร์','วิทยาศาสตร์','สังคมศึกษา','ภาษาต่างประเทศ','ศิลปะ','สุขศึกษา','การงานอาชีพ','สนับสนุน','ทั่วไป'];
+
+function renderStaffList() {
+  const is = `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;width:100%`;
+  const arr = Array.isArray(cfg.staff) ? cfg.staff : [];
+  const sl = document.getElementById('staffList');
+  if (!sl) return;
+  sl.innerHTML = arr.length === 0
+    ? '<p style="color:var(--muted);text-align:center;padding:20px">ยังไม่มีบุคลากร — กด "+ เพิ่มบุคลากร"</p>'
+    : arr.map((p,i) => `
+      <div class="staff-admin-row" style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:16px">
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:16px;align-items:start">
+          <!-- photo -->
+          <div>
+            <div id="sp-circle-${i}" style="width:72px;height:72px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#85c1e9);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--primary);margin-bottom:6px;border:2px solid var(--secondary)">
+              ${p.photo ? `<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>` : `<i class="fas fa-user-circle" style="opacity:.6"></i>`}
+            </div>
+            <label class="btn btn-outline btn-sm" style="font-size:11px;padding:4px 8px;width:72px;text-align:center;cursor:pointer">
+              <i class="fas fa-camera"></i> รูป
+              <input type="file" accept="image/*" style="display:none" onchange="uploadStaffPhoto(this,${i})"/>
+            </label>
+            <input id="sp-url-${i}" type="hidden" value="${p.photo||''}"/>
+          </div>
+          <!-- info -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="fg" style="margin:0">
+              <label style="font-size:12px;color:var(--muted);font-weight:600">ชื่อ-นามสกุล</label>
+              <input class="sp-name" value="${p.name||''}" placeholder="ชื่อ-นามสกุล" style="${is}"/>
+            </div>
+            <div class="fg" style="margin:0">
+              <label style="font-size:12px;color:var(--muted);font-weight:600">ตำแหน่ง</label>
+              <input class="sp-role" value="${p.role||''}" placeholder="เช่น ครูชำนาญการ" style="${is}"/>
+            </div>
+            <div class="fg" style="margin:0">
+              <label style="font-size:12px;color:var(--muted);font-weight:600">กลุ่มสาระ / กลุ่มงาน</label>
+              <select class="sp-group" style="${is}">
+                ${STAFF_GROUPS.map(g=>`<option value="${g}"${p.group===g?' selected':''}>${g}</option>`).join('')}
+              </select>
+            </div>
+            <div class="fg" style="margin:0">
+              <label style="font-size:12px;color:var(--muted);font-weight:600">ครูที่ปรึกษา (ชั้น)</label>
+              <input class="sp-advisor" value="${p.advisor||''}" placeholder="เช่น ป.๓, อนุบาล ๑" style="${is}"/>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:10px">
+          <button class="btn btn-danger btn-sm" onclick="removeStaffMember(${i})"><i class="fas fa-trash"></i> ลบ</button>
+        </div>
+      </div>`).join('');
+}
+
+function addStaffMember() {
+  if (!Array.isArray(cfg.staff)) cfg.staff = [];
+  cfg.staff.push({ group:'ทั่วไป', name:'', role:'', advisor:'', photo:'' });
+  renderStaffList();
+  // scroll to last
+  const sl = document.getElementById('staffList');
+  if(sl) sl.lastElementChild?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function removeStaffMember(i) {
+  if (Array.isArray(cfg.staff)) cfg.staff.splice(i,1);
+  renderStaffList();
+}
+
+async function uploadStaffPhoto(input, i) {
+  if (!input.files[0]) return;
+  const lbl = input.closest('label');
+  lbl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  try {
+    const url = await uploadToGitHub(input.files[0], 'images/staff');
+    document.getElementById(`sp-url-${i}`).value = url;
+    const circle = document.getElementById(`sp-circle-${i}`);
+    if(circle) circle.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover"/>`;
+    showToast('อัพโหลดรูปสำเร็จ ✓','success');
+  } catch(e) { showToast('อัพโหลดล้มเหลว: '+e.message,'error'); }
+  lbl.innerHTML = '<i class="fas fa-camera"></i> รูป<input type="file" accept="image/*" style="display:none" onchange="uploadStaffPhoto(this,'+i+')"/>';
+}
+
+function collectStaff() {
+  cfg.staff = [];
+  document.querySelectorAll('#staffList .staff-admin-row').forEach((row,i) => {
+    cfg.staff.push({
+      group:   row.querySelector('.sp-group')?.value || 'ทั่วไป',
+      name:    row.querySelector('.sp-name')?.value.trim() || '',
+      role:    row.querySelector('.sp-role')?.value.trim() || '',
+      advisor: row.querySelector('.sp-advisor')?.value.trim() || '',
+      photo:   row.querySelector(`#sp-url-${i}`)?.value || '',
+    });
+  });
+}
+
+// ============================================================
 // SAVE SECTIONS
 async function saveSection(sec) {
-  const msgs = { school:'อัปเดตข้อมูลโรงเรียน', director:'อัปเดตผู้บริหาร', stats:'อัปเดตสถิติ', news:'อัปเดตข่าวสาร', ticker:'อัปเดตแถบประกาศ', gallery:'อัปเดตภาพกิจกรรม', footer:'อัปเดต Footer', appearance:'อัปเดตธีมสี' };
+  const msgs = { school:'อัปเดตข้อมูลโรงเรียน', director:'อัปเดตผู้บริหาร', stats:'อัปเดตสถิติ', staff:'อัปเดตบุคลากร', news:'อัปเดตข่าวสาร', ticker:'อัปเดตแถบประกาศ', gallery:'อัปเดตภาพกิจกรรม', footer:'อัปเดต Footer', appearance:'อัปเดตธีมสี' };
   if (sec === 'hero') collectHero();
   else if (sec === 'nav') collectNav();
   else if (sec === 'school') collectSchool();
   else if (sec === 'director') collectDirector();
   else if (sec === 'stats') collectStats();
   else if (sec === 'academic') collectAcademic();
+  else if (sec === 'staff') collectStaff();
   else if (sec === 'gallery') collectGallery();
   else if (sec === 'contact_cfg') collectContactCfg();
   else if (sec === 'footer_contact') collectFooterContact();

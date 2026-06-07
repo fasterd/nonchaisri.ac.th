@@ -245,6 +245,19 @@ ul{list-style:none}
 .fade-up{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease}
 .fade-up.out{opacity:0;transform:translateY(-16px)}
 
+/* STAFF */
+.staff-section{}
+.staff-group{margin-bottom:48px}
+.staff-group-title{font-size:1rem;font-weight:700;color:var(--primary);border-left:4px solid var(--secondary);padding-left:12px;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:20px}
+.staff-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);text-align:center;padding:24px 16px 18px;transition:var(--tr)}
+.staff-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.staff-photo{width:90px;height:90px;border-radius:50%;margin:0 auto 12px;overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#85c1e9);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:36px;border:3px solid var(--secondary)}
+.staff-photo img{width:100%;height:100%;object-fit:cover}
+.staff-name{font-size:.9rem;font-weight:700;color:var(--primary);margin-bottom:3px}
+.staff-role{font-size:.78rem;color:var(--muted);margin-bottom:4px}
+.staff-advisor{font-size:.75rem;background:rgba(26,82,118,.1);color:var(--primary);display:inline-block;padding:2px 8px;border-radius:50px;font-weight:600}
+
 /* RESPONSIVE */
 @media(max-width:1024px){
   .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
@@ -320,6 +333,7 @@ ul{list-style:none}
           </ul>
         </li>
         <li><a href="#news" class="nav-link">ข่าวสาร</a></li>
+        <li><a href="#staff" class="nav-link">บุคลากร</a></li>
         <li><a href="#gallery" class="nav-link">ภาพกิจกรรม</a></li>
         <li><a href="#contact" class="nav-link">ติดต่อ</a></li>
       </ul>
@@ -426,6 +440,22 @@ ul{list-style:none}
   </div>
 </section>
 
+<!-- STAFF -->
+<section class="section" id="staff">
+  <div class="container staff-section">
+    <div class="section-header">
+      <div class="section-tag">บุคลากร</div>
+      <h2 class="section-title">คณะครูและบุคลากร</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div id="staffGroups">
+      <div class="staff-group">
+        <div class="staff-group-title"><i class="fas fa-users"></i> กำลังโหลด...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- NEWS -->
 <section class="section" id="news">
   <div class="container">
@@ -435,7 +465,7 @@ ul{list-style:none}
       <div class="section-divider"></div>
     </div>
     <div class="news-grid">
-      <article class="news-card fade-up">
+      <article class="news-card">
         <div class="news-img-ph" style="background:linear-gradient(135deg,#1a5276,#2980b9)"><i class="fas fa-newspaper" style="color:#fff;opacity:.6"></i><div class="news-cat">กิจกรรม</div></div>
         <div class="news-body">
           <div class="news-meta"><i class="far fa-calendar-alt"></i> มิถุนายน ๒๕๖๗</div>
@@ -445,7 +475,7 @@ ul{list-style:none}
         </div>
       </article>
       <div class="news-list">
-        <article class="news-row fade-up">
+        <article class="news-row">
           <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
           <div class="news-row-body">
             <div class="news-meta"><i class="far fa-calendar-alt"></i> พฤษภาคม ๒๕๖๗</div>
@@ -453,7 +483,7 @@ ul{list-style:none}
             <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
           </div>
         </article>
-        <article class="news-row fade-up">
+        <article class="news-row">
           <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
           <div class="news-row-body">
             <div class="news-meta"><i class="far fa-calendar-alt"></i> เมษายน ๒๕๖๗</div>
@@ -461,7 +491,7 @@ ul{list-style:none}
             <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
           </div>
         </article>
-        <article class="news-row fade-up">
+        <article class="news-row">
           <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
           <div class="news-row-body">
             <div class="news-meta"><i class="far fa-calendar-alt"></i> มีนาคม ๒๕๖๗</div>
@@ -469,7 +499,7 @@ ul{list-style:none}
             <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
           </div>
         </article>
-        <article class="news-row fade-up">
+        <article class="news-row">
           <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
           <div class="news-row-body">
             <div class="news-meta"><i class="far fa-calendar-alt"></i> กุมภาพันธ์ ๒๕๖๗</div>
@@ -906,7 +936,7 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
         ? `<img src="${n.image}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`
         : `<i class="fas fa-newspaper"></i>`;
       newsGrid.innerHTML = `
-        <article class="news-card fade-up">
+        <article class="news-card">
           <div class="news-img-ph" style="background:linear-gradient(135deg,#1a5276,#2980b9);position:relative">
             ${newsImgHtml(featured)}
             <div class="news-cat" style="${catColor[featured.cat]||catColor['อื่นๆ']}">${featured.cat}</div>
@@ -920,7 +950,7 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
         </article>
         <div class="news-list">
           ${rest.map(n=>`
-            <article class="news-row fade-up">
+            <article class="news-row">
               <div class="news-row-img" style="overflow:hidden">${newsRowImgHtml(n)}</div>
               <div class="news-row-body">
                 <div class="news-meta"><i class="far fa-calendar-alt"></i> ${n.date}</div>
@@ -929,9 +959,7 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
               </div>
             </article>`).join('')}
         </div>`;
-      // re-observe fade-up
-      const fo2=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');fo2.unobserve(x.target)}}),{threshold:.1});
-      newsGrid.querySelectorAll('.fade-up').forEach(el=>fo2.observe(el));
+      // no fade-up on news
     }
   }
 
@@ -995,6 +1023,39 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
         </div>`;
       }).join('');
       galGrid.querySelectorAll('.fade-up').forEach(el=>foOut.observe(el));
+    }
+  }
+
+  // ── บุคลากร ──────────────────────────────────────────────
+  if(cfg.staff && cfg.staff.length){
+    const sg = document.getElementById('staffGroups');
+    if(sg){
+      // จัดกลุ่มตาม group
+      const groups = {};
+      cfg.staff.forEach(p => {
+        const g = p.group || 'ทั่วไป';
+        if(!groups[g]) groups[g] = [];
+        groups[g].push(p);
+      });
+      const icons = {
+        'ผู้บริหาร':'fas fa-user-tie','ภาษาไทย':'fas fa-book','คณิตศาสตร์':'fas fa-calculator',
+        'วิทยาศาสตร์':'fas fa-flask','สังคมศึกษา':'fas fa-globe-asia','ภาษาต่างประเทศ':'fas fa-language',
+        'ศิลปะ':'fas fa-palette','สุขศึกษา':'fas fa-running','การงานอาชีพ':'fas fa-tools',
+        'ปฐมวัย':'fas fa-baby','สนับสนุน':'fas fa-hands-helping','ทั่วไป':'fas fa-users'
+      };
+      sg.innerHTML = Object.entries(groups).map(([grp, members]) => `
+        <div class="staff-group">
+          <div class="staff-group-title"><i class="${icons[grp]||'fas fa-users'}"></i> ${grp}</div>
+          <div class="staff-grid">
+            ${members.map(p=>`
+              <div class="staff-card">
+                <div class="staff-photo">${p.photo?`<img src="${p.photo}" alt="${p.name||''}">`:`<i class="fas fa-user-circle" style="font-size:42px;color:#85c1e9;opacity:.8"></i>`}</div>
+                <div class="staff-name">${p.name||'—'}</div>
+                ${p.role?`<div class="staff-role">${p.role}</div>`:''}
+                ${p.advisor?`<div class="staff-advisor"><i class="fas fa-chalkboard-teacher fa-xs"></i> ครูที่ปรึกษา ${p.advisor}</div>`:''}
+              </div>`).join('')}
+          </div>
+        </div>`).join('');
     }
   }
 
