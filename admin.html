@@ -528,7 +528,22 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
         <div class="fg"><label>วันที่</label><input id="nm_date"/></div>
       </div>
       <div class="fg" style="margin-bottom:12px"><label>เนื้อหาย่อ</label><textarea id="nm_body" style="min-height:75px"></textarea></div>
-      <div class="fg"><label>ลิงก์อ่านต่อ (ถ้ามี)</label><input id="nm_link" type="url" placeholder="https://..."/></div>
+      <div class="fg" style="margin-bottom:12px"><label>ลิงก์อ่านต่อ (ถ้ามี)</label><input id="nm_link" type="url" placeholder="https://..."/></div>
+      <div class="fg">
+        <label>รูปปกข่าว</label>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input id="nm_image" type="url" placeholder="URL รูปภาพ หรืออัพโหลดจากเครื่อง →" style="flex:1;min-width:200px"/>
+          <label class="btn btn-secondary btn-sm" style="cursor:pointer;white-space:nowrap">
+            <i class="fas fa-upload"></i> อัพโหลด
+            <input type="file" accept="image/*" style="display:none" onchange="uploadNewsImage(this)"/>
+          </label>
+        </div>
+        <div id="nm_img_preview" style="margin-top:8px;display:none">
+          <img id="nm_img_thumb" src="" style="max-height:120px;border-radius:8px;border:1.5px solid var(--border)"/>
+          <button class="btn btn-danger btn-sm" onclick="clearNewsImage()" style="margin-left:8px;vertical-align:top"><i class="fas fa-times"></i> ลบรูป</button>
+        </div>
+        <div id="nm_img_uploading" style="display:none;font-size:13px;color:var(--muted);margin-top:6px"><i class="fas fa-spinner fa-spin"></i> กำลังอัพโหลด...</div>
+      </div>
     </div>
     <div class="modal-ftr">
       <button class="btn btn-secondary" onclick="closeNewsModal()">ยกเลิก</button>
@@ -663,6 +678,80 @@ async function saveToGitHub(commitMsg) {
     showSavingErr('บันทึกไม่สำเร็จ: ' + e.message);
     return false;
   }
+}
+
+// ============================================================
+// IMAGE UPLOAD TO GITHUB
+async function uploadToGitHub(file, folder = 'images') {
+  const token = getToken();
+  if (!token) throw new Error('กรุณาตั้งค่า GitHub Token ก่อน');
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const base64 = e.target.result.split(',')[1];
+        const ext = file.name.split('.').pop().toLowerCase();
+        const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        const filename = `${folder}/${Date.now()}_${safeName}`;
+        const headers = { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+        const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
+          method: 'PUT', headers,
+          body: JSON.stringify({ message: 'Upload: ' + safeName, content: base64 })
+        });
+        if (!r.ok) { const err = await r.json().catch(()=>({})); throw new Error(err.message || `HTTP ${r.status}`); }
+        // ใช้ jsDelivr CDN เพื่อความเร็ว (cache ถาวร) หรือ raw URL
+        const url = `https://cdn.jsdelivr.net/gh/${REPO}@main/${filename}`;
+        resolve(url);
+      } catch(e) { reject(e); }
+    };
+    reader.onerror = () => reject(new Error('อ่านไฟล์ไม่ได้'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadNewsImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('nm_img_uploading').style.display = 'block';
+  document.getElementById('nm_img_preview').style.display = 'none';
+  try {
+    const url = await uploadToGitHub(file, 'images/news');
+    document.getElementById('nm_image').value = url;
+    showNewsImagePreview(url);
+    showToast('อัพโหลดสำเร็จ ✓', 'success');
+  } catch(e) {
+    showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error');
+  }
+  document.getElementById('nm_img_uploading').style.display = 'none';
+  input.value = '';
+}
+
+function showNewsImagePreview(url) {
+  if (!url) { document.getElementById('nm_img_preview').style.display = 'none'; return; }
+  document.getElementById('nm_img_thumb').src = url;
+  document.getElementById('nm_img_preview').style.display = 'block';
+}
+function clearNewsImage() { setV('nm_image',''); document.getElementById('nm_img_preview').style.display='none'; }
+
+async function uploadGalImage(input, idx) {
+  const file = input.files[0];
+  if (!file) return;
+  const btn = input.closest('.gal-row').querySelector('.gal-upload-btn');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  btn.disabled = true;
+  try {
+    const url = await uploadToGitHub(file, 'images/gallery');
+    const urlInput = input.closest('.gal-row').querySelector('.gu');
+    urlInput.value = url;
+    // preview
+    let prev = input.closest('.gal-row').querySelector('.gal-thumb');
+    if (!prev) { prev = document.createElement('img'); prev.className='gal-thumb'; prev.style.cssText='height:40px;border-radius:6px;margin-left:4px;vertical-align:middle'; input.closest('.gal-row').querySelector('.gal-btns').prepend(prev); }
+    prev.src = url;
+    showToast('อัพโหลดสำเร็จ ✓', 'success');
+  } catch(e) { showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error'); }
+  btn.innerHTML = '<i class="fas fa-upload"></i>';
+  btn.disabled = false;
+  input.value = '';
 }
 
 async function testToken() {
@@ -956,7 +1045,8 @@ function openNewsModal(idx = -1) {
   document.getElementById('nm_idx').value = idx;
   const n = idx >= 0 ? cfg.news[idx] : {};
   setV('nm_title', n.title); setV('nm_cat', n.cat); setV('nm_date', n.date);
-  setV('nm_body', n.body); setV('nm_link', n.link);
+  setV('nm_body', n.body); setV('nm_link', n.link); setV('nm_image', n.image||'');
+  showNewsImagePreview(n.image||'');
   document.getElementById('newsModal').classList.add('open');
 }
 function closeNewsModal() { document.getElementById('newsModal').classList.remove('open'); }
@@ -969,7 +1059,7 @@ async function deleteNews(i) {
 }
 async function saveNews() {
   const idx = +document.getElementById('nm_idx').value;
-  const item = { title: v('nm_title'), cat: document.getElementById('nm_cat').value, date: v('nm_date'), body: v('nm_body'), link: v('nm_link') };
+  const item = { title: v('nm_title'), cat: document.getElementById('nm_cat').value, date: v('nm_date'), body: v('nm_body'), link: v('nm_link'), image: v('nm_image') };
   if (!item.title) { showToast('กรุณาใส่หัวข้อข่าว', 'error'); return; }
   if (!cfg.news) cfg.news = [];
   if (idx >= 0) cfg.news[idx] = item; else cfg.news.unshift(item);
@@ -998,11 +1088,19 @@ function removeTicker(i) { cfg.ticker.splice(i, 1); renderTicker(); }
 // ============================================================
 // GALLERY
 function renderGallery() {
+  const inp = s => `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;${s||''}`;
   document.getElementById('galItems').innerHTML = (cfg.gallery || []).map((g, i) => `
-    <div class="gal-row" style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;align-items:center;margin-bottom:10px">
-      <input class="gc" value="${g.caption||''}" placeholder="คำอธิบาย" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none"/>
-      <input class="gu" type="url" value="${g.url||''}" placeholder="URL รูปภาพ" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none"/>
-      <button class="btn btn-danger btn-sm" onclick="removeGal(${i})"><i class="fas fa-trash"></i></button>
+    <div class="gal-row" style="display:grid;grid-template-columns:180px 1fr auto;gap:10px;align-items:center;margin-bottom:10px">
+      <input class="gc" value="${g.caption||''}" placeholder="คำอธิบาย" style="${inp()}"/>
+      <input class="gu" type="url" value="${g.url||''}" placeholder="URL รูปภาพ" style="${inp('width:100%')}"/>
+      <div class="gal-btns" style="display:flex;gap:6px;align-items:center">
+        ${g.url ? `<img class="gal-thumb" src="${g.url}" style="height:40px;border-radius:6px" onerror="this.style.display='none'"/>` : ''}
+        <label class="btn btn-secondary btn-sm gal-upload-btn" style="cursor:pointer" title="อัพโหลดรูป">
+          <i class="fas fa-upload"></i>
+          <input type="file" accept="image/*" style="display:none" onchange="uploadGalImage(this,${i})"/>
+        </label>
+        <button class="btn btn-danger btn-sm" onclick="removeGal(${i})"><i class="fas fa-trash"></i></button>
+      </div>
     </div>`).join('') + `<button class="btn btn-secondary btn-sm" onclick="addGal()"><i class="fas fa-plus"></i> เพิ่มรูป</button>`;
 }
 function addGal() { cfg.gallery.push({ caption: '', url: '' }); renderGallery(); }
