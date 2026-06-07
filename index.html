@@ -1100,6 +1100,10 @@ function initBannerSlick() {
     pauseOnHover: true,
     adaptiveHeight: false,
   });
+  // รีเซ็ต timer ใหม่ทุกครั้งที่ผู้ใช้คลิกเปลี่ยน slide
+  $('#bannerSlick').on('afterChange', function() {
+    $(this).slick('slickPause').slick('slickPlay');
+  });
 }
 // Hero scroll arrow click
 document.querySelector('.hero-scroll')?.addEventListener('click', () => {
