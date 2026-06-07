@@ -39,16 +39,16 @@
       "href": "#about"
     },
     {
+      "label": "บุคลากร",
+      "href": "staff.html"
+    },
+    {
       "label": "วิชาการ",
       "href": "#academic"
     },
     {
       "label": "ข่าวสาร",
       "href": "#news"
-    },
-    {
-      "label": "บุคลากร",
-      "href": "staff.html"
     },
     {
       "label": "ภาพกิจกรรม",
@@ -106,10 +106,26 @@
     "photo": "https://i.ibb.co/HQZTg3G/808a1fd7-0a79-410f-b1bb-8b82ce0fc0fa.jpg"
   },
   "stats": [
-    { "icon": "fas fa-user-graduate",      "label": "นักเรียนทั้งหมด", "value": 75 },
-    { "icon": "fas fa-chalkboard-teacher", "label": "ครูและบุคลากร",  "value": 8  },
-    { "icon": "fas fa-door-open",          "label": "ห้องเรียน",       "value": 8  },
-    { "icon": "fas fa-trophy",             "label": "รางวัลที่ได้รับ", "value": 0  }
+    {
+      "icon": "fas fa-user-graduate",
+      "label": "นักเรียนทั้งหมด",
+      "value": 75
+    },
+    {
+      "icon": "fas fa-chalkboard-teacher",
+      "label": "ครูและบุคลากร",
+      "value": 8
+    },
+    {
+      "icon": "fas fa-door-open",
+      "label": "ห้องเรียน",
+      "value": 8
+    },
+    {
+      "icon": "fas fa-trophy",
+      "label": "รางวัลที่ได้รับ",
+      "value": 0
+    }
   ],
   "news": [
     {
@@ -195,12 +211,48 @@
     ]
   },
   "staff": [
-    { "group": "ผู้บริหาร",    "name": "นายอภิรักษ์ สืบชมภู",  "role": "ผู้อำนวยการโรงเรียน", "advisor": "", "photo": "" },
-    { "group": "ปฐมวัย",       "name": "",                       "role": "ครูปฐมวัย",           "advisor": "อนุบาล ๑-๒", "photo": "" },
-    { "group": "ภาษาไทย",      "name": "",                       "role": "ครูวิชาภาษาไทย",      "advisor": "", "photo": "" },
-    { "group": "คณิตศาสตร์",   "name": "",                       "role": "ครูวิชาคณิตศาสตร์",   "advisor": "", "photo": "" },
-    { "group": "วิทยาศาสตร์",  "name": "",                       "role": "ครูวิชาวิทยาศาสตร์",  "advisor": "", "photo": "" },
-    { "group": "สังคมศึกษา",   "name": "",                       "role": "ครูวิชาสังคมศึกษา",   "advisor": "", "photo": "" }
+    {
+      "group": "ผู้บริหาร",
+      "name": "นายอภิรักษ์ สืบชมภู",
+      "role": "ผู้อำนวยการโรงเรียน",
+      "advisor": "",
+      "photo": ""
+    },
+    {
+      "group": "ปฐมวัย",
+      "name": "",
+      "role": "ครูปฐมวัย",
+      "advisor": "อนุบาล ๑-๒",
+      "photo": ""
+    },
+    {
+      "group": "ภาษาไทย",
+      "name": "",
+      "role": "ครูวิชาภาษาไทย",
+      "advisor": "",
+      "photo": ""
+    },
+    {
+      "group": "คณิตศาสตร์",
+      "name": "",
+      "role": "ครูวิชาคณิตศาสตร์",
+      "advisor": "",
+      "photo": ""
+    },
+    {
+      "group": "วิทยาศาสตร์",
+      "name": "",
+      "role": "ครูวิชาวิทยาศาสตร์",
+      "advisor": "",
+      "photo": ""
+    },
+    {
+      "group": "สังคมศึกษา",
+      "name": "",
+      "role": "ครูวิชาสังคมศึกษา",
+      "advisor": "",
+      "photo": ""
+    }
   ],
   "appearance": {
     "primary": "#1a5276",
