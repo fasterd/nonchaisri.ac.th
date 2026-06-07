@@ -69,9 +69,9 @@ ul{list-style:none}
 .btn-outline:hover{background:var(--white);color:var(--primary)}
 
 /* HERO / BANNER SLICK */
-.hero{position:relative;overflow:hidden;width:100%;max-width:1200px;height:514px;margin:0 auto;padding:0 80px;box-sizing:border-box}
+.hero{position:relative;overflow:hidden;width:100%;max-width:1400px;height:514px;margin:0 auto}
 .banner-slick,.banner-slick .slick-list,.banner-slick .slick-track{height:100%}
-.banner-slide{position:relative;height:514px;display:flex!important;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:linear-gradient(135deg,var(--primary-dark),#2980b9)}
+.banner-slide{position:relative;height:514px;display:flex!important;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:linear-gradient(135deg,var(--primary-dark),#2980b9);border-radius:16px;margin:0 8px;transition:transform .5s ease}
 .banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
 .banner-slide-overlay{display:none}
 .banner-slide-content{position:relative;z-index:2;color:var(--white);padding:32px 20px;max-width:760px;width:100%}
@@ -84,9 +84,9 @@ ul{list-style:none}
 .banner-slide-content h1{font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;line-height:1.2;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
 .hero-motto{font-size:clamp(.9rem,2vw,1.1rem);opacity:.9;margin-bottom:24px;font-weight:300}
 .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-/* center slide full, prev/next faded */
-.banner-slick .slick-slide{opacity:0.35;transition:opacity .5s ease;pointer-events:none}
-.banner-slick .slick-slide.slick-current{opacity:1;pointer-events:auto}
+/* center slide full, prev/next faded & slightly scaled */
+.banner-slick .slick-slide{opacity:0.45;transition:opacity .5s ease,transform .5s ease;pointer-events:none;transform:scale(0.92)}
+.banner-slick .slick-slide.slick-current{opacity:1;pointer-events:auto;transform:scale(1)}
 /* dots & arrows */
 .banner-slick .slick-dots{bottom:12px;z-index:10}
 .banner-slick .slick-dots li button:before{color:#fff;font-size:9px;opacity:.6}
@@ -1066,7 +1066,7 @@ function initBannerSlick() {
     autoplaySpeed: bannerSpeed,
     speed: 600,
     centerMode: true,
-    centerPadding: '80px',
+    centerPadding: '130px',
     dots: true,
     arrows: true,
     infinite: true,
