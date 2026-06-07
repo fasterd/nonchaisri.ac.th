@@ -272,8 +272,11 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
                 </label>
                 <button class="btn btn-danger btn-sm" onclick="setV('s_hist_img','');document.getElementById('s_hist_preview').style.display='none'"><i class="fas fa-times"></i></button>
               </div>
-              <div id="s_hist_preview" style="margin-top:10px;display:none;border-radius:10px;overflow:hidden;max-height:160px">
-                <img id="s_hist_thumb" src="" style="width:100%;object-fit:cover;max-height:160px"/>
+              <div id="s_hist_preview" style="margin-top:12px;display:none">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:5px"><i class="fas fa-eye"></i> ตัวอย่างขนาดจริง — กล่องรูปส่วน "เกี่ยวกับเรา" (สูง 380px)</div>
+                <div style="width:100%;height:380px;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)">
+                  <img id="s_hist_thumb" src="" style="width:100%;height:100%;object-fit:cover"/>
+                </div>
               </div>
             </div></div>
             <div class="frow"><div class="fg"><label>วิสัยทัศน์</label><textarea id="s_vis" style="min-height:65px"></textarea></div><div class="fg"><label>พันธกิจ</label><textarea id="s_mis" style="min-height:65px"></textarea></div></div>
@@ -419,10 +422,17 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
                 </label>
                 <button class="btn btn-danger btn-sm" onclick="setV('h_bg_image','');document.getElementById('h_bg_preview').style.display='none'"><i class="fas fa-times"></i></button>
               </div>
-              <div id="h_bg_preview" style="margin-top:10px;display:none;border-radius:10px;overflow:hidden;max-height:180px">
-                <img id="h_bg_thumb" src="" style="width:100%;object-fit:cover;max-height:180px"/>
+              <div id="h_bg_preview" style="margin-top:12px;display:none">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:5px"><i class="fas fa-eye"></i> ตัวอย่างขนาดจริง — Hero Section (16:9)</div>
+                <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)">
+                  <img id="h_bg_thumb" src="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
+                  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(20,60,100,.65),rgba(20,60,100,.45));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;text-align:center;padding:20px">
+                    <div style="background:rgba(255,255,255,.2);border-radius:50px;padding:3px 14px;font-size:11px;color:#fff;border:1px solid rgba(255,255,255,.4)">ยินดีต้อนรับสู่</div>
+                    <div style="font-size:1.2rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3)">โรงเรียนบ้านโนนไชยศรี</div>
+                  </div>
+                </div>
               </div>
-              <div class="fhint">รูปจะทับซ้อนบน gradient สีพื้นหลัง — แนะนำรูปแนวนอน ความละเอียดสูง</div>
+              <div class="fhint">แนะนำรูปแนวนอน ความละเอียดสูง (1920×1080px ขึ้นไป)</div>
             </div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('hero')"><i class="fas fa-save"></i> บันทึก</button></div>
@@ -571,9 +581,13 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
             <input type="file" accept="image/*" style="display:none" onchange="uploadNewsImage(this)"/>
           </label>
         </div>
-        <div id="nm_img_preview" style="margin-top:8px;display:none">
-          <img id="nm_img_thumb" src="" style="max-height:120px;border-radius:8px;border:1.5px solid var(--border)"/>
-          <button class="btn btn-danger btn-sm" onclick="clearNewsImage()" style="margin-left:8px;vertical-align:top"><i class="fas fa-times"></i> ลบรูป</button>
+        <div id="nm_img_preview" style="margin-top:12px;display:none">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:5px"><i class="fas fa-eye"></i> ตัวอย่างขนาดจริง — รูปปกข่าว (สูง 200px)</div>
+          <div style="position:relative;width:100%;height:200px;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)">
+            <img id="nm_img_thumb" src="" style="width:100%;height:100%;object-fit:cover"/>
+            <div style="position:absolute;top:10px;left:10px;background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:50px">กิจกรรม</div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="clearNewsImage()" style="margin-top:6px"><i class="fas fa-times"></i> ลบรูป</button>
         </div>
         <div id="nm_img_uploading" style="display:none;font-size:13px;color:var(--muted);margin-top:6px"><i class="fas fa-spinner fa-spin"></i> กำลังอัพโหลด...</div>
       </div>
@@ -1150,17 +1164,23 @@ function renderGallery() {
     const photos = g.photos || ['','','',''];
     const photoInputs = [0,1,2,3].map(p => {
       const url = photos[p] || '';
-      const label = p===0 ? '<span style="font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:4px;display:block">🖼 รูปปก (แรก)</span>' : `<span style="font-size:11px;color:var(--muted);margin-bottom:4px;display:block">รูปที่ ${p+1}</span>`;
-      return `<div style="flex:1;min-width:160px">
-        ${label}
-        <div style="display:flex;gap:4px;align-items:center">
+      const isCover = p === 0;
+      const previewH = isCover ? '200px' : '120px';
+      const labelTxt = isCover
+        ? '<span style="font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:4px;display:block">🖼 รูปปก — แสดงในการ์ด (สูง 200px)</span>'
+        : `<span style="font-size:11px;color:var(--muted);margin-bottom:4px;display:block">รูปที่ ${p+1} — แสดงใน popup (4:3)</span>`;
+      return `<div style="flex:1;min-width:${isCover?'100%':'45%'}">
+        ${labelTxt}
+        <div style="display:flex;gap:4px;align-items:center;margin-bottom:6px">
           <input class="gp" data-p="${p}" type="url" value="${url}" placeholder="URL" style="${is}" oninput="updateGalPhotoPreview(this,${i},${p})"/>
           <label class="btn btn-secondary btn-sm" style="cursor:pointer;flex-shrink:0" title="อัพโหลด">
             <i class="fas fa-upload"></i>
             <input type="file" accept="image/*" style="display:none" onchange="uploadGalPhoto(this,${i},${p})"/>
           </label>
         </div>
-        ${url ? `<img src="${url}" style="width:100%;height:70px;object-fit:cover;border-radius:6px;margin-top:4px" onerror="this.style.display='none'"/>` : ''}
+        <div class="gp-prev" style="width:100%;height:${previewH};border-radius:8px;overflow:hidden;background:#f0f4f8;display:${url?'block':'none'};box-shadow:0 2px 8px rgba(0,0,0,.1)">
+          ${url ? `<img src="${url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"/>` : ''}
+        </div>
       </div>`;
     }).join('');
     return `<div class="gal-row" style="border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">
@@ -1194,11 +1214,16 @@ function collectGallery() {
 function updateGalPhotoPreview(inp, i, p) {
   const url = inp.value.trim();
   const wrap = inp.closest('div[style*="flex:1"]');
-  let img = wrap.querySelector('img');
+  const prev = wrap?.querySelector('.gp-prev');
+  if (!prev) return;
   if (url) {
-    if (!img) { img = document.createElement('img'); img.style.cssText='width:100%;height:70px;object-fit:cover;border-radius:6px;margin-top:4px'; wrap.appendChild(img); }
+    let img = prev.querySelector('img');
+    if (!img) { img = document.createElement('img'); img.style.cssText='width:100%;height:100%;object-fit:cover'; prev.appendChild(img); }
     img.src = url;
-  } else if (img) img.remove();
+    prev.style.display = 'block';
+  } else {
+    prev.style.display = 'none';
+  }
 }
 async function uploadGalPhoto(input, galIdx, photoIdx) {
   const file = input.files[0]; if (!file) return;
