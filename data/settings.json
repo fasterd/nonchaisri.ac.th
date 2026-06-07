@@ -21,7 +21,24 @@
   },
   "bannerSpeed": 5000,
   "banner": [
-    { "image": "", "title": "", "subtitle": "", "link": "" }
+    {
+      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780816432910_404270ae-a29c-4be2-bd98-9a01c6208f4b.png",
+      "title": "",
+      "subtitle": "",
+      "link": "admin"
+    },
+    {
+      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780816632909_Gemini_Generated_Image_cht3decht3decht3.png",
+      "title": "",
+      "subtitle": "",
+      "link": ""
+    },
+    {
+      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780817062602_a939391b-f0b9-484a-8bf5-db8536b3123d.png",
+      "title": "",
+      "subtitle": "",
+      "link": ""
+    }
   ],
   "hero": {
     "badge": "ยินดีต้อนรับสู่",
@@ -290,19 +307,5 @@
     "primary": "#1a5276",
     "secondary": "#f39c12",
     "hero_bg": ""
-  },
-  "banner": [
-    {
-      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780816432910_404270ae-a29c-4be2-bd98-9a01c6208f4b.png",
-      "title": "",
-      "subtitle": "",
-      "link": "admin"
-    },
-    {
-      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780816632909_Gemini_Generated_Image_cht3decht3decht3.png",
-      "title": "",
-      "subtitle": "",
-      "link": ""
-    }
-  ]
+  }
 }
