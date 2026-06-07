@@ -19,6 +19,9 @@
     "youtube": "",
     "line": ""
   },
+  "banner": [
+    { "image": "", "title": "", "subtitle": "", "link": "" }
+  ],
   "hero": {
     "badge": "ยินดีต้อนรับสู่",
     "title": "โรงเรียนบ้านโนนไชยศรี",

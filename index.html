@@ -69,37 +69,29 @@ ul{list-style:none}
 .btn-outline:hover{background:var(--white);color:var(--primary)}
 
 /* HERO / BANNER SLICK */
-.hero{position:relative;overflow:hidden}
-.banner-slick{width:100%}
-.banner-slide{position:relative;min-height:100vh;display:flex!important;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:linear-gradient(135deg,var(--primary-dark),#2980b9)}
-.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;transition:transform 8s ease}
-.banner-slick .slick-active .banner-slide-bg{transform:scale(1.05)}
-.banner-slide-overlay{position:absolute;inset:0;z-index:1}
-.banner-slide-overlay.main{background:linear-gradient(to bottom,rgba(20,60,100,.6),rgba(20,60,100,.4))}
-.banner-slide-overlay.news{background:linear-gradient(to top,rgba(10,30,60,.88) 0%,rgba(10,30,60,.5) 60%,rgba(10,30,60,.25) 100%)}
-.banner-slide-content{position:relative;z-index:2;color:var(--white);padding:60px 20px;max-width:860px;width:100%}
-/* slide 0: main hero */
-.hero-badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:50px;padding:6px 22px;font-size:14px;font-weight:500;margin-bottom:18px;backdrop-filter:blur(8px)}
-.hero-content h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.15;margin-bottom:14px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
-.hero-motto{font-size:clamp(1rem,2.5vw,1.3rem);opacity:.9;margin-bottom:34px;font-weight:300}
-.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-/* slide N: news */
-.slide-news-cat{display:inline-block;background:var(--secondary);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:50px;margin-bottom:14px;letter-spacing:.5px}
-.slide-news-date{font-size:13px;opacity:.8;margin-bottom:10px}
-.slide-news-title{font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:800;line-height:1.3;margin-bottom:16px;text-shadow:0 2px 12px rgba(0,0,0,.4)}
-.slide-news-body{font-size:15px;opacity:.88;max-width:640px;margin:0 auto 28px;line-height:1.7;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.slide-news-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.7);color:#fff;padding:11px 28px;border-radius:50px;font-size:15px;font-weight:600;transition:var(--tr);backdrop-filter:blur(6px)}
-.slide-news-btn:hover{background:#fff;color:var(--primary)}
+.hero{position:relative;overflow:hidden;width:100%;max-width:981px;height:420px;margin:0 auto}
+.banner-slick,.banner-slick .slick-list,.banner-slick .slick-track{height:100%}
+.banner-slide{position:relative;height:420px;display:flex!important;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:linear-gradient(135deg,var(--primary-dark),#2980b9)}
+.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.banner-slide-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(10,30,60,.45),rgba(10,30,60,.35))}
+.banner-slide-content{position:relative;z-index:2;color:var(--white);padding:32px 20px;max-width:760px;width:100%}
+.slide-title{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;line-height:1.3;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.slide-subtitle{font-size:clamp(.9rem,2vw,1.1rem);opacity:.9;margin-bottom:20px}
+.slide-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.75);color:#fff;padding:9px 24px;border-radius:50px;font-size:14px;font-weight:600;transition:var(--tr);backdrop-filter:blur(4px)}
+.slide-btn:hover{background:#fff;color:var(--primary)}
+/* hero-content (slide0 = main school hero) */
+.hero-badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:50px;padding:5px 18px;font-size:13px;font-weight:500;margin-bottom:14px;backdrop-filter:blur(8px)}
+.banner-slide-content h1{font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;line-height:1.2;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.hero-motto{font-size:clamp(.9rem,2vw,1.1rem);opacity:.9;margin-bottom:24px;font-weight:300}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 /* dots & arrows */
-.banner-slick .slick-dots{bottom:20px;z-index:10}
-.banner-slick .slick-dots li button:before{color:#fff;font-size:10px;opacity:.6}
+.banner-slick .slick-dots{bottom:12px;z-index:10}
+.banner-slick .slick-dots li button:before{color:#fff;font-size:9px;opacity:.6}
 .banner-slick .slick-dots li.slick-active button:before{color:var(--secondary);opacity:1}
-.banner-slick .slick-prev,.banner-slick .slick-next{z-index:10;width:44px;height:44px}
-.banner-slick .slick-prev{left:16px}
-.banner-slick .slick-next{right:16px}
-.banner-slick .slick-prev:before,.banner-slick .slick-next:before{font-size:28px;opacity:.8}
-.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:22px;animation:bounce 2s infinite;z-index:10}
-@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+.banner-slick .slick-prev,.banner-slick .slick-next{z-index:10;width:36px;height:36px}
+.banner-slick .slick-prev{left:10px}
+.banner-slick .slick-next{right:10px}
+.banner-slick .slick-prev:before,.banner-slick .slick-next:before{font-size:22px;opacity:.85}
 
 /* STATS */
 .stats{background:var(--primary);padding:0}
@@ -361,23 +353,15 @@ ul{list-style:none}
 <!-- HERO / BANNER SLICK -->
 <section class="hero" id="home">
   <div class="banner-slick" id="bannerSlick">
-    <!-- Slide 0: Main hero (always first) -->
+    <!-- slides injected by JS from cfg.banner -->
     <div class="banner-slide">
-      <div class="banner-slide-bg" id="hero-bg-img"></div>
-      <div class="banner-slide-overlay main"></div>
+      <div class="banner-slide-bg" style="background:linear-gradient(135deg,var(--primary-dark),#2980b9)"></div>
+      <div class="banner-slide-overlay"></div>
       <div class="banner-slide-content">
-        <div class="hero-badge">ยินดีต้อนรับสู่</div>
-        <h1>โรงเรียนบ้านโนนไชยศรี</h1>
-        <p class="hero-motto">"มุ่งมั่นพัฒนา ใฝ่หาความรู้ คู่คุณธรรม"</p>
-        <div class="hero-actions">
-          <a href="#about" class="btn btn-primary">เรียนรู้เพิ่มเติม</a>
-          <a href="#news" class="btn btn-outline">ข่าวสารล่าสุด</a>
-        </div>
+        <div class="slide-title">โรงเรียนบ้านโนนไชยศรี</div>
       </div>
     </div>
-    <!-- News slides injected by JS -->
   </div>
-  <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
 </section>
 
 <!-- STATS -->
@@ -806,20 +790,25 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     }
   }
 
-  // ── Hero slide 0 ──────────────────────────────────────────
-  if(cfg.hero){
-    const h = cfg.hero;
-    const badge = document.querySelector('.hero-badge'); if(badge && h.badge) badge.textContent = h.badge;
-    const h1 = document.querySelector('.banner-slide-content h1'); if(h1 && h.title) h1.textContent = h.title;
-    const motto = document.querySelector('.hero-motto'); if(motto && h.motto) motto.textContent = '"'+h.motto+'"';
-    const btns = document.querySelectorAll('.hero-actions .btn');
-    if(btns[0]){ if(h.btn1_text) btns[0].textContent = h.btn1_text; if(h.btn1_href) btns[0].href = h.btn1_href; }
-    if(btns[1]){ if(h.btn2_text) btns[1].textContent = h.btn2_text; if(h.btn2_href) btns[1].href = h.btn2_href; }
-    if(h.bg_image){
-      const hbg = document.getElementById('hero-bg-img');
-      if(hbg) hbg.style.backgroundImage = `url('${h.bg_image}')`;
-    }
+  // ── Banner Slick จาก cfg.banner ──────────────────────────
+  const slickEl = document.getElementById('bannerSlick');
+  const bannerArr = (cfg.banner && cfg.banner.length) ? cfg.banner : [];
+  if(slickEl && bannerArr.length){
+    slickEl.innerHTML = bannerArr.map(b => {
+      const bg = b.image ? `background-image:url('${b.image}');background-size:cover;background-position:center` : 'background:linear-gradient(135deg,var(--primary-dark),#2980b9)';
+      return `
+        <div class="banner-slide">
+          <div class="banner-slide-bg" style="${bg}"></div>
+          <div class="banner-slide-overlay"></div>
+          <div class="banner-slide-content">
+            ${b.title ? `<div class="slide-title">${b.title}</div>` : ''}
+            ${b.subtitle ? `<div class="slide-subtitle">${b.subtitle}</div>` : ''}
+            ${b.link ? `<a href="${b.link}" class="slide-btn" target="_blank" rel="noopener">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>` : ''}
+          </div>
+        </div>`;
+    }).join('');
   }
+  if(typeof initBannerSlick === 'function') initBannerSlick();
 
   // ── เมนูนำทาง ─────────────────────────────────────────────
   // ใช้ static nav HTML เสมอ — JS แค่ sync ชื่อจาก settings แต่ไม่เขียนทับโครงสร้าง
@@ -920,36 +909,6 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
       counted = false;
       new IntersectionObserver(e=>{if(e[0].isIntersecting&&!counted){counted=true;runCount()}},{threshold:.3}).observe(document.querySelector('.stats'));
     }
-  }
-
-  // ── Banner Slick: inject news slides ─────────────────────
-  if(cfg.news && cfg.news.length){
-    const fb = cfg.school?.facebook || 'https://www.facebook.com/Bannonchaisri';
-    const slickEl = document.getElementById('bannerSlick');
-    if(slickEl){
-      cfg.news.forEach(n => {
-        const bgStyle = n.image ? `background-image:url('${n.image}')` : 'background:linear-gradient(135deg,var(--primary-dark),#2980b9)';
-        const slide = document.createElement('div');
-        slide.className = 'banner-slide';
-        slide.innerHTML = `
-          <div class="banner-slide-bg" style="${bgStyle};background-size:cover;background-position:center"></div>
-          <div class="banner-slide-overlay news"></div>
-          <div class="banner-slide-content">
-            ${n.cat ? `<div class="slide-news-cat">${n.cat}</div>` : ''}
-            <div class="slide-news-date"><i class="far fa-calendar-alt"></i> ${n.date||''}</div>
-            <div class="slide-news-title">${n.title||''}</div>
-            ${n.body ? `<div class="slide-news-body">${n.body}</div>` : ''}
-            <a href="${n.link||fb}" target="_blank" rel="noopener" class="slide-news-btn">
-              อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>`;
-        slickEl.appendChild(slide);
-      });
-    }
-    // init slick after slides injected
-    if(typeof initBannerSlick === 'function') initBannerSlick();
-  } else {
-    if(typeof initBannerSlick === 'function') initBannerSlick();
   }
 
   // ── ข่าวสาร section ───────────────────────────────────────
