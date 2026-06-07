@@ -84,6 +84,9 @@ ul{list-style:none}
 .banner-slide-content h1{font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;line-height:1.2;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
 .hero-motto{font-size:clamp(.9rem,2vw,1.1rem);opacity:.9;margin-bottom:24px;font-weight:300}
 .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+/* hide non-active slides completely */
+.banner-slick .slick-slide{opacity:0;transition:opacity .6s ease}
+.banner-slick .slick-slide.slick-active{opacity:1}
 /* dots & arrows */
 .banner-slick .slick-dots{bottom:12px;z-index:10}
 .banner-slick .slick-dots li button:before{color:#fff;font-size:9px;opacity:.6}
@@ -1061,9 +1064,7 @@ function initBannerSlick() {
   $('#bannerSlick').slick({
     autoplay: true,
     autoplaySpeed: bannerSpeed,
-    speed: 800,
-    fade: true,
-    cssEase: 'ease-in-out',
+    speed: 600,
     dots: true,
     arrows: true,
     infinite: true,
