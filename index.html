@@ -951,12 +951,30 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     if(newsGrid){
       const featured = cfg.news[0];
       const rest = cfg.news.slice(1,5);
-      const newsImgHtml = (n) => n.image
-        ? `<img src="${n.image}" alt="${n.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>`
-        : `<i class="fas fa-newspaper" style="color:#fff;opacity:.6"></i>`;
-      const newsRowImgHtml = (n) => n.image
-        ? `<img src="${n.image}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`
-        : `<i class="fas fa-newspaper"></i>`;
+      // helper: รวมรูปทุกรูปของข่าว (images array + image fallback)
+      const getImgs = (n) => {
+        const arr = Array.isArray(n.images) && n.images.length ? n.images : (n.image ? [n.image] : []);
+        return arr.filter(u=>u);
+      };
+      const newsImgHtml = (n) => {
+        const imgs = getImgs(n);
+        return imgs[0]
+          ? `<img src="${imgs[0]}" alt="${n.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>`
+          : `<i class="fas fa-newspaper" style="color:#fff;opacity:.6"></i>`;
+      };
+      const newsRowImgHtml = (n) => {
+        const imgs = getImgs(n);
+        return imgs[0]
+          ? `<img src="${imgs[0]}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`
+          : `<i class="fas fa-newspaper"></i>`;
+      };
+      const newsExtraStrip = (n) => {
+        const imgs = getImgs(n).slice(1); // รูปที่ 2-5
+        if (!imgs.length) return '';
+        return `<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+          ${imgs.map(u=>`<img src="${u}" alt="" style="width:60px;height:50px;object-fit:cover;border-radius:7px;border:2px solid var(--bg);box-shadow:0 2px 6px rgba(0,0,0,.12);cursor:pointer" onclick="window.open('${u}','_blank')">`).join('')}
+        </div>`;
+      };
       newsGrid.innerHTML = `
         <article class="news-card">
           <div class="news-img-ph" style="background:linear-gradient(135deg,#1a5276,#2980b9);position:relative">
@@ -967,7 +985,8 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
             <div class="news-meta"><i class="far fa-calendar-alt"></i> ${featured.date}</div>
             <h3>${featured.title}</h3>
             ${featured.body ? `<p>${featured.body}</p>` : ''}
-            <a href="${featured.link||fb}" target="_blank" rel="noopener" class="read-more">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
+            ${newsExtraStrip(featured)}
+            <a href="${featured.link||fb}" target="_blank" rel="noopener" class="read-more" style="margin-top:10px;display:inline-flex">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
           </div>
         </article>
         <div class="news-list">

@@ -608,24 +608,27 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       </div>
       <div class="fg" style="margin-bottom:12px"><label>เนื้อหาย่อ</label><textarea id="nm_body" style="min-height:75px"></textarea></div>
       <div class="fg" style="margin-bottom:12px"><label>ลิงก์อ่านต่อ (ถ้ามี)</label><input id="nm_link" type="url" placeholder="https://..."/></div>
-      <div class="fg">
-        <label>รูปปกข่าว</label>
+      <!-- รูปปก -->
+      <div class="fg" style="margin-bottom:16px">
+        <label>รูปปกข่าว <span style="font-size:11px;color:var(--muted)">(รูปที่ 1 — แสดงในการ์ด)</span></label>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <input id="nm_image" type="url" placeholder="URL รูปภาพ หรืออัพโหลดจากเครื่อง →" style="flex:1;min-width:200px"/>
           <label class="btn btn-secondary btn-sm" style="cursor:pointer;white-space:nowrap">
             <i class="fas fa-upload"></i> อัพโหลด
-            <input type="file" accept="image/*" style="display:none" onchange="uploadNewsImage(this)"/>
+            <input type="file" accept="image/*" style="display:none" onchange="uploadNewsImage(this,0)"/>
           </label>
+          <button class="btn btn-danger btn-sm" onclick="clearNewsImg(0)" title="ลบ"><i class="fas fa-times"></i></button>
         </div>
-        <div id="nm_img_preview" style="margin-top:12px;display:none">
-          <div style="font-size:11px;color:var(--muted);margin-bottom:5px"><i class="fas fa-eye"></i> ตัวอย่างขนาดจริง — รูปปกข่าว (สูง 200px)</div>
-          <div style="position:relative;width:100%;height:200px;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)">
-            <img id="nm_img_thumb" src="" style="width:100%;height:100%;object-fit:cover"/>
-            <div style="position:absolute;top:10px;left:10px;background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:50px">กิจกรรม</div>
-          </div>
-          <button class="btn btn-danger btn-sm" onclick="clearNewsImage()" style="margin-top:6px"><i class="fas fa-times"></i> ลบรูป</button>
+        <div id="nm_img_preview_0" style="margin-top:8px;display:none">
+          <img id="nm_img_thumb_0" src="" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;box-shadow:var(--shadow)"/>
         </div>
-        <div id="nm_img_uploading" style="display:none;font-size:13px;color:var(--muted);margin-top:6px"><i class="fas fa-spinner fa-spin"></i> กำลังอัพโหลด...</div>
+      </div>
+      <!-- รูปเพิ่มเติม 2-5 -->
+      <div class="fg">
+        <label>รูปเพิ่มเติม <span style="font-size:11px;color:var(--muted)">(สูงสุด 4 รูป — แสดงใน popup)</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px" id="nm_extra_imgs">
+          <!-- render by JS -->
+        </div>
       </div>
     </div>
     <div class="modal-ftr">
@@ -797,29 +800,38 @@ async function uploadToGitHub(file, folder = 'images') {
   });
 }
 
-async function uploadNewsImage(input) {
+function showNewsImgPreview(pos, url) {
+  const prev = document.getElementById(`nm_img_preview_${pos}`);
+  const thumb = document.getElementById(`nm_img_thumb_${pos}`);
+  if (!prev) return;
+  if (url) { if(thumb) thumb.src = url; prev.style.display = 'block'; }
+  else { prev.style.display = 'none'; }
+}
+function clearNewsImg(pos) {
+  if (pos === 0) { setV('nm_image',''); showNewsImgPreview(0,''); return; }
+  const el = document.getElementById(`nm_img_${pos}`);
+  if (el) el.value = '';
+  showNewsImgPreview(pos, '');
+}
+async function uploadNewsImage(input, pos=0) {
   const file = input.files[0];
   if (!file) return;
-  document.getElementById('nm_img_uploading').style.display = 'block';
-  document.getElementById('nm_img_preview').style.display = 'none';
   try {
     const url = await uploadToGitHub(file, 'images/news');
-    document.getElementById('nm_image').value = url;
-    showNewsImagePreview(url);
+    if (pos === 0) {
+      setV('nm_image', url);
+    } else {
+      const el = document.getElementById(`nm_img_${pos}`);
+      if (el) el.value = url;
+    }
+    showNewsImgPreview(pos, url);
     showToast('อัพโหลดสำเร็จ ✓', 'success');
   } catch(e) {
     showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error');
   }
-  document.getElementById('nm_img_uploading').style.display = 'none';
   input.value = '';
 }
 
-function showNewsImagePreview(url) {
-  if (!url) { document.getElementById('nm_img_preview').style.display = 'none'; return; }
-  document.getElementById('nm_img_thumb').src = url;
-  document.getElementById('nm_img_preview').style.display = 'block';
-}
-function clearNewsImage() { setV('nm_image',''); document.getElementById('nm_img_preview').style.display='none'; }
 
 async function uploadGalImage(input, idx) {
   const file = input.files[0];
@@ -1413,8 +1425,31 @@ function openNewsModal(idx = -1) {
   document.getElementById('nm_idx').value = idx;
   const n = idx >= 0 ? cfg.news[idx] : {};
   setV('nm_title', n.title); setV('nm_cat', n.cat); setV('nm_date', n.date);
-  setV('nm_body', n.body); setV('nm_link', n.link); setV('nm_image', n.image||'');
-  showNewsImagePreview(n.image||'');
+  setV('nm_body', n.body); setV('nm_link', n.link);
+  // รูปปก
+  const cover = n.image || (Array.isArray(n.images) ? n.images[0] : '') || '';
+  setV('nm_image', cover);
+  showNewsImgPreview(0, cover);
+  // รูปเพิ่มเติม 2-5
+  const imgs = Array.isArray(n.images) ? n.images : (n.image ? [n.image] : []);
+  const extra = document.getElementById('nm_extra_imgs');
+  extra.innerHTML = [1,2,3,4].map(p => {
+    const url = imgs[p] || '';
+    return `<div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:4px">รูปที่ ${p+1}</div>
+      <div style="display:flex;gap:4px;align-items:center;margin-bottom:4px">
+        <input id="nm_img_${p}" type="url" value="${url}" placeholder="URL..." style="flex:1;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Sarabun',sans-serif;outline:none" oninput="showNewsImgPreview(${p},this.value)"/>
+        <label class="btn btn-secondary btn-sm" style="cursor:pointer;flex-shrink:0" title="อัพโหลด">
+          <i class="fas fa-upload"></i>
+          <input type="file" accept="image/*" style="display:none" onchange="uploadNewsImage(this,${p})"/>
+        </label>
+        <button class="btn btn-danger btn-sm" onclick="clearNewsImg(${p})" title="ลบ"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="nm_img_preview_${p}" style="display:${url?'block':'none'}">
+        <img id="nm_img_thumb_${p}" src="${url}" style="width:100%;height:90px;object-fit:cover;border-radius:8px;box-shadow:var(--shadow)"/>
+      </div>
+    </div>`;
+  }).join('');
   document.getElementById('newsModal').classList.add('open');
 }
 function closeNewsModal() { document.getElementById('newsModal').classList.remove('open'); }
@@ -1427,7 +1462,17 @@ async function deleteNews(i) {
 }
 async function saveNews() {
   const idx = +document.getElementById('nm_idx').value;
-  const item = { title: v('nm_title'), cat: document.getElementById('nm_cat').value, date: v('nm_date'), body: v('nm_body'), link: v('nm_link'), image: v('nm_image') };
+  // รวมรูปทั้ง 5 เป็น array (กรอง empty)
+  const allImgs = [
+    v('nm_image'),
+    ...[1,2,3,4].map(p => { const el = document.getElementById(`nm_img_${p}`); return el ? el.value.trim() : ''; })
+  ].filter(u => u);
+  const item = {
+    title: v('nm_title'), cat: document.getElementById('nm_cat').value,
+    date: v('nm_date'), body: v('nm_body'), link: v('nm_link'),
+    image: allImgs[0] || '',   // backward compat
+    images: allImgs            // new field
+  };
   if (!item.title) { showToast('กรุณาใส่หัวข้อข่าว', 'error'); return; }
   if (!cfg.news) cfg.news = [];
   if (idx >= 0) cfg.news[idx] = item; else cfg.news.unshift(item);
