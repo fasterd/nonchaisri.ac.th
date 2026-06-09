@@ -139,36 +139,51 @@ ul{list-style:none}
 .mgmt-name{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:10px}
 .mgmt-quote{font-size:14px;color:var(--muted);font-style:italic;border-left:3px solid var(--primary);padding-left:10px}
 
-/* NEWS FORUM BOARD */
+/* NEWS BOARD — Featured + List Layout */
 .news-forum-wrap{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
-.news-forum-tabs{display:flex;background:var(--primary-dark)}
-.news-forum-tab{padding:14px 28px;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.news-forum-tabs{display:flex;background:var(--primary-dark);overflow-x:auto}
+.news-forum-tabs::-webkit-scrollbar{height:3px}.news-forum-tabs::-webkit-scrollbar-thumb{background:var(--secondary)}
+.news-forum-tab{padding:13px 22px;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .news-forum-tab.active{color:#fff;border-bottom-color:var(--secondary);background:rgba(255,255,255,.07)}
-.news-forum-list{min-height:200px}
-.nf-item{display:flex;gap:0;border-bottom:1px solid var(--border);transition:background .2s;animation:nfFadeIn .3s ease}
-@keyframes nfFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.nf-item:last-child{border-bottom:none}
-.nf-item:hover{background:#f8fbff}
-.nf-thumb-wrap{padding:14px 0 14px 16px;flex-shrink:0}
-.nf-thumb{width:170px;height:108px;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:30px}
-.nf-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.nf-body{flex:1;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;min-width:0}
-.nf-cat{display:inline-block;font-size:11px;font-weight:700;padding:2px 11px;border-radius:50px;margin-bottom:8px;color:#fff}
-.nf-title{font-size:15px;font-weight:700;color:var(--primary);line-height:1.5;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.nf-title:hover{color:var(--secondary)}
-.nf-meta{font-size:12px;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.nf-meta i{color:var(--secondary)}
-.nf-excerpt{font-size:13px;color:var(--muted);margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.65}
-.nf-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.nf-read-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 18px;background:var(--secondary);color:#fff;border-radius:50px;font-size:13px;font-weight:700;transition:all .2s;border:none;cursor:pointer;text-decoration:none}
+/* inner layout: featured LEFT + list RIGHT */
+.nf-inner{display:grid;grid-template-columns:1fr 340px;min-height:340px}
+.nf-featured{border-right:1px solid var(--border);display:flex;flex-direction:column;cursor:pointer;transition:background .2s}
+.nf-featured:hover{background:#f5f9ff}
+.nf-featured-img{width:100%;height:240px;overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:48px;position:relative;flex-shrink:0}
+.nf-featured-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.nf-featured-body{padding:20px 22px;flex:1;display:flex;flex-direction:column}
+.nf-featured-cat{display:inline-block;font-size:11px;font-weight:700;padding:3px 12px;border-radius:50px;color:#fff;margin-bottom:10px;align-self:flex-start}
+.nf-featured-title{font-size:1.05rem;font-weight:800;color:var(--primary);line-height:1.5;margin-bottom:8px}
+.nf-featured-meta{font-size:12px;color:var(--muted);margin-bottom:10px;display:flex;gap:10px}
+.nf-featured-meta i{color:var(--secondary)}
+.nf-featured-excerpt{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.nf-read-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 20px;background:var(--secondary);color:#fff;border-radius:50px;font-size:13px;font-weight:700;transition:all .2s;border:none;cursor:pointer;text-decoration:none;align-self:flex-start}
 .nf-read-btn:hover{background:var(--primary);transform:translateX(3px)}
-.nf-imgs-strip{display:flex;gap:5px;flex-wrap:wrap}
-.nf-imgs-strip img{width:42px;height:34px;object-fit:cover;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;transition:transform .2s}
-.nf-imgs-strip img:hover{transform:scale(1.1)}
+/* right list */
+.nf-side-list{display:flex;flex-direction:column;overflow:hidden}
+.nf-side-item{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s;align-items:flex-start}
+.nf-side-item:last-child{border-bottom:none}
+.nf-side-item:hover{background:#f5f9ff}
+.nf-side-thumb{width:72px;height:54px;border-radius:8px;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:18px}
+.nf-side-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.nf-side-body{flex:1;min-width:0}
+.nf-side-cat{display:inline-block;font-size:10px;font-weight:700;padding:1px 8px;border-radius:50px;color:#fff;margin-bottom:4px}
+.nf-side-title{font-size:13px;font-weight:700;color:var(--primary);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nf-side-date{font-size:11px;color:var(--muted)}
+.nf-side-date i{color:var(--secondary);margin-right:3px}
+/* empty / loading */
+.nf-empty{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
+.nf-empty i{font-size:40px;display:block;margin-bottom:14px;opacity:.3}
 /* Pagination */
-.nf-pagination{display:flex;gap:4px;justify-content:center;align-items:center;padding:18px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
+.nf-pagination{display:flex;gap:4px;justify-content:center;align-items:center;padding:14px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
 .nf-page-btn{min-width:36px;height:36px;padding:0 6px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text);transition:all .2s;font-family:'Sarabun',sans-serif}
 .nf-page-btn:hover,.nf-page-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* responsive */
+@media(max-width:700px){
+  .nf-inner{grid-template-columns:1fr}
+  .nf-featured{border-right:none;border-bottom:1px solid var(--border)}
+  .nf-featured-img{height:200px}
+}
 /* legacy compat */
 .news-meta{font-size:12px;color:var(--muted);margin-bottom:7px}
 .news-meta i{margin-right:4px;color:var(--secondary)}
@@ -480,9 +495,10 @@ ul{list-style:none}
         <div class="news-forum-tab" onclick="switchNewsTab(4,this)">รางวัล</div>
         <div class="news-forum-tab" onclick="switchNewsTab(5,this)">อื่นๆ</div>
       </div>
-      <div class="news-forum-list" id="newsBoardList">
-        <!-- JS rendered -->
-        <div style="text-align:center;padding:40px;color:var(--muted)"><i class="fas fa-spinner fa-spin" style="font-size:22px"></i></div>
+      <div id="newsBoardList">
+        <div class="nf-inner">
+          <div class="nf-empty"><i class="fas fa-spinner fa-spin"></i> กำลังโหลด...</div>
+        </div>
       </div>
       <div class="nf-pagination" id="newsPagination"></div>
     </div>
@@ -909,60 +925,85 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
   }
 
   function renderNewsBoard() {
-    const list = document.getElementById('newsBoardList');
+    const wrap = document.getElementById('newsBoardList');
     const pag  = document.getElementById('newsPagination');
-    if (!list) return;
-    const fb = cfg.school?.facebook || 'https://www.facebook.com/Bannonchaisri';
+    if (!wrap) return;
     const filtered = getFilteredNews();
     const total = filtered.length;
-    const totalPages = Math.max(1, Math.ceil(total / NEWS_PER_PAGE));
+    // items per "page-set": 1 featured + 4 side = 5 per page
+    const SIDE_COUNT = 4;
+    const PAGE_SIZE  = 1 + SIDE_COUNT;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
     if (newsCurrentPage > totalPages) newsCurrentPage = totalPages;
-    const start = (newsCurrentPage - 1) * NEWS_PER_PAGE;
-    const items = filtered.slice(start, start + NEWS_PER_PAGE);
+    const start = (newsCurrentPage - 1) * PAGE_SIZE;
+    const items = filtered.slice(start, start + PAGE_SIZE);
 
     if (!items.length) {
-      list.innerHTML = `<div style="text-align:center;padding:50px 20px;color:var(--muted)"><i class="fas fa-newspaper" style="font-size:36px;display:block;margin-bottom:12px;opacity:.3"></i>ยังไม่มีข่าวในหมวดนี้</div>`;
+      wrap.innerHTML = `<div class="nf-inner"><div class="nf-empty"><i class="fas fa-newspaper"></i>ยังไม่มีข่าวในหมวดนี้</div></div>`;
       if(pag) pag.innerHTML = '';
       return;
     }
 
-    list.innerHTML = items.map(n => {
-      const imgs = getImgs(n);
-      const catColor = CAT_COLORS_NEWS[n.cat] || '#7f8c8d';
-      const extraImgs = imgs.slice(1);
-      return `<div class="nf-item">
-        <div class="nf-thumb-wrap">
-          <div class="nf-thumb">
-            ${imgs[0] ? `<img src="${imgs[0]}" alt="${n.title}" loading="lazy"/>` : `<i class="fas fa-newspaper"></i>`}
-          </div>
+    const cc = n => CAT_COLORS_NEWS[n.cat] || '#7f8c8d';
+    const allNews = cfg.news || [];
+
+    // ── featured (first item) ──────────────────────────────
+    const feat = items[0];
+    const featIdx = allNews.indexOf(feat);
+    const featImgs = getImgs(feat);
+    const featuredHtml = `
+      <div class="nf-featured" onclick="location.href='news.html?id=${featIdx}'">
+        <div class="nf-featured-img">
+          ${featImgs[0]
+            ? `<img src="${featImgs[0]}" alt="${feat.title||''}" loading="lazy"/>`
+            : `<i class="fas fa-newspaper"></i>`}
         </div>
-        <div class="nf-body">
-          <span class="nf-cat" style="background:${catColor}">${n.cat||'ข่าวสาร'}</span>
-          <div class="nf-title">${n.title}</div>
-          <div class="nf-meta">
-            <span><i class="far fa-calendar-alt"></i> ${n.date||''}</span>
-          </div>
-          ${n.body ? `<div class="nf-excerpt">${n.body}</div>` : ''}
-          <div class="nf-footer">
-            <a href="news.html?id=${(cfg.news||[]).indexOf(n)}" class="nf-read-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
-            ${extraImgs.length ? `<div class="nf-imgs-strip">${extraImgs.map(u=>`<img src="${u}" alt="" onclick="window.open('${u}','_blank')" loading="lazy"/>`).join('')}</div>` : ''}
-          </div>
+        <div class="nf-featured-body">
+          <span class="nf-featured-cat" style="background:${cc(feat)}">${feat.cat||'ข่าวสาร'}</span>
+          <div class="nf-featured-title">${feat.title||''}</div>
+          <div class="nf-featured-meta"><span><i class="far fa-calendar-alt"></i> ${feat.date||''}</span></div>
+          ${feat.body ? `<div class="nf-featured-excerpt">${feat.body}</div>` : '<div class="nf-featured-excerpt" style="flex:1"></div>'}
+          <a href="news.html?id=${featIdx}" class="nf-read-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
         </div>
       </div>`;
-    }).join('');
 
-    // pagination
+    // ── side list (items 1-4) ──────────────────────────────
+    const sideItems = items.slice(1);
+    const sideHtml = `
+      <div class="nf-side-list">
+        ${sideItems.map(n => {
+          const idx = allNews.indexOf(n);
+          const imgs = getImgs(n);
+          return `<div class="nf-side-item" onclick="location.href='news.html?id=${idx}'">
+            <div class="nf-side-thumb">
+              ${imgs[0]
+                ? `<img src="${imgs[0]}" alt="${n.title||''}" loading="lazy"/>`
+                : `<i class="fas fa-newspaper"></i>`}
+            </div>
+            <div class="nf-side-body">
+              <span class="nf-side-cat" style="background:${cc(n)}">${n.cat||'ข่าวสาร'}</span>
+              <div class="nf-side-title">${n.title||''}</div>
+              <div class="nf-side-date"><i class="far fa-calendar-alt"></i>${n.date||''}</div>
+            </div>
+          </div>`;
+        }).join('')}
+        ${sideItems.length === 0
+          ? `<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;padding:20px">ไม่มีข่าวเพิ่มเติม</div>`
+          : ''}
+      </div>`;
+
+    wrap.innerHTML = `<div class="nf-inner">${featuredHtml}${sideHtml}</div>`;
+
+    // ── pagination ─────────────────────────────────────────
     if (!pag) return;
     if (totalPages <= 1) { pag.innerHTML = ''; return; }
     let pagHtml = '';
     if (newsCurrentPage > 1) pagHtml += `<button class="nf-page-btn" onclick="goNewsPage(${newsCurrentPage-1})"><i class="fas fa-chevron-left"></i></button>`;
-    const delta = 2;
     for (let p = 1; p <= totalPages; p++) {
-      if (p === 1 || p === totalPages || (p >= newsCurrentPage-delta && p <= newsCurrentPage+delta)) {
+      if (p===1 || p===totalPages || Math.abs(p-newsCurrentPage)<=2)
         pagHtml += `<button class="nf-page-btn${p===newsCurrentPage?' active':''}" onclick="goNewsPage(${p})">${p}</button>`;
-      } else if (p === newsCurrentPage-delta-1 || p === newsCurrentPage+delta+1) {
+      else if (Math.abs(p-newsCurrentPage)===3)
         pagHtml += `<span style="display:flex;align-items:center;color:var(--muted);padding:0 4px">…</span>`;
-      }
     }
     if (newsCurrentPage < totalPages) pagHtml += `<button class="nf-page-btn" onclick="goNewsPage(${newsCurrentPage+1})"><i class="fas fa-chevron-right"></i></button>`;
     pag.innerHTML = pagHtml;
