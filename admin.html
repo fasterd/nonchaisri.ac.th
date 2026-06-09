@@ -206,7 +206,7 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       <div class="nitem" onclick="showSec('news')"><i class="fas fa-newspaper"></i> ข่าวสาร</div>
       <div class="nitem" onclick="showSec('ticker')"><i class="fas fa-bullhorn"></i> แถบประกาศ</div>
       <div class="nitem" onclick="showSec('academic')"><i class="fas fa-book"></i> การจัดการศึกษา</div>
-      <div class="nitem" onclick="showSec('gallery')"><i class="fas fa-images"></i> ภาพกิจกรรม</div>
+      <div class="nitem" onclick="showSec('gallery')"><i class="fas fa-comments"></i> กระดานกิจกรรม</div>
       <div class="nsec">ติดต่อ & Footer</div>
       <div class="nitem" onclick="showSec('contact-cfg')"><i class="fas fa-envelope-open-text"></i> ฟอร์ม & แผนที่</div>
       <div class="nitem" onclick="showSec('footer')"><i class="fas fa-shoe-prints"></i> Footer</div>
@@ -244,6 +244,7 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
           <div class="card">
             <div class="card-hdr"><h3><i class="fas fa-bolt"></i> ลิงก์ด่วน</h3></div>
             <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-secondary" onclick="showSec('gallery');addGal()"><i class="fas fa-comments"></i> เพิ่มกระทู้กิจกรรม</button>
               <button class="btn btn-secondary" onclick="showSec('news')"><i class="fas fa-plus"></i> เพิ่มข่าวใหม่</button>
               <button class="btn btn-secondary" onclick="showSec('ticker')"><i class="fas fa-edit"></i> แก้แถบประกาศ</button>
               <button class="btn btn-secondary" onclick="showSec('stats')"><i class="fas fa-edit"></i> อัปเดตสถิติ</button>
@@ -392,15 +393,20 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
         </div>
       </div>
 
-      <!-- GALLERY -->
+      <!-- GALLERY / ACTIVITIES -->
       <div class="spage" id="sec-gallery">
         <div class="card">
           <div class="card-hdr">
-            <h3><i class="fas fa-images"></i> ภาพกิจกรรม</h3>
-            <button class="btn btn-primary btn-sm" onclick="addGal()"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</button>
+            <h3><i class="fas fa-comments"></i> กระดานกิจกรรม</h3>
+            <button class="btn btn-primary btn-sm" onclick="addGal()"><i class="fas fa-plus"></i> เพิ่มกระทู้กิจกรรม</button>
           </div>
-          <div class="card-body" id="galItems"></div>
-          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> แต่ละกิจกรรมมีชื่อ เนื้อหา และรูปได้สูงสุด 4 รูป</span><button class="btn btn-success" onclick="saveSection('gallery')"><i class="fas fa-save"></i> บันทึก</button></div>
+          <div class="card-body">
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:16px">
+              <i class="fas fa-info-circle"></i> แต่ละกระทู้มี ชื่อเรื่อง · หมวดหมู่ · วันที่ · คำอธิบาย และรูปภาพสูงสุด 8 รูป — กระทู้ใหม่จะแสดงบนสุดในกระดาน
+            </div>
+            <div id="galItems"></div>
+          </div>
+          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง — มีผลทันทีบนเว็บ</span><button class="btn btn-success" onclick="saveSection('gallery')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
       </div>
 
@@ -917,7 +923,7 @@ const secTitles = {
   dashboard:'Dashboard', hero:'หน้าแรก (Hero)', nav:'เมนูนำทาง',
   school:'ข้อมูลโรงเรียน', director:'ผู้บริหาร', stats:'สถิติ',
   news:'ข่าวสาร', ticker:'แถบประกาศ', academic:'การจัดการศึกษา',
-  gallery:'ภาพกิจกรรม', 'contact-cfg':'ฟอร์ม & แผนที่',
+  gallery:'กระดานกิจกรรม', 'contact-cfg':'ฟอร์ม & แผนที่',
   footer:'ส่วน Footer', appearance:'ธีมสี', github:'GitHub Token', password:'รหัสผ่าน',
 };
 function showSec(name) {
@@ -1308,7 +1314,7 @@ function collectStaff() {
 // ============================================================
 // SAVE SECTIONS
 async function saveSection(sec) {
-  const msgs = { school:'อัปเดตข้อมูลโรงเรียน', director:'อัปเดตผู้บริหาร', stats:'อัปเดตสถิติ', staff:'อัปเดตบุคลากร', news:'อัปเดตข่าวสาร', ticker:'อัปเดตแถบประกาศ', gallery:'อัปเดตภาพกิจกรรม', footer:'อัปเดต Footer', appearance:'อัปเดตธีมสี', banner:'อัปเดตสไลด์แบนเนอร์' };
+  const msgs = { school:'อัปเดตข้อมูลโรงเรียน', director:'อัปเดตผู้บริหาร', stats:'อัปเดตสถิติ', staff:'อัปเดตบุคลากร', news:'อัปเดตข่าวสาร', ticker:'อัปเดตแถบประกาศ', gallery:'อัปเดตกระดานกิจกรรม', footer:'อัปเดต Footer', appearance:'อัปเดตธีมสี', banner:'อัปเดตสไลด์แบนเนอร์' };
   if (sec === 'hero') collectHero();
   else if (sec === 'nav') collectNav();
   else if (sec === 'school') collectSchool();
@@ -1390,7 +1396,7 @@ function renderDashboard() {
     {label:'ครูและบุคลากร', value: cfg.stats?.teachers||0},
     {label:'รางวัล', value: cfg.stats?.awards||0}
   ];
-  const newsCard = `<div class="dcard"><div class="num">${(cfg.news||[]).length}</div><div class="lbl">ข่าวสาร</div></div>`;
+  const newsCard = `<div class="dcard"><div class="num">${(cfg.news||[]).length}</div><div class="lbl">ข่าวสาร</div></div><div class="dcard" style="border-top-color:var(--secondary)"><div class="num" style="color:var(--secondary)">${(cfg.activities||[]).length}</div><div class="lbl">กระทู้กิจกรรม</div></div>`;
   document.getElementById('dashCards').innerHTML =
     statsArr.map(s=>`<div class="dcard"><div class="num">${s.value||0}</div><div class="lbl">${s.label||''}</div></div>`).join('') + newsCard;
   const logs = JSON.parse(localStorage.getItem('ncs_log') || '[]');
@@ -1499,84 +1505,152 @@ function addTicker() {
 function removeTicker(i) { cfg.ticker.splice(i, 1); renderTicker(); }
 
 // ============================================================
-// GALLERY
+// GALLERY / ACTIVITIES (กระดานกิจกรรม)
+const ACT_CATS = ['กิจกรรมโรงเรียน','วิชาการ','กีฬา','วัฒนธรรม','ประชาสัมพันธ์','รางวัล'];
+const MAX_PHOTOS = 8;
+
 function renderGallery() {
   const is = `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;width:100%`;
-  document.getElementById('galItems').innerHTML = (cfg.gallery || []).map((g, i) => {
-    const photos = g.photos || ['','','',''];
-    const photoInputs = [0,1,2,3].map(p => {
-      const url = photos[p] || '';
-      const isCover = p === 0;
-      const previewH = isCover ? '200px' : '120px';
-      const labelTxt = isCover
-        ? '<span style="font-size:11px;font-weight:700;color:var(--secondary);margin-bottom:4px;display:block">🖼 รูปปก — แสดงในการ์ด (สูง 200px)</span>'
-        : `<span style="font-size:11px;color:var(--muted);margin-bottom:4px;display:block">รูปที่ ${p+1} — แสดงใน popup (4:3)</span>`;
-      return `<div style="flex:1;min-width:${isCover?'100%':'45%'}">
-        ${labelTxt}
-        <div style="display:flex;gap:4px;align-items:center;margin-bottom:6px">
-          <input class="gp" data-p="${p}" type="url" value="${url}" placeholder="URL" style="${is}" oninput="updateGalPhotoPreview(this,${i},${p})"/>
-          <label class="btn btn-secondary btn-sm" style="cursor:pointer;flex-shrink:0" title="อัพโหลด">
-            <i class="fas fa-upload"></i>
-            <input type="file" accept="image/*" style="display:none" onchange="uploadGalPhoto(this,${i},${p})"/>
-          </label>
-        </div>
-        <div class="gp-prev" style="width:100%;height:${previewH};border-radius:8px;overflow:hidden;background:#f0f4f8;display:${url?'block':'none'};box-shadow:0 2px 8px rgba(0,0,0,.1)">
-          ${url ? `<img src="${url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"/>` : ''}
-        </div>
-      </div>`;
-    }).join('');
-    return `<div class="gal-row" style="border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <strong style="color:var(--primary)"><i class="fas fa-images"></i> กิจกรรมที่ ${i+1}</strong>
-        <button class="btn btn-danger btn-sm" onclick="removeGal(${i})"><i class="fas fa-trash"></i> ลบ</button>
-      </div>
-      <div class="fg" style="margin-bottom:10px"><label>ชื่อกิจกรรม</label><input class="gt" value="${g.title||''}" placeholder="ชื่อกิจกรรม" style="${is}"/></div>
-      <div class="fg" style="margin-bottom:14px"><label>คำอธิบาย/เนื้อหา</label><textarea class="gd" placeholder="รายละเอียดกิจกรรม..." style="${is};min-height:70px;resize:vertical">${g.desc||''}</textarea></div>
-      <label style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;display:block">รูปภาพ (สูงสุด 4 รูป — รูปแรกเป็นปก)</label>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">${photoInputs}</div>
-    </div>`;
-  }).join('') || '<div style="text-align:center;color:var(--muted);padding:30px">ยังไม่มีกิจกรรม กด "+ เพิ่มกิจกรรม" ด้านบน</div>';
+  const arr = Array.isArray(cfg.activities) ? cfg.activities : [];
+  // แสดงล่าสุดก่อน (reverse) เหมือนกระดาน
+  const display = arr.slice().reverse();
+  document.getElementById('galItems').innerHTML = display.length === 0
+    ? '<div style="text-align:center;color:var(--muted);padding:30px"><i class="fas fa-comments" style="font-size:32px;display:block;margin-bottom:12px;opacity:.3"></i>ยังไม่มีกระทู้ กด "+ เพิ่มกระทู้กิจกรรม" ด้านบน</div>'
+    : display.map((g, di) => {
+        const realIdx = arr.length - 1 - di; // real index in cfg.activities (newest first)
+        const photos = Array.isArray(g.photos) ? g.photos : [];
+        // build photo rows (up to MAX_PHOTOS)
+        const photoRows = Array.from({length: MAX_PHOTOS}, (_, p) => {
+          const url = photos[p] || '';
+          const isCover = p === 0;
+          return `<div class="gp-wrap" style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;color:${isCover?'var(--secondary)':'var(--muted)'};font-weight:${isCover?700:400};min-width:60px;flex-shrink:0">${isCover?'📷 ปก':'รูปที่ '+(p+1)}</span>
+            <input class="gp" data-p="${p}" type="url" value="${url}" placeholder="URL รูปภาพ หรืออัพโหลด →" style="${is};flex:1" oninput="updateGalPhotoPreview(this,${realIdx},${p})"/>
+            <label class="btn btn-secondary btn-sm" style="cursor:pointer;flex-shrink:0;white-space:nowrap" title="อัพโหลด">
+              <i class="fas fa-upload"></i>
+              <input type="file" accept="image/*" style="display:none" onchange="uploadGalPhoto(this,${realIdx},${p})"/>
+            </label>
+            <button class="btn btn-danger btn-sm" style="flex-shrink:0" onclick="clearGalPhoto(${realIdx},${p})" title="ลบ"><i class="fas fa-times"></i></button>
+            ${url ? `<img class="gp-thumb" src="${url}" style="height:36px;width:54px;object-fit:cover;border-radius:6px;border:1px solid var(--border);flex-shrink:0" onerror="this.style.display='none'"/>` : '<span class="gp-thumb" style="height:36px;width:54px;border-radius:6px;background:var(--bg);border:1px solid var(--border);flex-shrink:0;display:block"></span>'}
+          </div>`;
+        }).join('');
+
+        return `<div class="gal-row" data-real-idx="${realIdx}" style="border:1.5px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;background:var(--white)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <strong style="color:var(--primary);display:flex;align-items:center;gap:8px">
+              <i class="fas fa-comments" style="color:var(--secondary)"></i> กระทู้ที่ ${realIdx+1}
+              ${g.cat ? `<span style="font-size:11px;background:var(--primary);color:#fff;padding:2px 10px;border-radius:50px;font-weight:600">${g.cat}</span>` : ''}
+            </strong>
+            <button class="btn btn-danger btn-sm" onclick="removeGal(${realIdx})"><i class="fas fa-trash"></i> ลบ</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
+            <div class="fg" style="margin:0;grid-column:1/3">
+              <label style="font-size:12px;font-weight:700;color:var(--muted)">หัวข้อกระทู้ <span style="color:var(--red)">*</span></label>
+              <input class="gt" value="${g.title||''}" placeholder="หัวข้อกิจกรรม" style="${is}"/>
+            </div>
+            <div class="fg" style="margin:0">
+              <label style="font-size:12px;font-weight:700;color:var(--muted)">วันที่</label>
+              <input class="gdate" type="date" value="${g.date||''}" style="${is}"/>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <div class="fg" style="margin:0">
+              <label style="font-size:12px;font-weight:700;color:var(--muted)">หมวดหมู่</label>
+              <select class="gcat" style="${is}">
+                ${ACT_CATS.map(c => `<option value="${c}" ${g.cat===c?'selected':''}>${c}</option>`).join('')}
+              </select>
+            </div>
+            <div></div>
+          </div>
+          <div class="fg" style="margin-bottom:16px">
+            <label style="font-size:12px;font-weight:700;color:var(--muted)">คำอธิบาย / เนื้อหา</label>
+            <textarea class="gd" placeholder="รายละเอียดกิจกรรม..." style="${is};min-height:80px;resize:vertical">${g.desc||''}</textarea>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+              <i class="fas fa-images" style="color:var(--primary)"></i> รูปภาพกิจกรรม (สูงสุด ${MAX_PHOTOS} รูป — รูปแรกเป็นปก)
+            </label>
+            <div style="background:var(--bg);border-radius:10px;padding:12px">
+              ${photoRows}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
 }
+
 function addGal() {
-  if (!cfg.gallery) cfg.gallery = [];
-  cfg.gallery.push({ title: '', desc: '', photos: ['','','',''] });
+  if (!Array.isArray(cfg.activities)) cfg.activities = [];
+  const today = new Date().toISOString().split('T')[0];
+  cfg.activities.push({ title: '', cat: 'กิจกรรมโรงเรียน', date: today, desc: '', photos: [] });
+  renderGallery();
+  // scroll to first card (newest = first in display)
+  document.getElementById('galItems')?.firstElementChild?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function removeGal(realIdx) {
+  if (!Array.isArray(cfg.activities)) return;
+  if (!confirm('ลบกระทู้นี้?')) return;
+  cfg.activities.splice(realIdx, 1);
   renderGallery();
 }
-function removeGal(i) { cfg.gallery.splice(i, 1); renderGallery(); }
-function collectGallery() {
-  cfg.gallery = [];
-  document.querySelectorAll('#galItems .gal-row').forEach(row => {
-    const title = row.querySelector('.gt')?.value || '';
-    const desc = row.querySelector('.gd')?.value || '';
-    const photos = ['','','',''];
-    row.querySelectorAll('.gp').forEach(inp => { photos[+inp.dataset.p] = inp.value.trim(); });
-    cfg.gallery.push({ title, desc, photos });
-  });
+
+function clearGalPhoto(realIdx, photoIdx) {
+  const rows = document.querySelectorAll('#galItems .gal-row');
+  // find row with data-real-idx
+  const row = Array.from(rows).find(r => +r.dataset.realIdx === realIdx);
+  if (!row) return;
+  const inp = row.querySelector(`.gp[data-p="${photoIdx}"]`);
+  if (inp) { inp.value = ''; updateGalPhotoPreview(inp, realIdx, photoIdx); }
 }
-function updateGalPhotoPreview(inp, i, p) {
+
+function collectGallery() {
+  if (!Array.isArray(cfg.activities)) cfg.activities = [];
+  document.querySelectorAll('#galItems .gal-row').forEach(row => {
+    const realIdx = +row.dataset.realIdx;
+    if (isNaN(realIdx)) return;
+    const title = row.querySelector('.gt')?.value.trim() || '';
+    const cat   = row.querySelector('.gcat')?.value || 'กิจกรรมโรงเรียน';
+    const date  = row.querySelector('.gdate')?.value || '';
+    const desc  = row.querySelector('.gd')?.value.trim() || '';
+    const photos = [];
+    row.querySelectorAll('.gp').forEach(inp => { const u = inp.value.trim(); if(u) photos[+inp.dataset.p] = u; });
+    // compact: remove trailing empty
+    const cleaned = photos.filter((p,i) => photos.slice(i).some(x => x));
+    cfg.activities[realIdx] = { title, cat, date, desc, photos: cleaned.map(p=>p||'').filter((_,i)=>cleaned[i]) };
+  });
+  // re-clean after all rows
+  cfg.activities = cfg.activities.map(a => ({...a, photos: (a.photos||[]).filter(p=>p)}));
+}
+
+function updateGalPhotoPreview(inp, realIdx, p) {
   const url = inp.value.trim();
-  const wrap = inp.closest('div[style*="flex:1"]');
-  const prev = wrap?.querySelector('.gp-prev');
-  if (!prev) return;
+  const thumb = inp.closest('.gp-wrap')?.querySelector('.gp-thumb');
+  if (!thumb) return;
   if (url) {
-    let img = prev.querySelector('img');
-    if (!img) { img = document.createElement('img'); img.style.cssText='width:100%;height:100%;object-fit:cover'; prev.appendChild(img); }
-    img.src = url;
-    prev.style.display = 'block';
+    if (thumb.tagName === 'IMG') { thumb.src = url; thumb.style.display = ''; }
+    else {
+      const img = document.createElement('img');
+      img.className = 'gp-thumb';
+      img.style.cssText = 'height:36px;width:54px;object-fit:cover;border-radius:6px;border:1px solid var(--border);flex-shrink:0';
+      img.src = url;
+      thumb.replaceWith(img);
+    }
   } else {
-    prev.style.display = 'none';
+    if (thumb.tagName === 'IMG') { thumb.src = ''; thumb.style.display = 'none'; }
   }
 }
-async function uploadGalPhoto(input, galIdx, photoIdx) {
+
+async function uploadGalPhoto(input, realIdx, photoIdx) {
   const file = input.files[0]; if (!file) return;
   const btn = input.closest('label');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
   btn.disabled = true;
   try {
-    const url = await uploadToGitHub(file, 'images/gallery');
-    const row = document.querySelectorAll('#galItems .gal-row')[galIdx];
+    const url = await uploadToGitHub(file, 'images/activities');
+    const rows = document.querySelectorAll('#galItems .gal-row');
+    const row = Array.from(rows).find(r => +r.dataset.realIdx === realIdx);
     const inp = row?.querySelector(`.gp[data-p="${photoIdx}"]`);
-    if (inp) { inp.value = url; updateGalPhotoPreview(inp, galIdx, photoIdx); }
+    if (inp) { inp.value = url; updateGalPhotoPreview(inp, realIdx, photoIdx); }
     showToast('อัพโหลดสำเร็จ ✓', 'success');
   } catch(e) { showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error'); }
   btn.innerHTML = '<i class="fas fa-upload"></i>';
