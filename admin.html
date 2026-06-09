@@ -142,12 +142,13 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:16px;width:100%;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal{background:var(--white);border-radius:16px;width:100%;max-width:580px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .modal-hdr h3{font-size:15px;font-weight:700;color:var(--primary)}
 .modal-close{background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer}
-.modal-body{padding:22px}
-.modal-ftr{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.modal-body{padding:22px;overflow-y:auto;flex:1}
+.modal-body::-webkit-scrollbar{width:6px}.modal-body::-webkit-scrollbar-track{background:transparent}.modal-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.modal-ftr{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;background:var(--white);border-radius:0 0 16px 16px}
 
 /* TOAST */
 .toast{position:fixed;bottom:24px;right:24px;background:#2c3e50;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999;display:flex;align-items:center;gap:8px}
@@ -591,7 +592,11 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       <div class="fg" style="margin-bottom:12px"><label>หัวข้อข่าว</label><input id="nm_title"/></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
         <div class="fg"><label>หมวดหมู่</label><select id="nm_cat"><option>กิจกรรม</option><option>ประชาสัมพันธ์</option><option>วิชาการ</option><option>รางวัล</option><option>อื่นๆ</option></select></div>
-        <div class="fg"><label>วันที่</label><input id="nm_date"/></div>
+        <div class="fg">
+          <label>วันที่</label>
+          <input id="nm_date" type="date" style="cursor:pointer"/>
+          <div class="fhint" id="nm_date_display" style="margin-top:4px;font-size:13px;color:var(--primary);font-weight:600"></div>
+        </div>
       </div>
       <div class="fg" style="margin-bottom:12px"><label>เนื้อหาย่อ</label><textarea id="nm_body" style="min-height:75px"></textarea></div>
       <div class="fg" style="margin-bottom:12px"><label>ลิงก์อ่านต่อ (ถ้ามี)</label><input id="nm_link" type="url" placeholder="https://..."/></div>
@@ -1407,11 +1412,49 @@ function renderNews() {
     </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">ยังไม่มีข่าว</td></tr>';
 }
 
+// ── Date helpers ─────────────────────────────────────────────
+const THAI_MONTHS = ['','มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+function isoToThaiDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${THAI_MONTHS[m]} ${y + 543}`;
+}
+function thaiDateToISO(thai) {
+  if (!thai) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(thai)) return thai; // already ISO
+  for (let i = 1; i <= 12; i++) {
+    const mth = THAI_MONTHS[i];
+    if (thai.includes(mth)) {
+      const clean = thai.replace(mth, '').trim().split(/\s+/);
+      const d = clean[0], y = clean[1];
+      return `${+y - 543}-${String(i).padStart(2,'0')}-${String(+d).padStart(2,'0')}`;
+    }
+  }
+  return '';
+}
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function updateDateDisplay() {
+  const iso = document.getElementById('nm_date')?.value;
+  const el = document.getElementById('nm_date_display');
+  if (el) el.textContent = iso ? '📅 ' + isoToThaiDate(iso) : '';
+}
+// ─────────────────────────────────────────────────────────────
+
 function openNewsModal(idx = -1) {
   document.getElementById('nmTitle').textContent = idx >= 0 ? 'แก้ไขข่าว' : 'เพิ่มข่าว';
   document.getElementById('nm_idx').value = idx;
   const n = idx >= 0 ? cfg.news[idx] : {};
-  setV('nm_title', n.title); setV('nm_cat', n.cat); setV('nm_date', n.date);
+  setV('nm_title', n.title); setV('nm_cat', n.cat);
+  // แปลงวันที่เป็น ISO สำหรับ date picker
+  const dateISO = n.date ? thaiDateToISO(n.date) : todayISO();
+  setV('nm_date', dateISO);
+  updateDateDisplay();
+  // เพิ่ม event listener แสดงวันที่ภาษาไทย
+  const dateEl = document.getElementById('nm_date');
+  if (dateEl) { dateEl.oninput = updateDateDisplay; }
   setV('nm_body', n.body); setV('nm_link', n.link);
   // รูปปก
   const cover = n.image || (Array.isArray(n.images) ? n.images[0] : '') || '';
@@ -1456,7 +1499,7 @@ async function saveNews() {
   ].filter(u => u);
   const item = {
     title: v('nm_title'), cat: document.getElementById('nm_cat').value,
-    date: v('nm_date'), body: v('nm_body'), link: v('nm_link'),
+    date: isoToThaiDate(v('nm_date')) || v('nm_date'), body: v('nm_body'), link: v('nm_link'),
     image: allImgs[0] || '',   // backward compat
     images: allImgs            // new field
   };
