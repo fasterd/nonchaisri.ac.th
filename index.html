@@ -472,11 +472,13 @@ ul{list-style:none}
       <div class="section-divider"></div>
     </div>
     <div class="news-forum-wrap" id="newsBoardWrap">
-      <div class="news-forum-tabs">
-        <div class="news-forum-tab active" onclick="switchNewsTab(0,this)">ข่าวประชาสัมพันธ์</div>
+      <div class="news-forum-tabs" style="overflow-x:auto">
+        <div class="news-forum-tab active" onclick="switchNewsTab(0,this)">ทั้งหมด</div>
         <div class="news-forum-tab" onclick="switchNewsTab(1,this)">กิจกรรม</div>
-        <div class="news-forum-tab" onclick="switchNewsTab(2,this)">วิชาการ</div>
-        <div class="news-forum-tab" onclick="switchNewsTab(3,this)">รางวัล</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(2,this)">ประชาสัมพันธ์</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(3,this)">วิชาการ</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(4,this)">รางวัล</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(5,this)">อื่นๆ</div>
       </div>
       <div class="news-forum-list" id="newsBoardList">
         <!-- JS rendered -->
@@ -891,9 +893,9 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
   // ── ข่าวสาร forum board ───────────────────────────────────
   const CAT_COLORS_NEWS = {'กิจกรรม':'#1a5276','ประชาสัมพันธ์':'#27ae60','วิชาการ':'#e67e22','รางวัล':'#8e44ad','อื่นๆ':'#7f8c8d'};
   const NEWS_PER_PAGE = 5;
-  let newsCurrentTab = 0; // 0=all, 1=กิจกรรม, 2=วิชาการ, 3=รางวัล
+  let newsCurrentTab = 0;
   let newsCurrentPage = 1;
-  const NEWS_TABS = ['ทั้งหมด','กิจกรรม','วิชาการ','รางวัล'];
+  const NEWS_TABS = ['ทั้งหมด','กิจกรรม','ประชาสัมพันธ์','วิชาการ','รางวัล','อื่นๆ'];
 
   const getImgs = (n) => {
     const arr = Array.isArray(n.images) && n.images.length ? n.images : (n.image ? [n.image] : []);
