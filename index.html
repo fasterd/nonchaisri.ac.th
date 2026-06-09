@@ -582,7 +582,7 @@ ul{list-style:none}
             <i class="fas fa-external-link-alt"></i> เปิดใน Facebook
           </a>
         </div>
-        <div class="fb-embed-box">
+        <div class="fb-embed-box" id="fb-embed-box">
           <iframe id="fb-page-iframe"
             src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FBannonchaisri&tabs=timeline&width=500&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
             height="500"
@@ -1069,10 +1069,16 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
   const fbLink = document.getElementById('fb-page-link');
   const fbIframe = document.getElementById('fb-page-iframe');
   if(fbLink) fbLink.href = fbUrl;
-  if(fbIframe){
+  function setFbIframe() {
+    if(!fbIframe) return;
+    const box = document.getElementById('fb-embed-box');
+    const w = box ? Math.min(box.offsetWidth || 500, 500) : 500;
     const encoded = encodeURIComponent(fbUrl);
-    fbIframe.src = `https://www.facebook.com/plugins/page.php?href=${encoded}&tabs=timeline&width=500&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`;
+    fbIframe.src = `https://www.facebook.com/plugins/page.php?href=${encoded}&tabs=timeline&width=${w}&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`;
+    fbIframe.style.height = '600px';
   }
+  setFbIframe();
+  window.addEventListener('resize', () => { clearTimeout(window._fbResizeT); window._fbResizeT = setTimeout(setFbIframe, 300); });
 
   // ── Google Maps ───────────────────────────────────────────
   if(cfg.map_query){
