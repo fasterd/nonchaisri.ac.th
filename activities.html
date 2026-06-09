@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>กิจกรรม | โรงเรียนบ้านโนนไชยศรี</title>
-<meta name="description" content="กิจกรรมและจดหมายข่าวโรงเรียนบ้านโนนไชยศรี"/>
+<title>กระดานกิจกรรม | โรงเรียนบ้านโนนไชยศรี</title>
+<meta name="description" content="กระดานกิจกรรมและข่าวสารโรงเรียนบ้านโนนไชยศรี"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -13,18 +13,18 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --primary:#1a5276;--primary-dark:#154360;--secondary:#f39c12;
-  --accent:#e74c3c;--green:#27ae60;--bg:#f4f6f9;--text:#2c3e50;
-  --muted:#7f8c8d;--white:#fff;--radius:12px;--radius-lg:20px;
-  --shadow:0 4px 20px rgba(0,0,0,.10);--shadow-lg:0 8px 40px rgba(0,0,0,.15);
-  --tr:all .3s ease;
+  --accent:#e74c3c;--green:#27ae60;--bg:#eef1f5;--text:#2c3e50;
+  --muted:#7f8c8d;--white:#fff;--border:#dce3ea;--radius:12px;--radius-lg:18px;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.14);
+  --tr:all .25s ease;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Sarabun',sans-serif;color:var(--text);font-size:16px;line-height:1.7;background:var(--bg);overflow-x:hidden}
+body{font-family:'Sarabun',sans-serif;color:var(--text);font-size:15px;line-height:1.7;background:var(--bg);overflow-x:hidden}
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
-.container{max-width:1200px;margin:0 auto;padding:0 20px}
-button{font-family:'Sarabun',sans-serif}
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+button{font-family:'Sarabun',sans-serif;cursor:pointer}
 
 /* TOPBAR */
 .topbar{background:var(--primary-dark);color:rgba(255,255,255,.85);font-size:13px;padding:7px 0}
@@ -33,7 +33,7 @@ button{font-family:'Sarabun',sans-serif}
 .topbar-left span i{margin-right:5px;color:var(--secondary)}
 .topbar-right{display:flex;gap:10px}
 .topbar-right a{color:rgba(255,255,255,.85);width:26px;height:26px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;transition:var(--tr)}
-.topbar-right a:hover{background:var(--secondary);border-color:var(--secondary);color:var(--white)}
+.topbar-right a:hover{background:var(--secondary);border-color:var(--secondary);color:#fff}
 
 /* HEADER */
 .header{position:sticky;top:0;z-index:1000;background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,.10);padding:10px 0;transition:var(--tr)}
@@ -46,113 +46,100 @@ button{font-family:'Sarabun',sans-serif}
 .school-name-th{font-size:17px;font-weight:700;color:var(--primary);line-height:1.2}
 .school-name-en{font-size:12px;color:var(--muted)}
 .school-sub{font-size:11px;color:var(--secondary);font-weight:600}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
 .hamburger span{display:block;width:22px;height:2px;background:var(--primary);border-radius:2px;transition:var(--tr)}
 .nav ul{display:flex;align-items:center;gap:2px}
 .nav-link{display:flex;align-items:center;gap:4px;padding:8px 13px;font-size:15px;font-weight:500;color:var(--text);border-radius:8px;transition:var(--tr)}
 .nav-link:hover,.nav-link.active{color:var(--primary);background:rgba(26,82,118,.08)}
 
 /* PAGE HERO */
-.page-hero{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 60%,#2980b9 100%);padding:60px 0 50px;position:relative;overflow:hidden}
-.page-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04)}
+.page-hero{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 60%,#2980b9 100%);padding:48px 0 40px;position:relative;overflow:hidden}
 .page-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--secondary),#f39c12aa)}
 .page-hero-content{text-align:center;color:#fff;position:relative;z-index:1}
-.page-hero-tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:4px 18px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase}
-.page-hero-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;margin-bottom:10px}
-.page-hero-sub{font-size:16px;opacity:.85}
-.breadcrumb{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;font-size:13px;opacity:.75}
-.breadcrumb a{color:#fff;transition:var(--tr)}
-.breadcrumb a:hover{opacity:1;color:var(--secondary)}
+.page-hero-tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:4px 18px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:12px}
+.page-hero-title{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:8px}
+.page-hero-sub{font-size:15px;opacity:.85}
+.breadcrumb{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:13px;opacity:.75}
+.breadcrumb a{color:#fff}
+.breadcrumb a:hover{color:var(--secondary)}
 .breadcrumb i{font-size:10px}
 
-/* FILTER BAR */
-.filter-bar{background:var(--white);border-bottom:1px solid rgba(0,0,0,.07);padding:14px 0;position:sticky;top:80px;z-index:100}
-.filter-inner{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.filter-label{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
-.filter-btn{padding:6px 16px;border-radius:50px;border:1.5px solid var(--border,#dce1e7);background:var(--white);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:var(--tr);font-family:'Sarabun',sans-serif}
-.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
-.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
-.filter-count{font-size:11px;background:rgba(255,255,255,.25);padding:1px 7px;border-radius:50px;margin-left:4px}
+/* FORUM LAYOUT */
+.forum-wrap{padding:32px 0 80px}
+.forum-layout{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
 
-/* SEARCH */
-.search-wrap{margin-left:auto;position:relative}
-.search-wrap input{padding:7px 14px 7px 36px;border:1.5px solid var(--border,#dce1e7);border-radius:50px;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:200px;transition:var(--tr)}
-.search-wrap input:focus{border-color:var(--primary);width:240px}
-.search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px}
+/* SIDEBAR CATEGORIES */
+.forum-sidebar{position:sticky;top:90px;display:flex;flex-direction:column;gap:16px}
+.sb-box{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.sb-box-hdr{background:linear-gradient(135deg,var(--primary),#2980b9);color:#fff;padding:12px 16px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sb-box-body{padding:8px}
+.cat-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:9px 12px;border:none;background:transparent;border-radius:8px;font-size:14px;font-weight:500;color:var(--text);transition:var(--tr);text-align:left}
+.cat-btn:hover{background:rgba(26,82,118,.07);color:var(--primary)}
+.cat-btn.active{background:var(--primary);color:#fff}
+.cat-btn .cat-n{display:flex;align-items:center;gap:8px}
+.cat-count{font-size:11px;font-weight:700;padding:1px 8px;border-radius:50px;background:rgba(26,82,118,.12);color:var(--primary)}
+.cat-btn.active .cat-count{background:rgba(255,255,255,.25);color:#fff}
 
-/* MAIN LAYOUT */
-.act-wrap{padding:48px 0 80px}
-.act-layout{display:grid;grid-template-columns:1fr 320px;gap:36px;align-items:start}
+/* SEARCH BAR */
+.forum-search{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.forum-search i{color:var(--muted);font-size:15px}
+.forum-search input{flex:1;border:none;outline:none;font-size:14px;font-family:'Sarabun',sans-serif;color:var(--text);background:transparent}
+.forum-search input::placeholder{color:var(--muted)}
 
-/* ACTIVITY CARDS */
-.act-list{display:flex;flex-direction:column;gap:28px}
-.act-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;transition:var(--tr);cursor:pointer}
-.act-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.act-card-inner{display:grid;grid-template-columns:280px 1fr;gap:0}
-.act-cover{width:100%;height:220px;overflow:hidden;background:linear-gradient(135deg,#1a5276,#2980b9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:56px;position:relative;flex-shrink:0}
-.act-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.act-card:hover .act-cover img{transform:scale(1.05)}
-.act-body{padding:24px 28px;display:flex;flex-direction:column;gap:10px}
-.act-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.act-cat{display:inline-block;background:var(--secondary);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:50px}
-.act-date{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
-.act-date i{color:var(--secondary)}
-.act-title{font-size:1.2rem;font-weight:800;color:var(--primary);line-height:1.4}
-.act-desc{font-size:14px;color:var(--text);opacity:.85;line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.act-photos-strip{display:flex;gap:8px;margin-top:4px}
-.act-strip-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;border:2px solid var(--bg);transition:var(--tr)}
-.act-strip-thumb:hover{transform:scale(1.08);border-color:var(--secondary)}
-.act-more-btn{display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:700;margin-top:4px;border:none;background:none;cursor:pointer;font-family:'Sarabun',sans-serif;padding:0;transition:var(--tr)}
-.act-more-btn:hover{color:var(--secondary);gap:10px}
+/* FORUM BOARD HEADER */
+.board-hdr{background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0;padding:12px 20px;display:grid;grid-template-columns:1fr 100px 90px;gap:10px;font-size:13px;font-weight:700;letter-spacing:.5px}
 
-/* FEATURED (first card) */
-.act-card.featured .act-card-inner{grid-template-columns:1fr;grid-template-rows:320px auto}
-.act-card.featured .act-cover{height:100%;width:100%}
-.act-card.featured .act-title{font-size:1.5rem}
+/* THREAD LIST */
+.thread-list{background:var(--white);border-radius:0 0 var(--radius-lg) var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.thread-item{border-bottom:1px solid var(--border);transition:var(--tr)}
+.thread-item:last-child{border-bottom:none}
+.thread-item.open .thread-row{background:rgba(26,82,118,.04)}
+.thread-row{display:grid;grid-template-columns:52px 1fr 100px 90px;gap:0;align-items:center;cursor:pointer;transition:var(--tr)}
+.thread-row:hover{background:rgba(26,82,118,.035)}
+.thread-icon{display:flex;align-items:center;justify-content:center;padding:16px 0 16px 16px}
+.thread-icon-inner{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.thread-main{padding:14px 16px}
+.thread-cat-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:50px;margin-bottom:5px}
+.thread-title{font-size:15px;font-weight:700;color:var(--primary);line-height:1.35;margin-bottom:4px}
+.thread-preview{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.thread-meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px;margin-top:4px}
+.thread-col{padding:14px 10px;font-size:13px;color:var(--muted);text-align:center}
+.thread-date{font-size:12px;font-weight:500}
+.thread-photos-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;background:rgba(26,82,118,.1);color:var(--primary);padding:2px 8px;border-radius:50px;font-weight:700}
+.thread-arrow{display:flex;align-items:center;justify-content:center;padding-right:16px;color:var(--muted);font-size:13px;transition:transform .3s ease}
+.thread-item.open .thread-arrow{transform:rotate(180deg)}
+
+/* THREAD CONTENT (expanded) */
+.thread-content{display:none;border-top:2px solid rgba(26,82,118,.08);background:#fafbfd;animation:slideDown .25s ease}
+.thread-item.open .thread-content{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.thread-body{padding:20px 24px 16px}
+.thread-full-img{width:100%;max-height:420px;object-fit:contain;border-radius:12px;box-shadow:var(--shadow);margin-bottom:16px;background:#f0f4f8;cursor:pointer}
+.thread-desc{font-size:14px;line-height:1.85;color:var(--text);white-space:pre-line;margin-bottom:16px}
+.thread-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+.thread-gallery img{width:100%;height:100px;object-fit:cover;border-radius:9px;cursor:pointer;transition:var(--tr);border:2px solid var(--border)}
+.thread-gallery img:hover{transform:scale(1.04);border-color:var(--secondary);box-shadow:var(--shadow)}
+.thread-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 24px 16px;flex-wrap:wrap;gap:8px}
+.thread-share{display:flex;gap:8px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);font-size:12px;font-weight:600;transition:var(--tr)}
+.share-btn:hover{border-color:var(--primary);color:var(--primary)}
+.back-top-btn{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;transition:var(--tr)}
+.back-top-btn:hover{color:var(--primary)}
 
 /* EMPTY */
-.act-empty{text-align:center;padding:80px 20px;color:var(--muted)}
-.act-empty i{font-size:48px;margin-bottom:16px;display:block;opacity:.4}
+.forum-empty{text-align:center;padding:60px 20px;color:var(--muted);background:var(--white);border-radius:0 0 var(--radius-lg) var(--radius-lg)}
+.forum-empty i{font-size:44px;margin-bottom:14px;display:block;opacity:.35}
 
-/* LOAD MORE */
-.load-more-wrap{text-align:center;margin-top:32px}
-.btn-load-more{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:2px solid var(--primary);color:var(--primary);padding:11px 32px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Sarabun',sans-serif}
-.btn-load-more:hover{background:var(--primary);color:#fff}
-
-/* SIDEBAR */
-.act-sidebar{display:flex;flex-direction:column;gap:24px;position:sticky;top:140px}
-.sb-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
-.sb-hdr{background:linear-gradient(135deg,var(--primary),#2980b9);color:#fff;padding:14px 20px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
-.sb-body{padding:16px}
-.sb-cat-item{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bg,#f4f6f9);cursor:pointer;transition:var(--tr)}
-.sb-cat-item:last-child{border-bottom:none}
-.sb-cat-item:hover{color:var(--primary)}
-.sb-cat-name{font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
-.sb-cat-count{font-size:12px;background:rgba(26,82,118,.1);color:var(--primary);padding:2px 9px;border-radius:50px;font-weight:700}
-.sb-recent{display:flex;flex-direction:column;gap:12px}
-.sb-rec-item{display:flex;gap:12px;align-items:center;cursor:pointer;transition:var(--tr);padding:4px 0}
-.sb-rec-item:hover .sb-rec-title{color:var(--secondary)}
-.sb-rec-thumb{width:60px;height:54px;border-radius:10px;object-fit:cover;flex-shrink:0;background:linear-gradient(135deg,#d6eaf8,#85c1e9);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:20px;overflow:hidden}
-.sb-rec-thumb img{width:100%;height:100%;object-fit:cover}
-.sb-rec-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.sb-rec-date{font-size:11px;color:var(--muted);margin-top:3px}
-
-/* MODAL */
-.act-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px}
-.act-modal.open{display:flex}
-.act-modal-box{background:var(--white);border-radius:var(--radius-lg);max-width:860px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
-.act-modal-cover{width:100%;height:340px;object-fit:cover;display:block}
-.act-modal-cover-ph{width:100%;height:340px;background:linear-gradient(135deg,#1a5276,#2980b9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:72px}
-.act-modal-content{padding:28px 32px 32px}
-.act-modal-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.act-modal-title{font-size:1.6rem;font-weight:800;color:var(--primary);margin-bottom:12px;line-height:1.35}
-.act-modal-desc{font-size:15px;line-height:1.9;color:var(--text);white-space:pre-line}
-.act-modal-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:20px}
-.act-modal-gallery img{width:100%;height:110px;object-fit:cover;border-radius:10px;cursor:pointer;transition:var(--tr)}
-.act-modal-gallery img:hover{transform:scale(1.04)}
-.act-modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
-.act-modal-close:hover{background:var(--accent)}
-.act-modal-header{position:relative}
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:94vw;max-height:90vh;object-fit:contain;border-radius:12px;box-shadow:0 8px 48px rgba(0,0,0,.5)}
+.lightbox-close{position:fixed;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;opacity:.8;background:none;border:none;transition:var(--tr)}
+.lightbox-close:hover{opacity:1;transform:scale(1.1)}
+.lightbox-prev,.lightbox-next{position:fixed;top:50%;transform:translateY(-50%);color:#fff;font-size:28px;background:rgba(255,255,255,.1);border:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr)}
+.lightbox-prev{left:12px}
+.lightbox-next{right:12px}
+.lightbox-prev:hover,.lightbox-next:hover{background:rgba(255,255,255,.25)}
 
 /* FOOTER */
 .footer{background:var(--primary-dark);color:rgba(255,255,255,.85)}
@@ -161,13 +148,13 @@ button{font-family:'Sarabun',sans-serif}
 .footer-logo-row{display:flex;align-items:center;gap:11px;margin-bottom:14px}
 .footer-logo-circle{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:2px solid var(--secondary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;overflow:hidden}
 .footer-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.footer-school-name{font-size:15px;font-weight:700;color:var(--white)}
+.footer-school-name{font-size:15px;font-weight:700;color:#fff}
 .footer-school-en{font-size:11px;opacity:.65}
 .footer-brand p{font-size:13px;opacity:.7;line-height:1.8;margin-bottom:16px}
 .footer-social{display:flex;gap:8px}
 .footer-social a{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:13px;transition:var(--tr)}
-.footer-social a:hover{background:var(--secondary);border-color:var(--secondary);color:var(--white)}
-.footer-links h4,.footer-contact-col h4{color:var(--white);font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-social a:hover{background:var(--secondary);border-color:var(--secondary);color:#fff}
+.footer-links h4,.footer-contact-col h4{color:#fff;font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1)}
 .footer-links ul{display:flex;flex-direction:column;gap:7px}
 .footer-links ul li a{font-size:13px;opacity:.7;transition:var(--tr);display:flex;align-items:center;gap:7px}
 .footer-links ul li a:hover{opacity:1;color:var(--secondary);padding-left:4px}
@@ -176,34 +163,32 @@ button{font-family:'Sarabun',sans-serif}
 .footer-bottom{background:rgba(0,0,0,.2);padding:14px 0;text-align:center}
 .footer-bottom p{font-size:12px;opacity:.55}
 
-/* BACK TO TOP */
-.btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--primary);color:var(--white);border:none;cursor:pointer;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;font-size:15px;opacity:0;visibility:hidden;transform:translateY(10px);transition:var(--tr);z-index:999}
+/* BTT */
+.btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;font-size:15px;opacity:0;visibility:hidden;transform:translateY(10px);transition:var(--tr);z-index:999}
 .btt.show{opacity:1;visibility:visible;transform:translateY(0)}
 .btt:hover{background:var(--secondary);transform:translateY(-3px)}
 
 /* RESPONSIVE */
-@media(max-width:1024px){
-  .act-layout{grid-template-columns:1fr}
-  .act-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:900px){
+  .forum-layout{grid-template-columns:1fr}
+  .forum-sidebar{position:static;flex-direction:row;flex-wrap:wrap}
+  .board-hdr{grid-template-columns:1fr 80px}
+  .thread-row{grid-template-columns:44px 1fr 80px}
+  .thread-col:last-of-type{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:24px}
 }
-@media(max-width:768px){
+@media(max-width:600px){
   .hamburger{display:flex}
-  .nav{position:fixed;top:0;right:-260px;width:260px;height:100vh;background:var(--white);box-shadow:var(--shadow-lg);padding:70px 16px 24px;transition:var(--tr);z-index:1100;overflow-y:auto}
+  .nav{position:fixed;top:0;right:-260px;width:260px;height:100vh;background:#fff;box-shadow:var(--shadow-lg);padding:70px 16px 24px;transition:var(--tr);z-index:1100;overflow-y:auto}
   .nav.open{right:0}
-  .nav ul{flex-direction:column;padding:14px;gap:0}
+  .nav ul{flex-direction:column;gap:0}
   .nav-link{width:100%;padding:11px 14px}
   .school-sub{display:none}
-  .act-card-inner{grid-template-columns:1fr !important;grid-template-rows:200px auto !important}
-  .act-cover{height:200px !important;width:100% !important}
-  .act-modal-box{max-height:95vh}
-  .act-modal-cover,.act-modal-cover-ph{height:220px}
-  .act-modal-content{padding:20px}
-  .act-sidebar{grid-template-columns:1fr}
+  .board-hdr{grid-template-columns:1fr}
+  .thread-row{grid-template-columns:44px 1fr}
+  .thread-col{display:none}
   .footer-grid{grid-template-columns:1fr}
-  .filter-bar{top:72px}
-  .search-wrap{margin-left:0;width:100%}
-  .search-wrap input{width:100%}
+  .thread-gallery{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
 }
 </style>
 </head>
@@ -218,8 +203,8 @@ button{font-family:'Sarabun',sans-serif}
     </div>
     <div class="topbar-right">
       <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" id="tb-yt" title="YouTube"><i class="fab fa-youtube"></i></a>
-      <a href="#" id="tb-line" title="LINE"><i class="fab fa-line"></i></a>
+      <a href="#" id="tb-yt"><i class="fab fa-youtube"></i></a>
+      <a href="#" id="tb-line"><i class="fab fa-line"></i></a>
     </div>
   </div>
 </div>
@@ -241,8 +226,6 @@ button{font-family:'Sarabun',sans-serif}
         <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
         <li><a href="index.html#about" class="nav-link">เกี่ยวกับโรงเรียน</a></li>
         <li><a href="staff.html" class="nav-link">บุคลากร</a></li>
-        <li><a href="index.html#academic" class="nav-link">วิชาการ</a></li>
-        <li><a href="index.html#news" class="nav-link">ข่าวสาร</a></li>
         <li><a href="index.html#gallery" class="nav-link">กิจกรรม</a></li>
         <li><a href="activities.html" class="nav-link active">จดหมายข่าว</a></li>
         <li><a href="index.html#contact" class="nav-link">ติดต่อ</a></li>
@@ -254,78 +237,78 @@ button{font-family:'Sarabun',sans-serif}
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="container page-hero-content">
-    <div class="page-hero-tag"><i class="fas fa-newspaper"></i> จดหมายข่าว</div>
-    <h1 class="page-hero-title">กิจกรรมโรงเรียน</h1>
-    <p class="page-hero-sub">รวมกิจกรรม ข่าวสาร และความทรงจำของโรงเรียนบ้านโนนไชยศรี</p>
+    <div class="page-hero-tag"><i class="fas fa-comments"></i> กระดานกิจกรรม</div>
+    <h1 class="page-hero-title">กิจกรรมโรงเรียนบ้านโนนไชยศรี</h1>
+    <p class="page-hero-sub">รวบรวมกิจกรรม ข่าวสาร และความทรงจำของโรงเรียน</p>
     <div class="breadcrumb">
       <a href="index.html"><i class="fas fa-home"></i> หน้าแรก</a>
       <i class="fas fa-chevron-right"></i>
-      <span>จดหมายข่าว</span>
+      <span>กระดานกิจกรรม</span>
     </div>
   </div>
 </div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <div class="container filter-inner">
-    <span class="filter-label"><i class="fas fa-filter"></i> หมวดหมู่ :</span>
-    <button class="filter-btn active" data-cat="all">ทั้งหมด<span class="filter-count" id="fc-all">0</span></button>
-    <div id="filterBtns"></div>
-    <div class="search-wrap">
-      <i class="fas fa-search"></i>
-      <input type="text" id="searchInput" placeholder="ค้นหากิจกรรม..."/>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN -->
-<div class="act-wrap">
+<!-- FORUM -->
+<div class="forum-wrap">
   <div class="container">
-    <div class="act-layout">
-      <!-- LIST -->
+    <div class="forum-layout">
+
+      <!-- SIDEBAR -->
+      <div class="forum-sidebar">
+        <div class="sb-box">
+          <div class="sb-box-hdr"><i class="fas fa-th-list"></i> หมวดหมู่</div>
+          <div class="sb-box-body" id="catList">
+            <button class="cat-btn active" data-cat="all" onclick="filterCat('all',this)">
+              <span class="cat-n"><i class="fas fa-border-all"></i> ทั้งหมด</span>
+              <span class="cat-count" id="cnt-all">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="sb-box">
+          <div class="sb-box-hdr"><i class="fas fa-info-circle"></i> สถิติ</div>
+          <div class="sb-box-body" style="padding:12px 16px">
+            <div style="font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:8px">
+              <div><i class="fas fa-newspaper" style="color:var(--secondary);margin-right:6px"></i> กระทู้ทั้งหมด: <strong id="stat-total">0</strong></div>
+              <div><i class="fas fa-tags" style="color:var(--secondary);margin-right:6px"></i> หมวดหมู่: <strong id="stat-cats">0</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOARD -->
       <div>
-        <div class="act-list" id="actList">
-          <div style="text-align:center;padding:60px 20px;color:var(--muted)">
-            <i class="fas fa-spinner fa-spin fa-2x" style="margin-bottom:12px;display:block"></i>
+        <!-- Search -->
+        <div class="forum-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="ค้นหากิจกรรม หัวข้อ หรือหมวดหมู่..."/>
+        </div>
+
+        <!-- Board header -->
+        <div class="board-hdr">
+          <span><i class="fas fa-comments" style="margin-right:8px;opacity:.7"></i> กระทู้กิจกรรม</span>
+          <span style="text-align:center">หมวดหมู่</span>
+          <span style="text-align:center">วันที่</span>
+        </div>
+
+        <!-- Thread list -->
+        <div class="thread-list" id="threadList">
+          <div class="forum-empty">
+            <i class="fas fa-spinner fa-spin"></i>
             กำลังโหลดกิจกรรม...
           </div>
         </div>
-        <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-          <button class="btn-load-more" id="loadMoreBtn"><i class="fas fa-chevron-down"></i> โหลดเพิ่มเติม</button>
-        </div>
       </div>
 
-      <!-- SIDEBAR -->
-      <div class="act-sidebar">
-        <!-- Categories -->
-        <div class="sb-card">
-          <div class="sb-hdr"><i class="fas fa-tags"></i> หมวดหมู่กิจกรรม</div>
-          <div class="sb-body" id="sbCats"></div>
-        </div>
-        <!-- Recent -->
-        <div class="sb-card">
-          <div class="sb-hdr"><i class="fas fa-clock"></i> กิจกรรมล่าสุด</div>
-          <div class="sb-body sb-recent" id="sbRecent"></div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL -->
-<div class="act-modal" id="actModal" onclick="closeModal(event)">
-  <div class="act-modal-box">
-    <div class="act-modal-header" id="actModalHeader">
-      <div class="act-modal-cover-ph" id="actModalCoverPh"><i class="fas fa-calendar-alt"></i></div>
-      <button class="act-modal-close" onclick="document.getElementById('actModal').classList.remove('open')"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="act-modal-content">
-      <div class="act-modal-meta" id="actModalMeta"></div>
-      <div class="act-modal-title" id="actModalTitle"></div>
-      <div class="act-modal-desc" id="actModalDesc"></div>
-      <div class="act-modal-gallery" id="actModalGallery"></div>
-    </div>
-  </div>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')"><i class="fas fa-times"></i></button>
+  <button class="lightbox-prev" onclick="lbNav(-1);event.stopPropagation()"><i class="fas fa-chevron-left"></i></button>
+  <img id="lbImg" src="" alt=""/>
+  <button class="lightbox-next" onclick="lbNav(1);event.stopPropagation()"><i class="fas fa-chevron-right"></i></button>
 </div>
 
 <!-- FOOTER -->
@@ -352,7 +335,7 @@ button{font-family:'Sarabun',sans-serif}
           <li><a href="index.html#academic"><i class="fas fa-angle-right"></i> วิชาการ</a></li>
           <li><a href="index.html#news"><i class="fas fa-angle-right"></i> ข่าวสาร</a></li>
           <li><a href="staff.html"><i class="fas fa-angle-right"></i> บุคลากร</a></li>
-          <li><a href="activities.html"><i class="fas fa-angle-right"></i> จดหมายข่าว</a></li>
+          <li><a href="activities.html"><i class="fas fa-angle-right"></i> กระดานกิจกรรม</a></li>
           <li><a href="index.html#contact"><i class="fas fa-angle-right"></i> ติดต่อ</a></li>
         </ul>
       </div>
@@ -378,186 +361,164 @@ button{font-family:'Sarabun',sans-serif}
   </div>
 </footer>
 
-<button class="btt" id="btt" aria-label="กลับขึ้นบน"><i class="fas fa-chevron-up"></i></button>
+<button class="btt" id="btt"><i class="fas fa-chevron-up"></i></button>
 
 <script>
 const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/data/settings.json';
-const COLORS = ['linear-gradient(135deg,#1a5276,#2980b9)','linear-gradient(135deg,#e67e22,#f39c12)','linear-gradient(135deg,#27ae60,#1abc9c)','linear-gradient(135deg,#8e44ad,#9b59b6)','linear-gradient(135deg,#c0392b,#e74c3c)','linear-gradient(135deg,#16a085,#1abc9c)'];
-const PER_PAGE = 6;
 
-let allActivities = [];
-let filteredActivities = [];
-let currentPage = 1;
-let currentCat = 'all';
-let searchQ = '';
+// cat colors & icons
+const CAT_COLORS = {
+  'กิจกรรมโรงเรียน': { bg:'#1a5276', light:'rgba(26,82,118,.12)', icon:'fas fa-school' },
+  'วิชาการ':          { bg:'#27ae60', light:'rgba(39,174,96,.12)',  icon:'fas fa-book-open' },
+  'กีฬา':             { bg:'#e67e22', light:'rgba(230,126,34,.12)', icon:'fas fa-running' },
+  'วัฒนธรรม':         { bg:'#8e44ad', light:'rgba(142,68,173,.12)',icon:'fas fa-landmark' },
+  'ประชาสัมพันธ์':    { bg:'#2980b9', light:'rgba(41,128,185,.12)',icon:'fas fa-bullhorn' },
+  'รางวัล':           { bg:'#f39c12', light:'rgba(243,156,18,.12)', icon:'fas fa-trophy' },
+};
+function catStyle(cat) { return CAT_COLORS[cat] || { bg:'#1a5276', light:'rgba(26,82,118,.12)', icon:'fas fa-calendar-alt' }; }
 
 // Hamburger
 const ham = document.getElementById('ham'), navEl = document.getElementById('nav');
 ham.addEventListener('click', () => navEl.classList.toggle('open'));
 document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => navEl.classList.remove('open')));
 
-// Header scroll + back to top
+// Header scroll
 const hdr = document.getElementById('header'), btt = document.getElementById('btt');
 window.addEventListener('scroll', () => {
   hdr.classList.toggle('scrolled', scrollY > 60);
   btt.classList.toggle('show', scrollY > 400);
 });
-btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+btt.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
+// State
+let allActs = [];
+let currentCat = 'all';
+let searchQ = '';
 
 // Search
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQ = e.target.value.trim().toLowerCase();
-  currentPage = 1;
-  applyFilter();
-  renderList();
+  renderThreads();
 });
 
 // Filter
-document.querySelector('[data-cat="all"]').addEventListener('click', () => {
-  currentCat = 'all';
-  currentPage = 1;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-cat="all"]').classList.add('active');
-  applyFilter();
-  renderList();
-});
-
-function applyFilter() {
-  filteredActivities = allActivities.filter(a => {
-    const catOk = currentCat === 'all' || (a.cat || 'กิจกรรมโรงเรียน') === currentCat;
-    const searchOk = !searchQ || (a.title||'').toLowerCase().includes(searchQ) || (a.desc||'').toLowerCase().includes(searchQ) || (a.cat||'').toLowerCase().includes(searchQ);
-    return catOk && searchOk;
-  });
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderThreads();
 }
 
-function renderList() {
-  const list = document.getElementById('actList');
-  const toShow = filteredActivities.slice(0, currentPage * PER_PAGE);
-  if (!toShow.length) {
-    list.innerHTML = `<div class="act-empty"><i class="fas fa-calendar-times"></i><p>ไม่พบกิจกรรมที่ต้องการ</p></div>`;
-    document.getElementById('loadMoreWrap').style.display = 'none';
+// Lightbox
+let lbImgs = [], lbIdx = 0;
+function openLightbox(imgs, idx) {
+  lbImgs = imgs; lbIdx = idx;
+  document.getElementById('lbImg').src = imgs[idx];
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(e) { if (e.target === document.getElementById('lightbox')) document.getElementById('lightbox').classList.remove('open'); }
+function lbNav(dir) { lbIdx = (lbIdx + dir + lbImgs.length) % lbImgs.length; document.getElementById('lbImg').src = lbImgs[lbIdx]; }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// Toggle thread
+function toggleThread(idx) {
+  const item = document.getElementById(`thread-${idx}`);
+  if (!item) return;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.thread-item.open').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) {
+    item.classList.add('open');
+    setTimeout(() => item.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+  }
+}
+
+function renderThreads() {
+  const list = document.getElementById('threadList');
+  const filtered = allActs.filter(a => {
+    const catOk = currentCat === 'all' || (a.cat||'กิจกรรมโรงเรียน') === currentCat;
+    const q = searchQ;
+    const searchOk = !q || (a.title||'').toLowerCase().includes(q) || (a.desc||'').toLowerCase().includes(q) || (a.cat||'').toLowerCase().includes(q);
+    return catOk && searchOk;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="forum-empty"><i class="fas fa-search"></i><p>ไม่พบกิจกรรมที่ค้นหา</p></div>`;
     return;
   }
-  list.innerHTML = toShow.map((a, i) => {
-    const realIdx = allActivities.indexOf(a);
+
+  list.innerHTML = filtered.map((a, fi) => {
+    const realIdx = allActs.indexOf(a);
     const photos = (a.photos || []).filter(p => p);
-    const cover = photos[0] || '';
-    const coverHtml = cover
-      ? `<img src="${cover}" alt="${a.title||''}"/>`
-      : `<i class="fas fa-calendar-alt"></i>`;
-    const bg = COLORS[realIdx % COLORS.length];
-    const isFeatured = i === 0 && currentPage === 1 && currentCat === 'all' && !searchQ;
-    const stripHtml = photos.slice(isFeatured ? 0 : 1, 5).map(p =>
-      `<img class="act-strip-thumb" src="${p}" alt="" onclick="event.stopPropagation();openImg('${p}')">`
-    ).join('');
-    return `<div class="act-card${isFeatured?' featured':''}" onclick="openModal(${realIdx})">
-      <div class="act-card-inner">
-        <div class="act-cover" style="background:${bg}">${coverHtml}</div>
-        <div class="act-body">
-          <div class="act-meta">
-            <span class="act-cat">${a.cat||'กิจกรรมโรงเรียน'}</span>
-            <span class="act-date"><i class="fas fa-calendar-alt"></i> ${a.date||'—'}</span>
+    const cs = catStyle(a.cat);
+    const galleryHtml = photos.length > 1
+      ? `<div class="thread-gallery">${photos.slice(1).map((p,pi) =>
+          `<img src="${p}" alt="" loading="lazy" onclick="openLightbox(${JSON.stringify(photos).replace(/"/g,"'")},${pi+1})">`
+        ).join('')}</div>` : '';
+
+    return `<div class="thread-item" id="thread-${realIdx}">
+      <div class="thread-row" onclick="toggleThread(${realIdx})">
+        <div class="thread-icon">
+          <div class="thread-icon-inner" style="background:${cs.light};color:${cs.bg}">
+            <i class="${cs.icon}"></i>
           </div>
-          <div class="act-title">${a.title||'กิจกรรมโรงเรียน'}</div>
-          ${a.desc ? `<div class="act-desc">${a.desc}</div>` : ''}
-          ${stripHtml ? `<div class="act-photos-strip">${stripHtml}</div>` : ''}
-          <button class="act-more-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="thread-main">
+          <div class="thread-cat-tag" style="background:${cs.bg};color:#fff">${a.cat||'กิจกรรมโรงเรียน'}</div>
+          <div class="thread-title">${a.title||'กิจกรรมโรงเรียน'}</div>
+          ${a.desc ? `<div class="thread-preview">${a.desc}</div>` : ''}
+          <div class="thread-meta">
+            <i class="fas fa-images"></i> ${photos.length} รูป
+          </div>
+        </div>
+        <div class="thread-col">
+          <span class="thread-photos-badge"><i class="fas fa-image"></i> ${photos.length}</span>
+        </div>
+        <div class="thread-col">
+          <div class="thread-date">${a.date||'—'}</div>
+          <div class="thread-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+      </div>
+      <div class="thread-content">
+        <div class="thread-body">
+          ${photos[0] ? `<img class="thread-full-img" src="${photos[0]}" alt="${a.title||''}" onclick="openLightbox(${JSON.stringify(photos).replace(/"/g,"'")},0)" loading="lazy"/>` : ''}
+          ${a.desc ? `<div class="thread-desc">${a.desc}</div>` : ''}
+          ${galleryHtml}
+        </div>
+        <div class="thread-footer">
+          <div class="thread-share">
+            <span style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px"><i class="fas fa-calendar-alt" style="color:var(--secondary)"></i> ${a.date||'—'}</span>
+          </div>
+          <button class="back-top-btn" onclick="toggleThread(${realIdx})"><i class="fas fa-chevron-up"></i> ซ่อนกระทู้</button>
         </div>
       </div>
     </div>`;
   }).join('');
-
-  const hasMore = filteredActivities.length > currentPage * PER_PAGE;
-  document.getElementById('loadMoreWrap').style.display = hasMore ? 'block' : 'none';
 }
 
-function renderSidebar(acts) {
-  // Categories count
+function buildSidebar(acts) {
   const catMap = {};
-  acts.forEach(a => {
-    const c = a.cat || 'กิจกรรมโรงเรียน';
-    catMap[c] = (catMap[c] || 0) + 1;
-  });
-  document.getElementById('fc-all').textContent = acts.length;
+  acts.forEach(a => { const c = a.cat||'กิจกรรมโรงเรียน'; catMap[c] = (catMap[c]||0)+1; });
+  document.getElementById('cnt-all').textContent = acts.length;
+  document.getElementById('stat-total').textContent = acts.length;
+  document.getElementById('stat-cats').textContent = Object.keys(catMap).length;
 
-  const filterBtns = document.getElementById('filterBtns');
-  filterBtns.innerHTML = Object.entries(catMap).map(([c, n]) =>
-    `<button class="filter-btn" data-cat="${c}" onclick="setFilter('${c}',this)">${c}<span class="filter-count">${n}</span></button>`
-  ).join('');
-
-  const sbCats = document.getElementById('sbCats');
-  sbCats.innerHTML = Object.entries(catMap).map(([c, n]) =>
-    `<div class="sb-cat-item" onclick="setFilter('${c}')">
-      <span class="sb-cat-name"><i class="fas fa-tag" style="color:var(--secondary)"></i> ${c}</span>
-      <span class="sb-cat-count">${n}</span>
-    </div>`
-  ).join('') || '<p style="color:var(--muted);font-size:13px">ยังไม่มีหมวดหมู่</p>';
-
-  // Recent 5
-  const recent = acts.slice().reverse().slice(0, 5);
-  document.getElementById('sbRecent').innerHTML = recent.map((a, i) => {
-    const cover = (a.photos||[]).find(p=>p)||'';
-    const realIdx = acts.indexOf(a);
-    return `<div class="sb-rec-item" onclick="openModal(${realIdx})">
-      <div class="sb-rec-thumb">${cover ? `<img src="${cover}" alt=""/>` : `<i class="fas fa-calendar-alt"></i>`}</div>
-      <div>
-        <div class="sb-rec-title">${a.title||'กิจกรรมโรงเรียน'}</div>
-        <div class="sb-rec-date"><i class="fas fa-clock"></i> ${a.date||'—'}</div>
-      </div>
-    </div>`;
-  }).join('') || '<p style="color:var(--muted);font-size:13px">ยังไม่มีกิจกรรม</p>';
-}
-
-function setFilter(cat, btnEl) {
-  currentCat = cat;
-  currentPage = 1;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btnEl) btnEl.classList.add('active');
-  else {
-    document.querySelectorAll(`.filter-btn[data-cat="${cat}"]`).forEach(b => b.classList.add('active'));
-  }
-  applyFilter();
-  renderList();
-  window.scrollTo({ top: document.querySelector('.filter-bar').offsetTop - 10, behavior: 'smooth' });
-}
-
-// Load more
-document.getElementById('loadMoreBtn').addEventListener('click', () => {
-  currentPage++;
-  renderList();
-});
-
-// Modal
-function openModal(idx) {
-  const a = allActivities[idx];
-  if (!a) return;
-  const photos = (a.photos || []).filter(p => p);
-  const cover = photos[0] || '';
-  const header = document.getElementById('actModalHeader');
-  const closeBtn = `<button class="act-modal-close" onclick="document.getElementById('actModal').classList.remove('open')"><i class="fas fa-times"></i></button>`;
-  if (cover) {
-    header.innerHTML = `<img class="act-modal-cover" src="${cover}" alt="${a.title||''}"/>${closeBtn}`;
-  } else {
-    header.innerHTML = `<div class="act-modal-cover-ph" style="background:${COLORS[idx%COLORS.length]}"><i class="fas fa-calendar-alt"></i></div>${closeBtn}`;
-  }
-  document.getElementById('actModalMeta').innerHTML =
-    `<span class="act-cat">${a.cat||'กิจกรรมโรงเรียน'}</span>
-     <span class="act-date" style="font-size:13px;color:var(--muted)"><i class="fas fa-calendar-alt"></i> ${a.date||'—'}</span>`;
-  document.getElementById('actModalTitle').textContent = a.title || 'กิจกรรมโรงเรียน';
-  document.getElementById('actModalDesc').textContent = a.desc || '';
-  document.getElementById('actModalGallery').innerHTML = photos.length > 1
-    ? photos.slice(1).map(p => `<img src="${p}" alt="" onclick="openImg('${p}')">`).join('')
-    : '';
-  document.getElementById('actModal').classList.add('open');
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('actModal'))
-    document.getElementById('actModal').classList.remove('open');
-}
-
-function openImg(url) {
-  window.open(url, '_blank');
+  const catList = document.getElementById('catList');
+  const extraBtns = Object.entries(catMap).map(([c,n]) => {
+    const cs = catStyle(c);
+    return `<button class="cat-btn" data-cat="${c}" onclick="filterCat('${c}',this)">
+      <span class="cat-n"><i class="${cs.icon}" style="color:${cs.bg}"></i> ${c}</span>
+      <span class="cat-count">${n}</span>
+    </button>`;
+  }).join('');
+  catList.innerHTML = `<button class="cat-btn active" data-cat="all" onclick="filterCat('all',this)">
+    <span class="cat-n"><i class="fas fa-border-all"></i> ทั้งหมด</span>
+    <span class="cat-count" id="cnt-all">${acts.length}</span>
+  </button>${extraBtns}`;
 }
 
 async function loadActivities() {
@@ -566,21 +527,20 @@ async function loadActivities() {
     const cfg = await res.json();
     const s = cfg.school || {};
 
-    // Navbar จาก cfg.nav
+    // Navbar
     if (cfg.nav && cfg.nav.length) {
       const navUl = document.querySelector('#nav ul');
       if (navUl) {
-        const thisPage = 'activities.html';
         navUl.innerHTML = cfg.nav.map(item => {
           const href = item.href.startsWith('#') ? 'index.html' + item.href : item.href;
-          const isActive = item.href === thisPage;
+          const isActive = item.href === 'activities.html';
           return `<li><a href="${href}" class="nav-link${isActive?' active':''}">${item.label}</a></li>`;
         }).join('');
-        navUl.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => document.getElementById('nav').classList.remove('open')));
+        navUl.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => navEl.classList.remove('open')));
       }
     }
 
-    // header/footer
+    // Header/footer
     if (s.name_th) { document.getElementById('hdr-name').textContent = s.name_th; document.getElementById('ft-name').textContent = s.name_th; }
     if (s.name_en) document.getElementById('hdr-en').textContent = s.name_en;
     if (s.dept) document.getElementById('hdr-dept').textContent = s.dept;
@@ -601,13 +561,13 @@ async function loadActivities() {
       }
     }
 
-    // Activities
-    allActivities = Array.isArray(cfg.activities) ? cfg.activities.slice().reverse() : [];
-    filteredActivities = [...allActivities];
-    renderSidebar(cfg.activities || []);
-    renderList();
+    // Activities — แสดงล่าสุดก่อน
+    allActs = Array.isArray(cfg.activities) ? cfg.activities.slice().reverse() : [];
+    buildSidebar(cfg.activities || []);
+    renderThreads();
+
   } catch(e) {
-    document.getElementById('actList').innerHTML = `<div class="act-empty"><i class="fas fa-exclamation-triangle"></i><p>ไม่สามารถโหลดข้อมูลได้</p></div>`;
+    document.getElementById('threadList').innerHTML = `<div class="forum-empty"><i class="fas fa-exclamation-triangle"></i><p>ไม่สามารถโหลดข้อมูลได้</p></div>`;
   }
 }
 
