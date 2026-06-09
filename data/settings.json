@@ -22,6 +22,12 @@
   "bannerSpeed": 5000,
   "banner": [
     {
+      "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1781013940133_ChatGPT_Image_Jun_9__2026__09_04_36_PM.png",
+      "title": "",
+      "subtitle": "",
+      "link": ""
+    },
+    {
       "image": "https://cdn.jsdelivr.net/gh/fasterd/nonchaisri.ac.th@main/images/banner/1780817246214_ChatGPT_Image_Jun_7__2026__02_18_56_PM.png",
       "title": "",
       "subtitle": "",
