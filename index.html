@@ -255,10 +255,13 @@ ul{list-style:none}
 .soc-btn.ln{background:#06c755;color:var(--white)}
 .soc-btn.ln:hover{background:#04a344;transform:translateY(-2px)}
 
-/* GOOGLE FORM WRAPPER */
-.gform-wrap{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
-.gform-wrap iframe{display:block;width:100%;border:none}
-.gform-wrap .gform-hdr{background:var(--primary);color:var(--white);padding:18px 24px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+/* FACEBOOK EMBED WRAPPER */
+.fb-wrap{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.fb-wrap .fb-hdr{background:#1877f2;color:var(--white);padding:18px 24px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.fb-wrap .fb-hdr a{color:#fff;margin-left:auto;font-size:13px;opacity:.85;text-decoration:underline}
+.fb-wrap .fb-hdr a:hover{opacity:1}
+.fb-embed-box{flex:1;min-height:480px;background:#f0f2f5;display:flex;align-items:stretch}
+.fb-embed-box iframe{display:block;width:100%;border:none;flex:1}
 
 .contact-map{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
 
@@ -571,15 +574,25 @@ ul{list-style:none}
           <a href="#" class="soc-btn ln" id="ct-line"><i class="fab fa-line"></i> LINE</a>
         </div>
       </div>
-      <!-- แทนที่ src ด้วย URL ของ Google Form ที่สร้างสำหรับโรงเรียน -->
-      <div class="gform-wrap">
-        <div class="gform-hdr"><i class="fas fa-paper-plane"></i> ส่งข้อความถึงโรงเรียน</div>
-        <iframe
-          src="https://docs.google.com/forms/d/e/REPLACE_WITH_YOUR_FORM_ID/viewform?embedded=true"
-          height="520"
-          title="แบบฟอร์มติดต่อโรงเรียนบ้านโนนไชยศรี">
-          กำลังโหลด…
-        </iframe>
+      <!-- Facebook Page Embed -->
+      <div class="fb-wrap">
+        <div class="fb-hdr">
+          <i class="fab fa-facebook"></i> Facebook โรงเรียนบ้านโนนไชยศรี
+          <a id="fb-page-link" href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> เปิดใน Facebook
+          </a>
+        </div>
+        <div class="fb-embed-box">
+          <iframe id="fb-page-iframe"
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FBannonchaisri&tabs=timeline&width=500&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+            height="500"
+            scrolling="no"
+            frameborder="0"
+            allowfullscreen="true"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            title="Facebook โรงเรียนบ้านโนนไชยศรี">
+          </iframe>
+        </div>
       </div>
     </div>
     <div class="contact-map">
@@ -1051,10 +1064,14 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     }
   }
 
-  // ── Google Form ───────────────────────────────────────────
-  if(cfg.contact_form_url){
-    const iframe = document.querySelector('.gform-wrap iframe');
-    if(iframe) iframe.src = cfg.contact_form_url;
+  // ── Facebook Page Embed ───────────────────────────────────
+  const fbUrl = cfg.school?.facebook || 'https://www.facebook.com/Bannonchaisri';
+  const fbLink = document.getElementById('fb-page-link');
+  const fbIframe = document.getElementById('fb-page-iframe');
+  if(fbLink) fbLink.href = fbUrl;
+  if(fbIframe){
+    const encoded = encodeURIComponent(fbUrl);
+    fbIframe.src = `https://www.facebook.com/plugins/page.php?href=${encoded}&tabs=timeline&width=500&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`;
   }
 
   // ── Google Maps ───────────────────────────────────────────
