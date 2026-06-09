@@ -139,28 +139,39 @@ ul{list-style:none}
 .mgmt-name{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:10px}
 .mgmt-quote{font-size:14px;color:var(--muted);font-style:italic;border-left:3px solid var(--primary);padding-left:10px}
 
-/* NEWS */
-.news-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.news-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;transition:var(--tr)}
-.news-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-.news-img-ph{width:100%;height:200px;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:44px;opacity:1;position:relative;overflow:hidden}
-.news-img-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1}
-.news-cat{position:absolute;top:12px;left:12px;background:var(--primary);color:var(--white);font-size:11px;font-weight:700;padding:3px 10px;border-radius:50px}
-.news-body{padding:18px}
+/* NEWS FORUM BOARD */
+.news-forum-wrap{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.news-forum-tabs{display:flex;background:var(--primary-dark)}
+.news-forum-tab{padding:14px 28px;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.news-forum-tab.active{color:#fff;border-bottom-color:var(--secondary);background:rgba(255,255,255,.07)}
+.news-forum-list{min-height:200px}
+.nf-item{display:flex;gap:0;border-bottom:1px solid var(--border);transition:background .2s;animation:nfFadeIn .3s ease}
+@keyframes nfFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.nf-item:last-child{border-bottom:none}
+.nf-item:hover{background:#f8fbff}
+.nf-thumb-wrap{padding:14px 0 14px 16px;flex-shrink:0}
+.nf-thumb{width:170px;height:108px;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:30px}
+.nf-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.nf-body{flex:1;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.nf-cat{display:inline-block;font-size:11px;font-weight:700;padding:2px 11px;border-radius:50px;margin-bottom:8px;color:#fff}
+.nf-title{font-size:15px;font-weight:700;color:var(--primary);line-height:1.5;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nf-title:hover{color:var(--secondary)}
+.nf-meta{font-size:12px;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.nf-meta i{color:var(--secondary)}
+.nf-excerpt{font-size:13px;color:var(--muted);margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.65}
+.nf-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.nf-read-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 18px;background:var(--secondary);color:#fff;border-radius:50px;font-size:13px;font-weight:700;transition:all .2s;border:none;cursor:pointer;text-decoration:none}
+.nf-read-btn:hover{background:var(--primary);transform:translateX(3px)}
+.nf-imgs-strip{display:flex;gap:5px;flex-wrap:wrap}
+.nf-imgs-strip img{width:42px;height:34px;object-fit:cover;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;transition:transform .2s}
+.nf-imgs-strip img:hover{transform:scale(1.1)}
+/* Pagination */
+.nf-pagination{display:flex;gap:4px;justify-content:center;align-items:center;padding:18px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
+.nf-page-btn{min-width:36px;height:36px;padding:0 6px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text);transition:all .2s;font-family:'Sarabun',sans-serif}
+.nf-page-btn:hover,.nf-page-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* legacy compat */
 .news-meta{font-size:12px;color:var(--muted);margin-bottom:7px}
 .news-meta i{margin-right:4px;color:var(--secondary)}
-.news-body h3{font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:9px}
-.news-body p{font-size:13px;color:var(--muted);margin-bottom:12px}
-.read-more{color:var(--primary);font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:5px;transition:var(--tr)}
-.read-more:hover{gap:9px;color:var(--secondary)}
-.news-list{display:flex;flex-direction:column;gap:12px}
-.news-row{display:flex;gap:12px;align-items:center;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px;transition:var(--tr)}
-.news-row:hover{transform:translateX(4px);box-shadow:var(--shadow-lg)}
-.news-row-img{width:68px;height:68px;flex-shrink:0;border-radius:9px;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:20px;opacity:1;overflow:hidden}
-.news-row-img img{width:68px;height:68px;object-fit:cover;opacity:1}
-.news-row-body h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
-.read-more-sm{color:var(--primary);font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;transition:var(--tr)}
-.read-more-sm:hover{gap:7px;color:var(--secondary)}
 
 /* ACADEMIC */
 .ac-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -308,7 +319,7 @@ ul{list-style:none}
   .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
   .about-grid{grid-template-columns:1fr;gap:36px}
   .about-badge{right:10px}
-  .news-grid{grid-template-columns:1fr}
+  .nf-thumb-wrap{display:none}
   .ac-grid{grid-template-columns:1fr}
   .gal-grid{grid-template-columns:1fr 1fr}
   .contact-grid{grid-template-columns:1fr}
@@ -472,53 +483,18 @@ ul{list-style:none}
       <h2 class="section-title">ข่าวประชาสัมพันธ์</h2>
       <div class="section-divider"></div>
     </div>
-    <div class="news-grid">
-      <article class="news-card">
-        <div class="news-img-ph" style="background:linear-gradient(135deg,#1a5276,#2980b9)"><i class="fas fa-newspaper" style="color:#fff;opacity:.6"></i><div class="news-cat">กิจกรรม</div></div>
-        <div class="news-body">
-          <div class="news-meta"><i class="far fa-calendar-alt"></i> มิถุนายน ๒๕๖๗</div>
-          <h3>ประชาสัมพันธ์เปิดภาคเรียนที่ ๑ ปีการศึกษา ๒๕๖๗</h3>
-          <p>โรงเรียนบ้านโนนไชยศรีเปิดภาคเรียนที่ ๑ ปีการศึกษา ๒๕๖๗ ขอต้อนรับนักเรียนทุกคนสู่ปีการศึกษาใหม่...</p>
-          <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </article>
-      <div class="news-list">
-        <article class="news-row">
-          <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
-          <div class="news-row-body">
-            <div class="news-meta"><i class="far fa-calendar-alt"></i> พฤษภาคม ๒๕๖๗</div>
-            <h4>กิจกรรมวันสำคัญทางพระพุทธศาสนา</h4>
-            <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-        <article class="news-row">
-          <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
-          <div class="news-row-body">
-            <div class="news-meta"><i class="far fa-calendar-alt"></i> เมษายน ๒๕๖๗</div>
-            <h4>กิจกรรมวันสงกรานต์และรดน้ำขอพรผู้ใหญ่</h4>
-            <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-        <article class="news-row">
-          <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
-          <div class="news-row-body">
-            <div class="news-meta"><i class="far fa-calendar-alt"></i> มีนาคม ๒๕๖๗</div>
-            <h4>พิธีมอบวุฒิบัตรและปัจฉิมนิเทศนักเรียนชั้น ป.๖</h4>
-            <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-        <article class="news-row">
-          <div class="news-row-img"><i class="fas fa-newspaper"></i></div>
-          <div class="news-row-body">
-            <div class="news-meta"><i class="far fa-calendar-alt"></i> กุมภาพันธ์ ๒๕๖๗</div>
-            <h4>การแข่งขันทักษะทางวิชาการระดับเขตพื้นที่</h4>
-            <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
+    <div class="news-forum-wrap" id="newsBoardWrap">
+      <div class="news-forum-tabs">
+        <div class="news-forum-tab active" onclick="switchNewsTab(0,this)">ข่าวประชาสัมพันธ์</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(1,this)">กิจกรรม</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(2,this)">วิชาการ</div>
+        <div class="news-forum-tab" onclick="switchNewsTab(3,this)">รางวัล</div>
       </div>
-    </div>
-    <div class="text-center mt-lg">
-      <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener" class="btn btn-primary"><i class="fab fa-facebook-f"></i>&nbsp; ดูข่าวทั้งหมดใน Facebook</a>
+      <div class="news-forum-list" id="newsBoardList">
+        <!-- JS rendered -->
+        <div style="text-align:center;padding:40px;color:var(--muted)"><i class="fas fa-spinner fa-spin" style="font-size:22px"></i></div>
+      </div>
+      <div class="nf-pagination" id="newsPagination"></div>
     </div>
   </div>
 </section>
@@ -943,66 +919,98 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     }
   }
 
-  // ── ข่าวสาร section ───────────────────────────────────────
-  if(cfg.news && cfg.news.length){
-    const catColor = {'กิจกรรม':'background:#1a5276','ประชาสัมพันธ์':'background:#27ae60','วิชาการ':'background:#e67e22','รางวัล':'background:#8e44ad','อื่นๆ':'background:#7f8c8d'};
-    const fb = cfg.school?.facebook || 'https://www.facebook.com/Bannonchaisri';
-    const newsGrid = document.querySelector('.news-grid');
-    if(newsGrid){
-      const featured = cfg.news[0];
-      const rest = cfg.news.slice(1,5);
-      // helper: รวมรูปทุกรูปของข่าว (images array + image fallback)
-      const getImgs = (n) => {
-        const arr = Array.isArray(n.images) && n.images.length ? n.images : (n.image ? [n.image] : []);
-        return arr.filter(u=>u);
-      };
-      const newsImgHtml = (n) => {
-        const imgs = getImgs(n);
-        return imgs[0]
-          ? `<img src="${imgs[0]}" alt="${n.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>`
-          : `<i class="fas fa-newspaper" style="color:#fff;opacity:.6"></i>`;
-      };
-      const newsRowImgHtml = (n) => {
-        const imgs = getImgs(n);
-        return imgs[0]
-          ? `<img src="${imgs[0]}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`
-          : `<i class="fas fa-newspaper"></i>`;
-      };
-      const newsExtraStrip = (n) => {
-        const imgs = getImgs(n).slice(1); // รูปที่ 2-5
-        if (!imgs.length) return '';
-        return `<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
-          ${imgs.map(u=>`<img src="${u}" alt="" style="width:60px;height:50px;object-fit:cover;border-radius:7px;border:2px solid var(--bg);box-shadow:0 2px 6px rgba(0,0,0,.12);cursor:pointer" onclick="window.open('${u}','_blank')">`).join('')}
-        </div>`;
-      };
-      newsGrid.innerHTML = `
-        <article class="news-card">
-          <div class="news-img-ph" style="background:linear-gradient(135deg,#1a5276,#2980b9);position:relative">
-            ${newsImgHtml(featured)}
-            <div class="news-cat" style="${catColor[featured.cat]||catColor['อื่นๆ']}">${featured.cat}</div>
-          </div>
-          <div class="news-body">
-            <div class="news-meta"><i class="far fa-calendar-alt"></i> ${featured.date}</div>
-            <h3>${featured.title}</h3>
-            ${featured.body ? `<p>${featured.body}</p>` : ''}
-            ${newsExtraStrip(featured)}
-            <a href="${featured.link||fb}" target="_blank" rel="noopener" class="read-more" style="margin-top:10px;display:inline-flex">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-        <div class="news-list">
-          ${rest.map(n=>`
-            <article class="news-row">
-              <div class="news-row-img" style="overflow:hidden">${newsRowImgHtml(n)}</div>
-              <div class="news-row-body">
-                <div class="news-meta"><i class="far fa-calendar-alt"></i> ${n.date}</div>
-                <h4>${n.title}</h4>
-                <a href="${n.link||fb}" target="_blank" rel="noopener" class="read-more-sm">อ่านต่อ <i class="fas fa-arrow-right"></i></a>
-              </div>
-            </article>`).join('')}
-        </div>`;
-      // no fade-up on news
-    }
+  // ── ข่าวสาร forum board ───────────────────────────────────
+  const CAT_COLORS_NEWS = {'กิจกรรม':'#1a5276','ประชาสัมพันธ์':'#27ae60','วิชาการ':'#e67e22','รางวัล':'#8e44ad','อื่นๆ':'#7f8c8d'};
+  const NEWS_PER_PAGE = 5;
+  let newsCurrentTab = 0; // 0=all, 1=กิจกรรม, 2=วิชาการ, 3=รางวัล
+  let newsCurrentPage = 1;
+  const NEWS_TABS = ['ทั้งหมด','กิจกรรม','วิชาการ','รางวัล'];
+
+  const getImgs = (n) => {
+    const arr = Array.isArray(n.images) && n.images.length ? n.images : (n.image ? [n.image] : []);
+    return arr.filter(u=>u);
+  };
+
+  function getFilteredNews() {
+    const all = cfg.news || [];
+    if (newsCurrentTab === 0) return all;
+    return all.filter(n => (n.cat||'') === NEWS_TABS[newsCurrentTab]);
   }
+
+  function renderNewsBoard() {
+    const list = document.getElementById('newsBoardList');
+    const pag  = document.getElementById('newsPagination');
+    if (!list) return;
+    const fb = cfg.school?.facebook || 'https://www.facebook.com/Bannonchaisri';
+    const filtered = getFilteredNews();
+    const total = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(total / NEWS_PER_PAGE));
+    if (newsCurrentPage > totalPages) newsCurrentPage = totalPages;
+    const start = (newsCurrentPage - 1) * NEWS_PER_PAGE;
+    const items = filtered.slice(start, start + NEWS_PER_PAGE);
+
+    if (!items.length) {
+      list.innerHTML = `<div style="text-align:center;padding:50px 20px;color:var(--muted)"><i class="fas fa-newspaper" style="font-size:36px;display:block;margin-bottom:12px;opacity:.3"></i>ยังไม่มีข่าวในหมวดนี้</div>`;
+      if(pag) pag.innerHTML = '';
+      return;
+    }
+
+    list.innerHTML = items.map(n => {
+      const imgs = getImgs(n);
+      const catColor = CAT_COLORS_NEWS[n.cat] || '#7f8c8d';
+      const extraImgs = imgs.slice(1);
+      return `<div class="nf-item">
+        <div class="nf-thumb-wrap">
+          <div class="nf-thumb">
+            ${imgs[0] ? `<img src="${imgs[0]}" alt="${n.title}" loading="lazy"/>` : `<i class="fas fa-newspaper"></i>`}
+          </div>
+        </div>
+        <div class="nf-body">
+          <span class="nf-cat" style="background:${catColor}">${n.cat||'ข่าวสาร'}</span>
+          <div class="nf-title">${n.title}</div>
+          <div class="nf-meta">
+            <span><i class="far fa-calendar-alt"></i> ${n.date||''}</span>
+          </div>
+          ${n.body ? `<div class="nf-excerpt">${n.body}</div>` : ''}
+          <div class="nf-footer">
+            <a href="${n.link||fb}" target="_blank" rel="noopener" class="nf-read-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
+            ${extraImgs.length ? `<div class="nf-imgs-strip">${extraImgs.map(u=>`<img src="${u}" alt="" onclick="window.open('${u}','_blank')" loading="lazy"/>`).join('')}</div>` : ''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // pagination
+    if (!pag) return;
+    if (totalPages <= 1) { pag.innerHTML = ''; return; }
+    let pagHtml = '';
+    if (newsCurrentPage > 1) pagHtml += `<button class="nf-page-btn" onclick="goNewsPage(${newsCurrentPage-1})"><i class="fas fa-chevron-left"></i></button>`;
+    const delta = 2;
+    for (let p = 1; p <= totalPages; p++) {
+      if (p === 1 || p === totalPages || (p >= newsCurrentPage-delta && p <= newsCurrentPage+delta)) {
+        pagHtml += `<button class="nf-page-btn${p===newsCurrentPage?' active':''}" onclick="goNewsPage(${p})">${p}</button>`;
+      } else if (p === newsCurrentPage-delta-1 || p === newsCurrentPage+delta+1) {
+        pagHtml += `<span style="display:flex;align-items:center;color:var(--muted);padding:0 4px">…</span>`;
+      }
+    }
+    if (newsCurrentPage < totalPages) pagHtml += `<button class="nf-page-btn" onclick="goNewsPage(${newsCurrentPage+1})"><i class="fas fa-chevron-right"></i></button>`;
+    pag.innerHTML = pagHtml;
+  }
+
+  window.goNewsPage = function(p) {
+    newsCurrentPage = p;
+    renderNewsBoard();
+    document.getElementById('news')?.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  window.switchNewsTab = function(tabIdx, btn) {
+    newsCurrentTab = tabIdx;
+    newsCurrentPage = 1;
+    document.querySelectorAll('.news-forum-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderNewsBoard();
+  };
+
+  renderNewsBoard();
 
   // ── แถบประกาศ ─────────────────────────────────────────────
   if(cfg.ticker && cfg.ticker.length){
