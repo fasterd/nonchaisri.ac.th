@@ -206,7 +206,6 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
       <div class="nitem" onclick="showSec('news')"><i class="fas fa-newspaper"></i> ข่าวสาร</div>
       <div class="nitem" onclick="showSec('ticker')"><i class="fas fa-bullhorn"></i> แถบประกาศ</div>
       <div class="nitem" onclick="showSec('academic')"><i class="fas fa-book"></i> การจัดการศึกษา</div>
-      <div class="nitem" onclick="showSec('gallery')"><i class="fas fa-comments"></i> กระดานกิจกรรม</div>
       <div class="nsec">ติดต่อ & Footer</div>
       <div class="nitem" onclick="showSec('contact-cfg')"><i class="fas fa-envelope-open-text"></i> ฟอร์ม & แผนที่</div>
       <div class="nitem" onclick="showSec('footer')"><i class="fas fa-shoe-prints"></i> Footer</div>
@@ -244,8 +243,7 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
           <div class="card">
             <div class="card-hdr"><h3><i class="fas fa-bolt"></i> ลิงก์ด่วน</h3></div>
             <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
-              <button class="btn btn-secondary" onclick="showSec('gallery');addGal()"><i class="fas fa-comments"></i> เพิ่มกระทู้กิจกรรม</button>
-              <button class="btn btn-secondary" onclick="showSec('news')"><i class="fas fa-plus"></i> เพิ่มข่าวใหม่</button>
+<button class="btn btn-secondary" onclick="showSec('news')"><i class="fas fa-plus"></i> เพิ่มข่าวใหม่</button>
               <button class="btn btn-secondary" onclick="showSec('ticker')"><i class="fas fa-edit"></i> แก้แถบประกาศ</button>
               <button class="btn btn-secondary" onclick="showSec('stats')"><i class="fas fa-edit"></i> อัปเดตสถิติ</button>
               <button class="btn btn-secondary" onclick="window.open('index.html','_blank')"><i class="fas fa-eye"></i> ดูเว็บไซต์</button>
@@ -390,23 +388,6 @@ input,textarea,select{font-family:'Sarabun',sans-serif}
             <div class="ticker-tags" id="tickerTags"></div>
           </div>
           <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง</span><button class="btn btn-success" onclick="saveSection('ticker')"><i class="fas fa-save"></i> บันทึก</button></div>
-        </div>
-      </div>
-
-      <!-- GALLERY / ACTIVITIES -->
-      <div class="spage" id="sec-gallery">
-        <div class="card">
-          <div class="card-hdr">
-            <h3><i class="fas fa-comments"></i> กระดานกิจกรรม</h3>
-            <button class="btn btn-primary btn-sm" onclick="addGal()"><i class="fas fa-plus"></i> เพิ่มกระทู้กิจกรรม</button>
-          </div>
-          <div class="card-body">
-            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:16px">
-              <i class="fas fa-info-circle"></i> แต่ละกระทู้มี ชื่อเรื่อง · หมวดหมู่ · วันที่ · คำอธิบาย และรูปภาพสูงสุด 8 รูป — กระทู้ใหม่จะแสดงบนสุดในกระดาน
-            </div>
-            <div id="galItems"></div>
-          </div>
-          <div class="save-bar"><span class="save-hint"><i class="fas fa-cloud"></i> บันทึกลง GitHub โดยตรง — มีผลทันทีบนเว็บ</span><button class="btn btn-success" onclick="saveSection('gallery')"><i class="fas fa-save"></i> บันทึก</button></div>
         </div>
       </div>
 
@@ -923,7 +904,7 @@ const secTitles = {
   dashboard:'Dashboard', hero:'หน้าแรก (Hero)', nav:'เมนูนำทาง',
   school:'ข้อมูลโรงเรียน', director:'ผู้บริหาร', stats:'สถิติ',
   news:'ข่าวสาร', ticker:'แถบประกาศ', academic:'การจัดการศึกษา',
-  gallery:'กระดานกิจกรรม', 'contact-cfg':'ฟอร์ม & แผนที่',
+ 'contact-cfg':'ฟอร์ม & แผนที่',
   footer:'ส่วน Footer', appearance:'ธีมสี', github:'GitHub Token', password:'รหัสผ่าน',
 };
 function showSec(name) {
@@ -1396,7 +1377,7 @@ function renderDashboard() {
     {label:'ครูและบุคลากร', value: cfg.stats?.teachers||0},
     {label:'รางวัล', value: cfg.stats?.awards||0}
   ];
-  const newsCard = `<div class="dcard"><div class="num">${(cfg.news||[]).length}</div><div class="lbl">ข่าวสาร</div></div><div class="dcard" style="border-top-color:var(--secondary)"><div class="num" style="color:var(--secondary)">${(cfg.activities||[]).length}</div><div class="lbl">กระทู้กิจกรรม</div></div>`;
+  const newsCard = `<div class="dcard"><div class="num">${(cfg.news||[]).length}</div><div class="lbl">ข่าวสาร</div></div>`;
   document.getElementById('dashCards').innerHTML =
     statsArr.map(s=>`<div class="dcard"><div class="num">${s.value||0}</div><div class="lbl">${s.label||''}</div></div>`).join('') + newsCard;
   const logs = JSON.parse(localStorage.getItem('ncs_log') || '[]');
@@ -1505,11 +1486,9 @@ function addTicker() {
 function removeTicker(i) { cfg.ticker.splice(i, 1); renderTicker(); }
 
 // ============================================================
-// GALLERY / ACTIVITIES (กระดานกิจกรรม)
-const ACT_CATS = ['กิจกรรมโรงเรียน','วิชาการ','กีฬา','วัฒนธรรม','ประชาสัมพันธ์','รางวัล'];
-const MAX_PHOTOS = 8;
-
-function renderGallery() {
+// GALLERY stub (removed – kept for saveSection compat)
+function renderGallery() { /* removed */ }
+function _unused_renderGallery_orig() {
   const is = `padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;outline:none;width:100%`;
   const arr = Array.isArray(cfg.activities) ? cfg.activities : [];
   // แสดงล่าสุดก่อน (reverse) เหมือนกระดาน
@@ -1638,24 +1617,6 @@ function updateGalPhotoPreview(inp, realIdx, p) {
   } else {
     if (thumb.tagName === 'IMG') { thumb.src = ''; thumb.style.display = 'none'; }
   }
-}
-
-async function uploadGalPhoto(input, realIdx, photoIdx) {
-  const file = input.files[0]; if (!file) return;
-  const btn = input.closest('label');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-  btn.disabled = true;
-  try {
-    const url = await uploadToGitHub(file, 'images/activities');
-    const rows = document.querySelectorAll('#galItems .gal-row');
-    const row = Array.from(rows).find(r => +r.dataset.realIdx === realIdx);
-    const inp = row?.querySelector(`.gp[data-p="${photoIdx}"]`);
-    if (inp) { inp.value = url; updateGalPhotoPreview(inp, realIdx, photoIdx); }
-    showToast('อัพโหลดสำเร็จ ✓', 'success');
-  } catch(e) { showToast('อัพโหลดไม่สำเร็จ: ' + e.message, 'error'); }
-  btn.innerHTML = '<i class="fas fa-upload"></i>';
-  btn.disabled = false;
-  input.value = '';
 }
 
 // ============================================================

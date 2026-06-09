@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ข่าวประชาสัมพันธ์ | โรงเรียนบ้านโนนไชยศรี</title>
+<meta name="description" content="ข่าวประชาสัมพันธ์และกิจกรรมโรงเรียนบ้านโนนไชยศรี"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a5276;--primary-dark:#154360;--secondary:#f39c12;
+  --green:#27ae60;--bg:#eef1f5;--text:#2c3e50;--muted:#7f8c8d;
+  --white:#fff;--border:#dce3ea;--radius:12px;--radius-lg:18px;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.14);
+  --tr:all .25s ease;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;color:var(--text);font-size:15px;line-height:1.7;background:var(--bg);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+.container{max-width:1000px;margin:0 auto;padding:0 16px}
+button{font-family:'Sarabun',sans-serif;cursor:pointer}
+
+/* TOPBAR */
+.topbar{background:var(--primary-dark);color:rgba(255,255,255,.85);font-size:13px;padding:7px 0}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.topbar-left{display:flex;gap:20px}
+.topbar-left span i{margin-right:5px;color:var(--secondary)}
+.topbar-right{display:flex;gap:10px}
+.topbar-right a{color:rgba(255,255,255,.85);width:26px;height:26px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;transition:var(--tr)}
+.topbar-right a:hover{background:var(--secondary);border-color:var(--secondary);color:#fff}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:1000;background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,.10);padding:10px 0;transition:var(--tr)}
+.header.scrolled{padding:6px 0}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-circle{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;border:3px solid var(--secondary);color:#fff;font-size:24px;overflow:hidden}
+.logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.logo-text{display:flex;flex-direction:column}
+.school-name-th{font-size:16px;font-weight:700;color:var(--primary);line-height:1.2}
+.school-name-en{font-size:12px;color:var(--muted)}
+.school-sub{font-size:11px;color:var(--secondary);font-weight:600}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--primary);border-radius:2px;transition:var(--tr)}
+.nav ul{display:flex;align-items:center;gap:2px}
+.nav-link{display:flex;align-items:center;padding:8px 13px;font-size:15px;font-weight:500;color:var(--text);border-radius:8px;transition:var(--tr)}
+.nav-link:hover,.nav-link.active{color:var(--primary);background:rgba(26,82,118,.08)}
+
+/* PAGE HERO */
+.page-hero{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 60%,#2980b9 100%);padding:44px 0 36px;position:relative;overflow:hidden}
+.page-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--secondary),#f39c12aa)}
+.page-hero-content{text-align:center;color:#fff;position:relative;z-index:1}
+.page-hero-tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:4px 18px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:12px}
+.page-hero-title{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:8px}
+.breadcrumb{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:13px;opacity:.75}
+.breadcrumb a{color:#fff}.breadcrumb a:hover{color:var(--secondary)}
+.breadcrumb i{font-size:10px}
+
+/* MAIN LAYOUT */
+.news-wrap{padding:32px 0 80px}
+
+/* ── LIST VIEW ── */
+.news-board-wrap{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.nb-tabs{display:flex;background:var(--primary-dark);overflow-x:auto}
+.nb-tabs::-webkit-scrollbar{height:3px}.nb-tabs::-webkit-scrollbar-thumb{background:var(--secondary)}
+.nb-tab{padding:14px 24px;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.nb-tab.active{color:#fff;border-bottom-color:var(--secondary);background:rgba(255,255,255,.07)}
+.nb-list{min-height:180px}
+.nb-item{display:flex;border-bottom:1px solid var(--border);transition:background .2s;cursor:pointer}
+.nb-item:last-child{border-bottom:none}
+.nb-item:hover{background:#f5f9ff}
+.nb-thumb-wrap{padding:14px 0 14px 16px;flex-shrink:0}
+.nb-thumb{width:170px;height:108px;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:30px}
+.nb-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.nb-body{flex:1;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.nb-cat{display:inline-block;font-size:11px;font-weight:700;padding:2px 11px;border-radius:50px;margin-bottom:8px;color:#fff}
+.nb-title{font-size:15px;font-weight:700;color:var(--primary);line-height:1.5;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nb-meta{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;gap:12px;flex-wrap:wrap}
+.nb-meta i{color:var(--secondary)}
+.nb-excerpt{font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.65;margin-bottom:10px}
+.nb-read-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 18px;background:var(--secondary);color:#fff;border-radius:50px;font-size:13px;font-weight:700;transition:all .2s;border:none;align-self:flex-start}
+.nb-read-btn:hover{background:var(--primary);transform:translateX(3px)}
+/* pagination */
+.nb-pagination{display:flex;gap:4px;justify-content:center;align-items:center;padding:18px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
+.nb-page-btn{min-width:36px;height:36px;padding:0 8px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text);transition:all .2s;font-family:'Sarabun',sans-serif}
+.nb-page-btn:hover,.nb-page-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* ── DETAIL VIEW ── */
+.news-detail-wrap{display:none}
+.detail-back{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;padding:8px 20px;border-radius:50px;background:var(--white);color:var(--primary);font-weight:600;font-size:14px;box-shadow:var(--shadow);border:1.5px solid var(--border);cursor:pointer;transition:var(--tr)}
+.detail-back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.detail-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden}
+.detail-cover{width:100%;max-height:440px;object-fit:contain;background:#f0f4f8;display:block;cursor:zoom-in}
+.detail-body{padding:28px 32px}
+.detail-cat{display:inline-block;font-size:12px;font-weight:700;padding:3px 14px;border-radius:50px;color:#fff;margin-bottom:12px}
+.detail-title{font-size:clamp(1.2rem,3vw,1.7rem);font-weight:800;color:var(--primary);line-height:1.4;margin-bottom:12px}
+.detail-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.detail-meta i{color:var(--secondary);margin-right:4px}
+.detail-content{font-size:15px;line-height:1.95;color:var(--text);white-space:pre-line;margin-bottom:24px}
+.detail-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:20px}
+.detail-gallery img{width:100%;height:110px;object-fit:cover;border-radius:10px;cursor:zoom-in;transition:transform .25s,box-shadow .25s;border:2px solid var(--border)}
+.detail-gallery img:hover{transform:scale(1.04);box-shadow:var(--shadow-lg)}
+.detail-footer{padding:20px 32px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:#fafbfd}
+.detail-nav{display:flex;gap:10px}
+.detail-nav-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;border:1.5px solid var(--border);background:var(--white);color:var(--text);font-size:13px;font-weight:600;transition:var(--tr);cursor:pointer}
+.detail-nav-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:10px}
+.lb-close{position:fixed;top:14px;right:18px;color:#fff;font-size:30px;cursor:pointer;background:none;border:none;opacity:.8;transition:var(--tr)}
+.lb-close:hover{opacity:1;transform:scale(1.1)}
+.lb-prev,.lb-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;font-size:26px;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr)}
+.lb-prev{left:10px}.lb-next{right:10px}
+.lb-prev:hover,.lb-next:hover{background:rgba(255,255,255,.28)}
+
+/* FOOTER */
+.footer{background:var(--primary-dark);color:rgba(255,255,255,.85)}
+.footer-main{padding:44px 0 28px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:32px}
+.footer-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.footer-logo-circle{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:2px solid var(--secondary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;overflow:hidden}
+.footer-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.footer-school-name{font-size:14px;font-weight:700;color:#fff}
+.footer-school-en{font-size:11px;opacity:.6}
+.footer-brand p{font-size:13px;opacity:.7;line-height:1.8;margin-bottom:14px}
+.footer-social{display:flex;gap:8px}
+.footer-social a{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:12px;transition:var(--tr)}
+.footer-social a:hover{background:var(--secondary);border-color:var(--secondary);color:#fff}
+.footer-links h4,.footer-contact-col h4{color:#fff;font-size:13px;font-weight:700;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-links ul{display:flex;flex-direction:column;gap:6px}
+.footer-links ul li a{font-size:12px;opacity:.7;transition:var(--tr);display:flex;align-items:center;gap:6px}
+.footer-links ul li a:hover{opacity:1;color:var(--secondary);padding-left:4px}
+.footer-contact-col p{font-size:12px;opacity:.7;margin-bottom:8px;display:flex;align-items:flex-start;gap:7px}
+.footer-contact-col p i{color:var(--secondary);margin-top:3px;flex-shrink:0}
+.footer-bottom{background:rgba(0,0,0,.2);padding:12px 0;text-align:center}
+.footer-bottom p{font-size:12px;opacity:.5}
+
+.btt{position:fixed;bottom:26px;right:26px;width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;font-size:15px;opacity:0;visibility:hidden;transform:translateY(10px);transition:var(--tr);z-index:999}
+.btt.show{opacity:1;visibility:visible;transform:translateY(0)}
+.btt:hover{background:var(--secondary);transform:translateY(-3px)}
+
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .nav{position:fixed;top:0;right:-260px;width:260px;height:100vh;background:#fff;box-shadow:var(--shadow-lg);padding:70px 16px 24px;transition:var(--tr);z-index:1100;overflow-y:auto}
+  .nav.open{right:0}
+  .nav ul{flex-direction:column;gap:0}
+  .nav-link{width:100%;padding:11px 14px}
+  .nb-thumb-wrap{display:none}
+  .detail-body{padding:20px 16px}
+  .detail-footer{padding:14px 16px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:20px}
+}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span><i class="fas fa-phone-alt"></i><span id="tb-phone">0910540999</span></span>
+      <span><i class="fas fa-envelope"></i><span id="tb-email">pl2enn@nonchaisri.ac.th</span></span>
+    </div>
+    <div class="topbar-right">
+      <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" id="tb-yt"><i class="fab fa-youtube"></i></a>
+      <a href="#" id="tb-line"><i class="fab fa-line"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <div class="logo-area">
+      <div class="logo-circle" id="logoCircle"><i class="fas fa-school"></i></div>
+      <div class="logo-text">
+        <span class="school-name-th" id="hdr-name">โรงเรียนบ้านโนนไชยศรี</span>
+        <span class="school-name-en" id="hdr-en">Ban Non Chai Si School</span>
+        <span class="school-sub" id="hdr-dept">สพป.ร้อยเอ็ด เขต ๓</span>
+      </div>
+    </div>
+    <button class="hamburger" id="ham" aria-label="เมนู"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav"><ul></ul></nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero" id="pageHero">
+  <div class="container page-hero-content">
+    <div class="page-hero-tag" id="heroTag"><i class="fas fa-newspaper"></i> ข่าวประชาสัมพันธ์</div>
+    <h1 class="page-hero-title" id="heroTitle">ข่าวประชาสัมพันธ์</h1>
+    <div class="breadcrumb" id="heroBreadcrumb">
+      <a href="index.html"><i class="fas fa-home"></i> หน้าแรก</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>ข่าวประชาสัมพันธ์</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="news-wrap">
+  <div class="container">
+
+    <!-- LIST VIEW -->
+    <div id="listView">
+      <div class="news-board-wrap">
+        <div class="nb-tabs" id="nbTabs">
+          <div class="nb-tab active" onclick="switchTab(0,this)">ทั้งหมด</div>
+          <div class="nb-tab" onclick="switchTab(1,this)">กิจกรรม</div>
+          <div class="nb-tab" onclick="switchTab(2,this)">ประชาสัมพันธ์</div>
+          <div class="nb-tab" onclick="switchTab(3,this)">วิชาการ</div>
+          <div class="nb-tab" onclick="switchTab(4,this)">รางวัล</div>
+          <div class="nb-tab" onclick="switchTab(5,this)">อื่นๆ</div>
+        </div>
+        <div class="nb-list" id="nbList">
+          <div style="text-align:center;padding:50px;color:var(--muted)"><i class="fas fa-spinner fa-spin" style="font-size:24px"></i></div>
+        </div>
+        <div class="nb-pagination" id="nbPagination"></div>
+      </div>
+    </div>
+
+    <!-- DETAIL VIEW -->
+    <div id="detailView" class="news-detail-wrap">
+      <button class="detail-back" onclick="showList()"><i class="fas fa-arrow-left"></i> กลับรายการข่าว</button>
+      <div class="detail-card">
+        <img id="detailCover" class="detail-cover" src="" alt="" style="display:none" onclick="openLightbox([],0)"/>
+        <div class="detail-body">
+          <span class="detail-cat" id="detailCat"></span>
+          <h1 class="detail-title" id="detailTitle"></h1>
+          <div class="detail-meta" id="detailMeta"></div>
+          <div class="detail-content" id="detailContent"></div>
+          <div class="detail-gallery" id="detailGallery"></div>
+        </div>
+        <div class="detail-footer">
+          <button class="detail-back" onclick="showList()" style="margin-bottom:0"><i class="fas fa-arrow-left"></i> กลับรายการข่าว</button>
+          <div class="detail-nav">
+            <button class="detail-nav-btn" id="btnPrevNews" onclick="navNews(-1)"><i class="fas fa-chevron-left"></i> ข่าวก่อนหน้า</button>
+            <button class="detail-nav-btn" id="btnNextNews" onclick="navNews(1)">ข่าวถัดไป <i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+  <button class="lb-prev" onclick="lbNav(-1);event.stopPropagation()"><i class="fas fa-chevron-left"></i></button>
+  <img id="lbImg" src="" alt=""/>
+  <button class="lb-next" onclick="lbNav(1);event.stopPropagation()"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-main">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo-row">
+          <div class="footer-logo-circle" id="ftLogoCircle"><i class="fas fa-school"></i></div>
+          <div><div class="footer-school-name" id="ft-name">โรงเรียนบ้านโนนไชยศรี</div><div class="footer-school-en">Ban Non Chai Si School</div></div>
+        </div>
+        <p id="ft-desc">มุ่งมั่นพัฒนาคุณภาพการศึกษา สร้างนักเรียนที่มีความรู้ คุณธรรม และทักษะชีวิตที่ดี</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/Bannonchaisri" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-line"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>เมนูหลัก</h4>
+        <ul id="ft-nav"></ul>
+      </div>
+      <div class="footer-links">
+        <h4>ลิงก์ที่เกี่ยวข้อง</h4>
+        <ul id="ft-related">
+          <li><a href="https://www.moe.go.th" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> กระทรวงศึกษาธิการ</a></li>
+          <li><a href="https://www.obec.go.th" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> สพฐ.</a></li>
+          <li><a href="https://roiet3.go.th/" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> สพป.ร้อยเอ็ด เขต ๓</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact-col">
+        <h4>ติดต่อโรงเรียน</h4>
+        <p id="ft-addr"><i class="fas fa-map-marker-alt"></i> ตำบลโนนชัยศรี อำเภอโพนทอง จังหวัดร้อยเอ็ด</p>
+        <p id="ft-phone2"><i class="fas fa-phone"></i> 0910540999</p>
+        <p id="ft-email2"><i class="fas fa-envelope"></i> pl2enn@nonchaisri.ac.th</p>
+        <p><i class="fas fa-globe"></i> nonchaisri.ac.th</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="container"><p id="ft-copy">© ๒๕๖๗ โรงเรียนบ้านโนนไชยศรี | nonchaisri.ac.th</p></div></div>
+</footer>
+
+<button class="btt" id="btt"><i class="fas fa-chevron-up"></i></button>
+
+<script>
+const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/data/settings.json';
+const CAT_COLORS = {'กิจกรรม':'#1a5276','ประชาสัมพันธ์':'#27ae60','วิชาการ':'#e67e22','รางวัล':'#8e44ad','อื่นๆ':'#7f8c8d'};
+const TABS = ['ทั้งหมด','กิจกรรม','ประชาสัมพันธ์','วิชาการ','รางวัล','อื่นๆ'];
+const PER_PAGE = 8;
+
+let allNews = [];
+let currentTab = 0;
+let currentPage = 1;
+let currentDetailIdx = -1;
+
+// ── Hamburger ──────────────────────────────────────────────
+const ham = document.getElementById('ham'), navEl = document.getElementById('nav');
+ham.addEventListener('click', () => navEl.classList.toggle('open'));
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', scrollY > 60);
+  document.getElementById('btt').classList.toggle('show', scrollY > 400);
+});
+document.getElementById('btt').addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+// ── helpers ────────────────────────────────────────────────
+const getImgs = n => {
+  const arr = Array.isArray(n.images) && n.images.length ? n.images : (n.image ? [n.image] : []);
+  return arr.filter(u => u);
+};
+const catColor = c => CAT_COLORS[c] || '#7f8c8d';
+
+function getFiltered() {
+  if (currentTab === 0) return allNews;
+  return allNews.filter(n => (n.cat||'') === TABS[currentTab]);
+}
+
+// ── LIST ───────────────────────────────────────────────────
+function renderList() {
+  const list = document.getElementById('nbList');
+  const pag  = document.getElementById('nbPagination');
+  const filtered = getFiltered();
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * PER_PAGE;
+  const items = filtered.slice(start, start + PER_PAGE);
+
+  if (!items.length) {
+    list.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--muted)"><i class="fas fa-newspaper" style="font-size:40px;display:block;margin-bottom:14px;opacity:.3"></i>ยังไม่มีข่าวในหมวดนี้</div>`;
+    pag.innerHTML = '';
+    return;
+  }
+
+  list.innerHTML = items.map(n => {
+    const globalIdx = allNews.indexOf(n);
+    const imgs = getImgs(n);
+    const cc = catColor(n.cat);
+    return `<div class="nb-item" onclick="showDetail(${globalIdx})">
+      <div class="nb-thumb-wrap">
+        <div class="nb-thumb">
+          ${imgs[0] ? `<img src="${imgs[0]}" alt="${n.title||''}" loading="lazy"/>` : `<i class="fas fa-newspaper"></i>`}
+        </div>
+      </div>
+      <div class="nb-body">
+        <span class="nb-cat" style="background:${cc}">${n.cat||'ข่าวสาร'}</span>
+        <div class="nb-title">${n.title||'ไม่มีหัวข้อ'}</div>
+        <div class="nb-meta"><span><i class="far fa-calendar-alt"></i>${n.date||''}</span></div>
+        ${n.body ? `<div class="nb-excerpt">${n.body}</div>` : ''}
+        <button class="nb-read-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // pagination
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  let html = '';
+  if (currentPage > 1) html += `<button class="nb-page-btn" onclick="goPage(${currentPage-1});event.stopPropagation()"><i class="fas fa-chevron-left"></i></button>`;
+  for (let p = 1; p <= totalPages; p++) {
+    if (p===1 || p===totalPages || Math.abs(p-currentPage)<=2)
+      html += `<button class="nb-page-btn${p===currentPage?' active':''}" onclick="goPage(${p});event.stopPropagation()">${p}</button>`;
+    else if (Math.abs(p-currentPage)===3)
+      html += `<span style="display:flex;align-items:center;color:var(--muted);padding:0 4px">…</span>`;
+  }
+  if (currentPage < totalPages) html += `<button class="nb-page-btn" onclick="goPage(${currentPage+1});event.stopPropagation()"><i class="fas fa-chevron-right"></i></button>`;
+  pag.innerHTML = html;
+}
+
+window.switchTab = function(idx, btn) {
+  currentTab = idx;
+  currentPage = 1;
+  document.querySelectorAll('.nb-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+};
+window.goPage = function(p) {
+  currentPage = p;
+  renderList();
+  document.getElementById('listView').scrollIntoView({behavior:'smooth',block:'start'});
+};
+
+// ── DETAIL ─────────────────────────────────────────────────
+window.showDetail = function(idx) {
+  currentDetailIdx = idx;
+  const n = allNews[idx];
+  if (!n) return;
+  const imgs = getImgs(n);
+  const cc = catColor(n.cat);
+
+  // hero update
+  document.getElementById('heroTag').innerHTML = `<i class="fas fa-newspaper"></i> ${n.cat||'ข่าวสาร'}`;
+  document.getElementById('heroTitle').textContent = n.title || '';
+  document.getElementById('heroBreadcrumb').innerHTML = `
+    <a href="index.html"><i class="fas fa-home"></i> หน้าแรก</a>
+    <i class="fas fa-chevron-right"></i>
+    <a href="news.html" onclick="showList();return false">ข่าวสาร</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>${n.title||''}</span>`;
+
+  // cover
+  const cover = document.getElementById('detailCover');
+  if (imgs[0]) { cover.src = imgs[0]; cover.style.display = 'block'; cover.onclick = () => openLightbox(imgs, 0); }
+  else cover.style.display = 'none';
+
+  document.getElementById('detailCat').textContent = n.cat||'ข่าวสาร';
+  document.getElementById('detailCat').style.background = cc;
+  document.getElementById('detailTitle').textContent = n.title||'';
+  document.getElementById('detailMeta').innerHTML = `
+    ${n.date ? `<span><i class="far fa-calendar-alt"></i> ${n.date}</span>` : ''}
+    ${n.link ? `<a href="${n.link}" target="_blank" rel="noopener" style="color:var(--primary);display:flex;align-items:center;gap:4px"><i class="fas fa-external-link-alt"></i> ลิงก์ต้นทาง</a>` : ''}`;
+  document.getElementById('detailContent').textContent = n.body || '';
+
+  // gallery (รูปที่ 2+)
+  const gallery = document.getElementById('detailGallery');
+  const extraImgs = imgs.slice(1);
+  gallery.innerHTML = extraImgs.map((u,i) =>
+    `<img src="${u}" alt="" loading="lazy" onclick="openLightbox(${JSON.stringify(imgs).replace(/"/g,"'")},${i+1})"/>`
+  ).join('');
+  gallery.style.display = extraImgs.length ? 'grid' : 'none';
+
+  // prev/next buttons
+  document.getElementById('btnPrevNews').style.display = idx < allNews.length-1 ? '' : 'none';
+  document.getElementById('btnNextNews').style.display = idx > 0 ? '' : 'none';
+
+  // show/hide
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('detailView').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // update URL
+  const url = new URL(location.href);
+  url.searchParams.set('id', idx);
+  history.pushState({}, '', url);
+};
+
+window.showList = function() {
+  document.getElementById('detailView').style.display = 'none';
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('heroTag').innerHTML = `<i class="fas fa-newspaper"></i> ข่าวประชาสัมพันธ์`;
+  document.getElementById('heroTitle').textContent = 'ข่าวประชาสัมพันธ์';
+  document.getElementById('heroBreadcrumb').innerHTML = `
+    <a href="index.html"><i class="fas fa-home"></i> หน้าแรก</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>ข่าวประชาสัมพันธ์</span>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  const url = new URL(location.href);
+  url.searchParams.delete('id');
+  history.pushState({}, '', url);
+};
+
+window.navNews = function(dir) {
+  // dir: -1 = ข่าวก่อนหน้า (idx+1), +1 = ข่าวถัดไป (idx-1, เพราะ array newest first = idx 0)
+  const newIdx = currentDetailIdx + (dir === 1 ? -1 : 1);
+  if (newIdx >= 0 && newIdx < allNews.length) showDetail(newIdx);
+};
+
+// ── LIGHTBOX ───────────────────────────────────────────────
+let lbImgs = [], lbIdx = 0;
+function openLightbox(imgs, idx) {
+  lbImgs = imgs; lbIdx = idx;
+  document.getElementById('lbImg').src = imgs[idx];
+  document.getElementById('lightbox').classList.add('open');
+}
+window.closeLightbox = () => document.getElementById('lightbox').classList.remove('open');
+window.lbNav = dir => {
+  lbIdx = (lbIdx + dir + lbImgs.length) % lbImgs.length;
+  document.getElementById('lbImg').src = lbImgs[lbIdx];
+};
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key==='ArrowLeft') lbNav(-1);
+  if (e.key==='ArrowRight') lbNav(1);
+  if (e.key==='Escape') closeLightbox();
+});
+
+// ── LOAD ───────────────────────────────────────────────────
+async function load() {
+  try {
+    const res = await fetch(RAW + '?t=' + Date.now());
+    const cfg = await res.json();
+    const s = cfg.school || {};
+
+    // Header/Footer
+    if (s.name_th) { document.getElementById('hdr-name').textContent = s.name_th; document.getElementById('ft-name').textContent = s.name_th; }
+    if (s.name_en) document.getElementById('hdr-en').textContent = s.name_en;
+    if (s.dept) document.getElementById('hdr-dept').textContent = s.dept;
+    if (s.phone) { document.getElementById('tb-phone').textContent = s.phone; document.getElementById('ft-phone2').innerHTML = `<i class="fas fa-phone"></i> ${s.phone}`; }
+    if (s.email) { document.getElementById('tb-email').textContent = s.email; document.getElementById('ft-email2').innerHTML = `<i class="fas fa-envelope"></i> ${s.email}`; }
+    if (s.address) document.getElementById('ft-addr').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${s.address}`;
+    if (s.logo) {
+      ['logoCircle','ftLogoCircle'].forEach(id => {
+        const el = document.getElementById(id); if(el) el.innerHTML=`<img src="${s.logo}" alt="logo"/>`;
+      });
+    }
+    if (cfg.footer) {
+      if (cfg.footer.description) document.getElementById('ft-desc').textContent = cfg.footer.description;
+      if (cfg.footer.copyright) document.getElementById('ft-copy').textContent = cfg.footer.copyright;
+      if (cfg.footer.links_related?.length) {
+        document.getElementById('ft-related').innerHTML = cfg.footer.links_related.map(l =>
+          `<li><a href="${l.url}" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> ${l.label}</a></li>`
+        ).join('');
+      }
+    }
+
+    // Navbar
+    if (cfg.nav?.length) {
+      const ul = document.querySelector('#nav ul');
+      ul.innerHTML = cfg.nav.map(item => {
+        const href = item.href.startsWith('#') ? 'index.html' + item.href : item.href;
+        const active = item.href === 'news.html';
+        return `<li><a href="${href}" class="nav-link${active?' active':''}">${item.label}</a></li>`;
+      }).join('');
+      ul.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => navEl.classList.remove('open')));
+    }
+    // footer nav
+    const ftNav = document.getElementById('ft-nav');
+    if (cfg.nav?.length && ftNav) {
+      ftNav.innerHTML = cfg.nav.map(item => {
+        const href = item.href.startsWith('#') ? 'index.html' + item.href : item.href;
+        return `<li><a href="${href}"><i class="fas fa-angle-right"></i> ${item.label}</a></li>`;
+      }).join('');
+    }
+
+    // News
+    allNews = cfg.news || [];
+    renderList();
+
+    // Check URL param ?id=
+    const urlId = new URLSearchParams(location.search).get('id');
+    if (urlId !== null) {
+      const idx = parseInt(urlId);
+      if (!isNaN(idx) && idx >= 0 && idx < allNews.length) {
+        showDetail(idx);
+      }
+    }
+
+  } catch(e) {
+    document.getElementById('nbList').innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted)"><i class="fas fa-exclamation-triangle"></i> ไม่สามารถโหลดข้อมูลได้</div>`;
+  }
+}
+
+// browser back button
+window.addEventListener('popstate', () => {
+  const urlId = new URLSearchParams(location.search).get('id');
+  if (urlId !== null) { const idx = parseInt(urlId); if (!isNaN(idx)) showDetail(idx); }
+  else showList();
+});
+
+load();
+</script>
+</body>
+</html>

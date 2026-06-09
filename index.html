@@ -185,18 +185,6 @@ ul{list-style:none}
 .ac-card h3{font-size:.95rem;font-weight:700;color:var(--primary);margin-bottom:8px}
 .ac-card p{font-size:13px;color:var(--muted)}
 
-/* ACTIVITY PREVIEW (gallery section) */
-.act-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-.act-prev-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:var(--tr);cursor:pointer;text-decoration:none;display:flex;flex-direction:column}
-.act-prev-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
-.act-prev-cover{width:100%;height:190px;background:linear-gradient(135deg,#1a5276,#2980b9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:48px;overflow:hidden;position:relative}
-.act-prev-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.act-prev-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:6px}
-.act-cat-tag{display:inline-block;background:var(--secondary);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:50px;width:fit-content}
-.act-prev-title{font-size:1rem;font-weight:700;color:var(--primary);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.act-prev-date{font-size:12px;color:var(--muted);margin-top:auto;padding-top:6px}
-.act-prev-date i{margin-right:4px}
-.act-prev-desc{font-size:13px;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;opacity:.8}
 /* GALLERY */
 .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .gal-card{position:relative;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;background:var(--white);box-shadow:var(--shadow);transition:var(--tr)}
@@ -514,25 +502,6 @@ ul{list-style:none}
       <div class="ac-card fade-up"><div class="ac-icon c4"><i class="fas fa-laptop-code"></i></div><h3>เทคโนโลยี</h3><p>เรียนรู้การใช้เทคโนโลยีสารสนเทศอย่างสร้างสรรค์และปลอดภัย</p></div>
       <div class="ac-card fade-up"><div class="ac-icon c1"><i class="fas fa-music"></i></div><h3>ศิลปะและดนตรี</h3><p>ส่งเสริมความคิดสร้างสรรค์ผ่านศิลปะ ดนตรี และการแสดง</p></div>
       <div class="ac-card fade-up"><div class="ac-icon c2"><i class="fas fa-running"></i></div><h3>พลศึกษาและสุขภาพ</h3><p>ส่งเสริมสุขภาพและการออกกำลังกาย ปลูกฝังนิสัยรักสุขภาพ</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- GALLERY / ACTIVITIES PREVIEW -->
-<section class="section" id="gallery">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">กิจกรรมโรงเรียน</div>
-      <h2 class="section-title">กิจกรรมล่าสุด</h2>
-      <div class="section-divider"></div>
-      <p class="section-sub" style="color:var(--muted);margin-top:8px">ติดตามกิจกรรมและข่าวสารจากโรงเรียนบ้านโนนไชยศรี</p>
-    </div>
-    <div class="act-preview-grid" id="actPreviewGrid">
-      <!-- injected by JS -->
-      <div class="act-prev-card"><div class="act-prev-cover"><i class="fas fa-calendar-alt"></i></div><div class="act-prev-body"><span class="act-cat-tag">กิจกรรม</span><div class="act-prev-title">กิจกรรมโรงเรียน</div><div class="act-prev-date"><i class="fas fa-clock"></i> —</div></div></div>
-    </div>
-    <div class="text-center" style="margin-top:36px">
-      <a href="activities.html" class="btn btn-primary" style="padding:12px 36px;font-size:15px"><i class="fas fa-calendar-check"></i>&nbsp; ดูกิจกรรมทั้งหมด</a>
     </div>
   </div>
 </section>
@@ -973,7 +942,7 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
           </div>
           ${n.body ? `<div class="nf-excerpt">${n.body}</div>` : ''}
           <div class="nf-footer">
-            <a href="${n.link||fb}" target="_blank" rel="noopener" class="nf-read-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
+            <a href="news.html?id=${(cfg.news||[]).indexOf(n)}" class="nf-read-btn">อ่านเพิ่มเติม <i class="fas fa-arrow-right"></i></a>
             ${extraImgs.length ? `<div class="nf-imgs-strip">${extraImgs.map(u=>`<img src="${u}" alt="" onclick="window.open('${u}','_blank')" loading="lazy"/>`).join('')}</div>` : ''}
           </div>
         </div>
@@ -1046,29 +1015,6 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
   if(cfg.map_query){
     const map = document.querySelector('.contact-map iframe');
     if(map) map.src = `https://maps.google.com/maps?q=${encodeURIComponent(cfg.map_query)}&output=embed`;
-  }
-
-  // ── กิจกรรมล่าสุด (preview 5 รายการ) ─────────────────────
-  const actArr = (cfg.activities && cfg.activities.length) ? cfg.activities : [];
-  const actGrid = document.getElementById('actPreviewGrid');
-  if(actGrid && actArr.length){
-    const colors = ['linear-gradient(135deg,#1a5276,#2980b9)','linear-gradient(135deg,#e67e22,#f39c12)','linear-gradient(135deg,#27ae60,#1abc9c)','linear-gradient(135deg,#8e44ad,#9b59b6)','linear-gradient(135deg,#c0392b,#e74c3c)'];
-    const latest = actArr.slice().reverse().slice(0,5);
-    actGrid.innerHTML = latest.map((a,i)=>{
-      const cover = (a.photos||[]).find(p=>p)||'';
-      const coverHtml = cover
-        ? `<img src="${cover}" alt="${a.title||''}"/>`
-        : `<i class="fas fa-calendar-alt"></i>`;
-      return `<a class="act-prev-card" href="activities.html">
-        <div class="act-prev-cover" style="background:${colors[i%colors.length]}">${coverHtml}</div>
-        <div class="act-prev-body">
-          <span class="act-cat-tag">${a.cat||'กิจกรรม'}</span>
-          <div class="act-prev-title">${a.title||'กิจกรรมโรงเรียน'}</div>
-          ${a.desc?`<div class="act-prev-desc">${a.desc}</div>`:''}
-          <div class="act-prev-date"><i class="fas fa-clock"></i> ${a.date||'—'}</div>
-        </div>
-      </a>`;
-    }).join('');
   }
 
   // ── Footer ────────────────────────────────────────────────
