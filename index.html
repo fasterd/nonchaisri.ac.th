@@ -146,7 +146,7 @@ ul{list-style:none}
 .news-forum-tab{padding:13px 22px;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .news-forum-tab.active{color:#fff;border-bottom-color:var(--secondary);background:rgba(255,255,255,.07)}
 /* inner layout: featured LEFT + list RIGHT */
-.nf-inner{display:grid;grid-template-columns:1fr 340px;min-height:340px}
+.nf-inner{display:grid;grid-template-columns:1fr 1fr;min-height:380px}
 .nf-featured{border-right:1px solid var(--border);display:flex;flex-direction:column;cursor:pointer;transition:background .2s}
 .nf-featured:hover{background:#f5f9ff}
 .nf-featured-img{width:100%;height:240px;overflow:hidden;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:48px;position:relative;flex-shrink:0}
@@ -161,7 +161,7 @@ ul{list-style:none}
 .nf-read-btn:hover{background:var(--primary);transform:translateX(3px)}
 /* right list */
 .nf-side-list{display:flex;flex-direction:column;overflow:hidden}
-.nf-side-item{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s;align-items:flex-start}
+.nf-side-item{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s;align-items:center;flex:1}
 .nf-side-item:last-child{border-bottom:none}
 .nf-side-item:hover{background:#f5f9ff}
 .nf-side-thumb{width:72px;height:54px;border-radius:8px;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#d6eaf8,#aed6f1);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:18px}
@@ -970,7 +970,7 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
     // ── side list (items 1-4) ──────────────────────────────
     const sideItems = items.slice(1);
     const sideHtml = `
-      <div class="nf-side-list">
+      <div class="nf-side-list" style="display:flex;flex-direction:column">
         ${sideItems.map(n => {
           const idx = allNews.indexOf(n);
           const imgs = getImgs(n);
@@ -983,13 +983,15 @@ const RAW = 'https://raw.githubusercontent.com/fasterd/nonchaisri.ac.th/main/dat
             <div class="nf-side-body">
               <span class="nf-side-cat" style="background:${cc(n)}">${n.cat||'ข่าวสาร'}</span>
               <div class="nf-side-title">${n.title||''}</div>
-              <div class="nf-side-date"><i class="far fa-calendar-alt"></i>${n.date||''}</div>
+              <div class="nf-side-date"><i class="far fa-calendar-alt"></i> ${n.date||''}</div>
             </div>
           </div>`;
         }).join('')}
-        ${sideItems.length === 0
-          ? `<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;padding:20px">ไม่มีข่าวเพิ่มเติม</div>`
-          : ''}
+        <div style="padding:14px 16px;border-top:1px solid var(--border);margin-top:auto">
+          <a href="news.html" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 0;background:var(--primary);color:#fff;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#154360'" onmouseout="this.style.background='var(--primary)'">
+            <i class="fas fa-newspaper"></i> อ่านข่าวทั้งหมด
+          </a>
+        </div>
       </div>`;
 
     wrap.innerHTML = `<div class="nf-inner">${featuredHtml}${sideHtml}</div>`;
